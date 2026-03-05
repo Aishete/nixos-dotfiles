@@ -15,6 +15,11 @@
   networking.hostName = "nixos-btw";  
   networking.networkmanager.enable = true;
 
+
+  networking.hosts = {
+		  "127.0.0.1" = ["camigf.local"];
+  };
+
   time.timeZone = "Asia/Phnom_Penh";
 
     xdg.portal = {
@@ -35,7 +40,7 @@
 
   users.users.scriptwiz = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" "git" ];
 	shell = pkgs.zsh;
     packages = with pkgs; [
       tree
