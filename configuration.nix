@@ -88,6 +88,9 @@
 	fff
 	fzf
 	bat
+
+	docker
+	docker-compose
   ];
   
   fonts.packages = with pkgs; [
