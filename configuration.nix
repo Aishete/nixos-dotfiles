@@ -110,9 +110,13 @@
     enable = true;
     wrapperFeatures.gtk = true;
   };
+  
   programs.zsh = {
-		  enable = true;
+    enable = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
   };
+
   services.pipewire.enable = true;
   services.openssh.enable = true;
 
