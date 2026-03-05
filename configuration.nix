@@ -116,6 +116,7 @@
   services.pipewire.enable = true;
   services.openssh.enable = true;
 
+  virtualisation.docker.enable = true;
   
   system.stateVersion = "25.11"; 
 }
