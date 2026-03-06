@@ -17,7 +17,7 @@
 
 
   networking.hosts = {
-		  "127.0.0.1" = ["camigf.local"];
+		  "127.0.0.1" = ["localhost" "camigf.local" "data.odc.odm-eu.local"];
   };
 
   time.timeZone = "Asia/Phnom_Penh";
@@ -60,7 +60,7 @@
 
     pipewire
     brightnessctl
-	sway
+	swayfx
     swaybg
     nemo
     nwg-look
@@ -83,6 +83,10 @@
     intel-gpu-tools
 
 	qutebrowser
+	firefox
+	telegram-desktop
+
+
 	zsh
 	zsh-autosuggestions
 	zsh-syntax-highlighting
@@ -96,10 +100,15 @@
 
 	docker
 	docker-compose
+
+	nodejs
+	gnumake
+	gcc
   ];
   
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    noto-fonts
   ];
   
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -113,6 +122,8 @@
   };
   programs.sway = {
     enable = true;
+	package = pkgs.swayfx;
+
     wrapperFeatures.gtk = true;
   };
   
