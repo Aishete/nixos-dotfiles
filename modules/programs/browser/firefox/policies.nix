@@ -90,6 +90,13 @@
       installation_mode = "force_installed";
       install_url = "https://addons.mozilla.org/firefox/downloads/latest/firemonkey/latest.xpi";
     };
+    "extension@bitwarden.com" = {
+      private_browsing = false;
+      default_area = "navbar";
+      installation_mode = "force_installed";
+      install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+    };
+
     "extension@one-tab.com" = {
       private_browsing = false;
       default_area = "navbar";
