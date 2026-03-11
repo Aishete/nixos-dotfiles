@@ -31,17 +31,23 @@ in
             margin-bottom = 0;
 
             modules-left = [
+              "custom/icon"
               "hyprland/workspaces"
               "cava"
+              "custom/waybarcava"
             ];
             # modules-center = ["clock" "custom/notification"];
             modules-center = [
+              "hyprland/window"
               "idle_inhibitor"
               "clock"
+              "custom/notification"
             ];
             modules-right = [
+              "mpris"
               "custom/gpuinfo"
               "cpu"
+              "gpuinfo"
               "memory"
               "backlight"
               "pulseaudio"
@@ -113,7 +119,7 @@ in
             };
             "custom/icon" = {
               # format = " ";
-              exec = "echo ' '";
+              exec = "echo '  '";
               format = "{}";
             };
             "mpris" = {
@@ -134,7 +140,6 @@ in
                 playing = "";
               };
               ignored-players = [
-                "firefox"
                 "chromium"
               ];
               max-length = 30;
@@ -155,24 +160,20 @@ in
               on-click = "${keyboardswitch}/bin/keyboardswitch";
             };
             "hyprland/workspaces" = {
-              disable-scroll = true;
-              all-outputs = true;
-              active-only = false;
+              format = "{icon}";
               on-click = "activate";
+              all-outputs = true;
+              # This ensures workspaces 1-10 always show 
               persistent-workspaces = {
-                "*" = [
-                  1
-                  2
-                  3
-                  4
-                  5
-                  6
-                  7
-                  8
-                  9
-                  10
-                ];
+                "*" = 10; 
               };
+              # Optional: Add icons to make it look cleaner
+              format-icons = {
+                "active" = "";
+                "empty" = "";
+                "default" = "";
+                "urgent" = "";
+                };
             };
 
             "hyprland/window" = {
@@ -189,7 +190,7 @@ in
                 "(.*)Spotify Premium" = "Spotify 󰓇";
                 "(.*)Steam" = "Steam 󰓓";
               };
-              max-length = 1000;
+              max-length = 50;
             };
 
             "idle_inhibitor" = {
