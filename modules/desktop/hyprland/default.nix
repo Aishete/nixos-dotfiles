@@ -26,7 +26,7 @@ let
   keyboardswitch = pkgs.callPackage ./scripts/keyboardswitch.nix { };
   keybinds-yad = pkgs.callPackage ./scripts/keybinds-yad.nix { };
   # keybinds-rofi = pkgs.callPackage ./scripts/keybinds-yad.nix { };
-  # mediactrl = pkgs.callPackage ./scripts/mediactrl.nix { };
+  mediactrl = pkgs.callPackage ./scripts/mediactrl.nix { };
   rofimusic = pkgs.callPackage ./scripts/rofimusic.nix { };
   screen-record = pkgs.callPackage ./scripts/screen-record.nix { };
   screenshot = pkgs.callPackage ./scripts/screenshot.nix { };
@@ -564,7 +564,26 @@ in
                   "$mainMod CTRL, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
                 ]
               ) 10
+            ))
+            # Binds for Workspaces 11-20 using ALT + Number Row
+            ++ (builtins.concatLists (
+              builtins.genList (
+                x:
+                let
+                  ws = builtins.toString (x + 9); # The actual workspace number (11, 12, etc.)
+                  key = 
+                    let 
+                      n = x + 1;
+                    in 
+                    if n == 10 then "0" else builtins.toString n; # Mapping key 0 to 10
+                in
+                [
+                  "$mainMod ALT, ${key}, workspace, ${toString (x + 10)}"
+                  "$mainMod ALT SHIFT, ${key}, movetoworkspace, ${toString (x + 10)}"
+                ]
+              ) 10
             ));
+
             bindm = [
               # Move/Resize windows with mainMod + LMB/RMB and dragging
               "$mainMod, mouse:272, movewindow"
@@ -578,27 +597,27 @@ in
             };
 
             monitor = [
-              # Easily plug in any monitor
-              ",preferred,auto,1"
-
-              # My Monitors (Fine to leave these since i used the serial numbers)
-              "desc:BNQ BenQ EW277HDR 99J01861SL0,preferred,-1920x0,1"
-              "desc:BNQ BenQ EL2870U PCK00489SL0,preferred,0x0,2"
-              "desc:BNQ BenQ xl2420t 99D06760SL0,preferred,1920x-420,1,transform,1" # 5 for fipped
+              # Port, Resolution/Refresh, Position, Scale
+              "eDP-1, 1920x1080@60, 0x0, 1"       # Laptop Screen (Left)
+              "DP-1, 1920x1080@60, 1920x0, 1"     # Dell (Center)
+              "HDMI-A-2, 1920x1080@60, 3840x0, 1" # Acer (Right)
             ];
 
             workspace = [
-              # Binds workspaces to my monitors (find desc with: hyprctl monitors)
-              "1, persistent:true, monitor:desc:BNQ BenQ EL2870U PCK00489SL0,default:true"
-              "2, persistent:true, monitor:desc:BNQ BenQ EL2870U PCK00489SL0"
-              "3, persistent:true, monitor:desc:BNQ BenQ EL2870U PCK00489SL0"
-              "4, persistent:true, monitor:desc:BNQ BenQ EL2870U PCK00489SL0"
-              "5, persistent:true, monitor:desc:BNQ BenQ EW277HDR 99J01861SL0,default:true"
-              "6, persistent:true, monitor:desc:BNQ BenQ EW277HDR 99J01861SL0"
-              "7, persistent:true, monitor:desc:BNQ BenQ EW277HDR 99J01861SL0"
-              "8, persistent:true, monitor:desc:BNQ BenQ xl2420t 99D06760SL0,default:true"
-              "9, persistent:true, monitor:desc:BNQ BenQ xl2420t 99D06760SL0"
-              "10, persistent:true, monitor:desc:BNQ BenQ EL2870U PCK00489SL0"
+              # Laptop (eDP-1): Workspaces 1-3
+              "1, monitor:eDP-1, default:true"
+              "2, monitor:eDP-1"
+              "3, monitor:eDP-1"
+            
+              # Dell (DP-1): Workspaces 4-6
+              "4, monitor:DP-1, default:true"
+              "5, monitor:DP-1"
+              "6, monitor:DP-1"
+            
+              # Acer (HDMI-A-2): Workspaces 7-9
+              "7, monitor:HDMI-A-2, default:true"
+              "8, monitor:HDMI-A-2"
+              "9, monitor:HDMI-A-2"
             ];
           };
         };

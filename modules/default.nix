@@ -39,6 +39,7 @@ in
     ./programs/cli/lazygit
     ./programs/cli/cava
     ./programs/cli/btop
+    ./programs/cli/gnumake
     ./programs/media/discord
     ./programs/media/spicetify
     # ./programs/media/youtube-music
@@ -47,6 +48,7 @@ in
     ./programs/media/mpv
     ./programs/misc/tlp
     ./programs/misc/thunar
+    ./programs/misc/app
     ./programs/misc/lact # GPU fan, clock and power configuration
   ]
   ++ lib.optional (vars.games == true) ./core/games.nix;

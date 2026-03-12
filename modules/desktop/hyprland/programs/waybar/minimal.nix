@@ -33,8 +33,7 @@ in
             modules-left = [
               "custom/icon"
               "hyprland/workspaces"
-              "cava"
-              "custom/waybarcava"
+              # "cava"
             ];
             # modules-center = ["clock" "custom/notification"];
             modules-center = [
@@ -44,10 +43,8 @@ in
               "custom/notification"
             ];
             modules-right = [
-              "mpris"
               "custom/gpuinfo"
               "cpu"
-              "gpuinfo"
               "memory"
               "backlight"
               "pulseaudio"
@@ -160,20 +157,25 @@ in
               on-click = "${keyboardswitch}/bin/keyboardswitch";
             };
             "hyprland/workspaces" = {
-              format = "{icon}";
               on-click = "activate";
-              all-outputs = true;
-              # This ensures workspaces 1-10 always show 
-              persistent-workspaces = {
-                "*" = 10; 
-              };
+              all-outputs = false;
+              show-special = false;
+              sort-by-number= true;
               # Optional: Add icons to make it look cleaner
+              format = "{name}:{icon}";
               format-icons = {
-                "active" = "";
-                "empty" = "";
-                "default" = "";
-                "urgent" = "";
-                };
+                  "1"= "∀";
+                  "2"= "∃";
+                  "3"= "∂";
+                  "4"= "∇";
+                  "5"= "∆";
+                  "6"= "∫";
+                  "7"= "∑";
+                  "8"= "∏";
+                  "9"= "√";
+                  "empty"= "";
+                  "urgent"= "";
+              };
             };
 
             "hyprland/window" = {

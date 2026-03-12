@@ -2,7 +2,7 @@
   username = "scriptwiz"; # auto-set with install.sh, live-install.sh, and rebuild scripts.
 
   # Desktop Environment
-  desktop = "hyprland"; # hyprland, i3, gnome, plasma6
+  desktop = "i3"; # hyprland, i3, gnome, plasma6
 
   # Theme & Appearance
   bar = "waybar"; # waybar, hyprpanel, noctalia

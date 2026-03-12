@@ -1,9 +1,19 @@
 { ... }:
 {
+  networking.hosts = {
+		  "127.0.0.1" = [
+        "localhost"
+        "camigf.local"
+        "data.odc.odm-eu.local"];
+  };
   networking.firewall = {
     allowedTCPPorts = [
       53
       5335
+      80
+      443
+      3005
+      8088
     ];
     allowedUDPPorts = [
       53
@@ -95,6 +105,12 @@
 
           parental_enabled = false;
           safe_search.enabled = false;
+          rewrites = [
+           {
+             domain = "data.odc.odm-eu.local";
+             anwser = "127.0.0.1";
+           }
+          ];
         };
         filters =
           map
