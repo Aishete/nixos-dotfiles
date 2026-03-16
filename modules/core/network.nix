@@ -7,6 +7,7 @@ in
   networking = {
     hostName = "${hostname}";
     networkmanager.enable = true;
+    wireless.enable = true;
 
     firewall = {
       enable = true;
