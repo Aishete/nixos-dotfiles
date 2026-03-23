@@ -15,13 +15,21 @@
               "Sly-Harvey/radium.nvim",
               priority = 1000,
             },
+            {
+              "nosduco/remote-sshfs.nvim",
+              dependencies = { "nvim-telescope/telescope.nvim" },
+              config = function()
+                require('remote-sshfs').setup({})
+              end,
+            },
           }
         '';
         extraPackages = with pkgs; [
           nixd
-          # nodePackages.bash-language-server
-          # docker-compose-language-service
-          # dockerfile-language-server-nodejs
+          sshfs
+          nodePackages.bash-language-server
+          docker-compose-language-service
+          dockerfile-language-server-nodejs
           # emmet-language-server
           /*
              (python3.withPackages (ps:

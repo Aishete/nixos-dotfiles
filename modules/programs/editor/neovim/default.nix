@@ -9,21 +9,36 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    gcc # to compile treesitter parsers
+    gcc 
     nodejs
     nil
-    nixfmt-tree
+    nixfmt-rfc-style # 'nixfmt-tree' is older; rfc-style is the new standard
     ripgrep
-  ]; # Dependencies
+    sshfs            # Essential for remote-sshfs.nvim
+  ];
+
   home-manager.sharedModules = [
     (_: {
-      programs.neovim.enable = true;
-      xdg.configFile."nvim".source = inputs.neovim;
+      programs.neovim = {
+        enable = true;
+        defaultEditor = true;
+        # Optional: ensure these aliases point to your wrapped nvim
+        viAlias = true;
+        vimAlias = true;
+	plugins = with pkgs.vimPlugins; [
+		remote-sshfs-nvim
+	];
+      };
+
+      # This symlinks your local folder to ~/.config/nvim
+      xdg.configFile."nvim".source = inputs.ma-neovim;
+
       xdg.desktopEntries = {
         "nvim" = {
           name = "Neovim wrapper";
           genericName = "Text Editor";
           comment = "Edit text files";
+          # Using the terminal variable to launch nvim in your preferred terminal
           exec = "${pkgs.${terminal}}/bin/${terminal} --class \"nvim-wrapper\" -e nvim %F";
           icon = "nvim";
           mimeType = [
@@ -34,7 +49,7 @@ in
             "Development"
             "TextEditor"
           ];
-          terminal = false; # Important: set to false since we're calling kitty directly
+          terminal = false; 
         };
       };
     })

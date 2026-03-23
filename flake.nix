@@ -30,12 +30,16 @@
       url = "github:Sly-Harvey/doom";
       flake = false;
     };
-    nixvim = {
-      url = "github:Sly-Harvey/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixvim = {
+    #   url = "github:Sly-Harvey/nixvim";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     neovim = {
-      url = "github:Sly-Harvey/nvim";
+      url = "/home/scriptwiz/nvim";
+      flake = false;
+    };
+    ma-neovim = {
+      url = "/home/scriptwiz/nvim";
       flake = false;
     };
     plasma-manager = {

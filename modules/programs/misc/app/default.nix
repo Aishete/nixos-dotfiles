@@ -5,5 +5,7 @@
     blender
     opencode
     crush
+	teams
+	telegram-desktop
   ];
 }
