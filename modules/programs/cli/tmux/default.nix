@@ -61,6 +61,7 @@ in
           set -g renumber-windows on
           set-window-option -g pane-base-index 1
           set -ga terminal-overrides ",*:Tc"
+		  set -g extended-keys
 
           # Tmux sessionizer
           bind-key -r f run-shell "tmux neww tmux-sessionizer"

@@ -164,6 +164,7 @@
             tpr = "${pkgs.trash-cli}/bin/trash-restore";
             grep = "grep --color=always";
             pokemon = "pokego --random 1-8 --no-title";
+			# ssh_dev = "kitten ssh -t archdev@192.168.40.229 "tmux attach-session -t work || tmux new-session -s work"";
 
             # Nixos
             list-gens = "nixos-rebuild list-generations";
