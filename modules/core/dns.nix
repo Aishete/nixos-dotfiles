@@ -4,7 +4,8 @@
 		  "127.0.0.1" = [
       "localhost"
       "camigf.local"
-      "data.odc.odm-eu.local"];
+      ];
+	  "192.168.40.229" = ["data.odc.odm-eu.local"];
   };
   networking.firewall = {
     allowedTCPPorts = [

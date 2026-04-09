@@ -8,5 +8,6 @@
 	teams-for-linux
 	telegram-desktop
 	blanket
+	gimp
   ];
 }

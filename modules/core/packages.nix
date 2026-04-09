@@ -20,6 +20,7 @@
     rclone # Cloning Utility
     jq # Json Formatting Utility
     bibata-cursors
+	whitesur-cursors
     sddm-astronaut # Sddm Theme (Overlayed)
     kdePackages.qtsvg # Sddm Dependency
     kdePackages.qtmultimedia # Sddm Dependency
