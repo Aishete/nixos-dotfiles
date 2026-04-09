@@ -57,8 +57,8 @@ in
           x11.enable = true;
           # package = pkgs.pokemon-cursor;
           # name = "Pokemon";
-		  package = pkgs.whitesur-cursors;
-		  name = "WhiteSur Cursors";	
+		  package = pkgs.apple-cursor;
+		  name = "macOS";	
 		  size = 28;
         };
 
