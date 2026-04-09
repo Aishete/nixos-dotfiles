@@ -55,8 +55,8 @@ in
         home.pointerCursor = {
           gtk.enable = true;
           x11.enable = true;
-          package = pkgs.bibata-cursors;
-          name = "Bibata-Modern-Classic";
+          package = pkgs.pokemon-cursor;
+          name = "pokemon-cursor";
           size = 24;
         };
 
