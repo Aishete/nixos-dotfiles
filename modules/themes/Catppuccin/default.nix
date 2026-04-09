@@ -55,9 +55,11 @@ in
         home.pointerCursor = {
           gtk.enable = true;
           x11.enable = true;
-          package = pkgs.pokemon-cursor;
-          name = "pokemon-cursor";
-          size = 24;
+          # package = pkgs.pokemon-cursor;
+          # name = "Pokemon";
+		  package = pkgs.whitesur-cursors;
+		  name = "WhiteSur Cursors";	
+		  size = 28;
         };
 
         xdg.configFile = {

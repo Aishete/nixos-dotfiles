@@ -151,8 +151,9 @@ in
             clock-show-seconds = true;
             clock-show-weekday = true;
             color-scheme = "prefer-dark";
-            cursor-size = 24;
-            cursor-theme = "Bibata-Modern-Classic";
+            cursor-size = 28;
+		    # name = "Pokemon";
+		    name = "WhiteSur Cursors";
             enable-animations = true;
             enable-hot-corners = false;
             font-antialiasing = "grayscale";
