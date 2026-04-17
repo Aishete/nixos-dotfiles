@@ -28,7 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     doom-config = {
-      url = "github:Sly-Harvey/doom";
+      url = "/home/scriptwiz/config/doom";
       flake = false;
     };
     # nixvim = {
@@ -36,11 +36,11 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
     neovim = {
-      url = "/home/scriptwiz/nvim";
+      url = "/home/scriptwiz/config/nvim";
       flake = false;
     };
     ma-neovim = {
-      url = "/home/scriptwiz/nvim";
+      url = "/home/scriptwiz/config/nvim";
       flake = false;
     };
     plasma-manager = {
