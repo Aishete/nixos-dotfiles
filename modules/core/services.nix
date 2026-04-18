@@ -2,6 +2,7 @@
 {
   # Services to start
   services = {
+    dbus.enable = true;
     libinput.enable = true; # Input Handling
     fstrim.enable = true; # SSD Optimizer
     devmon.enable = true; # For Mounting USB & More

@@ -19,17 +19,14 @@
     "doom-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1760317357,
-        "narHash": "sha256-WfDg2DfdpQciesxrnkK+q9h8v1Zod+QEWXv9jQXDFzA=",
-        "owner": "Sly-Harvey",
-        "repo": "doom",
-        "rev": "313f68746f68c6302b682203c95b0dc57fb78ba3",
-        "type": "github"
+        "lastModified": 1776411806,
+        "narHash": "sha256-47HFc7/KSzv+NOfYSglMOhVS3oIR8REbDYrb5RL/tzY=",
+        "path": "/home/scriptwiz/config/doom",
+        "type": "path"
       },
       "original": {
-        "owner": "Sly-Harvey",
-        "repo": "doom",
-        "type": "github"
+        "path": "/home/scriptwiz/config/doom",
+        "type": "path"
       }
     },
     "doomemacs": {
@@ -172,11 +169,11 @@
       "locked": {
         "lastModified": 1773894607,
         "narHash": "sha256-qbEhxZ6X/VBYNgKaofQjFENj5t8Kt3HHZdETcd9qcNQ=",
-        "path": "/home/scriptwiz/nvim",
+        "path": "/home/scriptwiz/config/nvim",
         "type": "path"
       },
       "original": {
-        "path": "/home/scriptwiz/nvim",
+        "path": "/home/scriptwiz/config/nvim",
         "type": "path"
       }
     },
@@ -220,13 +217,13 @@
     "neovim": {
       "flake": false,
       "locked": {
-        "lastModified": 1773892401,
-        "narHash": "sha256-mYxAxjVGXZqR9EGzRJsaniF75oh8gWdtW7pXU6GJUWA=",
-        "path": "/home/scriptwiz/nvim",
+        "lastModified": 1773894607,
+        "narHash": "sha256-qbEhxZ6X/VBYNgKaofQjFENj5t8Kt3HHZdETcd9qcNQ=",
+        "path": "/home/scriptwiz/config/nvim",
         "type": "path"
       },
       "original": {
-        "path": "/home/scriptwiz/nvim",
+        "path": "/home/scriptwiz/config/nvim",
         "type": "path"
       }
     },
