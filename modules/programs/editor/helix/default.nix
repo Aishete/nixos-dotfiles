@@ -2,35 +2,45 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   home-manager.sharedModules = [
     (_: {
       programs.helix = {
         enable = true;
+
+        extraPackages = with pkgs; [
+          # LSPs
+          nixd
+          alejandra
+          nodePackages.vscode-langservers-extracted
+          nodePackages.typescript-language-server
+          tailwindcss-language-server
+          nodePackages.prettier
+          pyright
+          black
+          rust-analyzer
+          marksman
+        ];
+
+        # 1. We define the transparent theme here
+        themes = {
+          catppuccin_mocha_transparent = {
+            inherits = "catppuccin_mocha";
+            "ui.background" = {};
+          };
+        };
+
         settings = {
-          theme = "catppuccin_mocha";
+          # 2. We use the transparent theme name here (ONLY ONCE)
+          theme = "catppuccin_mocha_transparent";
+
           editor = {
-            auto-completion = true;
-            smart-tab.enable = false;
             line-number = "relative";
-            indent-guides.render = true;
-            true-color = true;
             cursorline = true;
-            cursorcolumn = false;
-            default-line-ending = "lf";
-            # rainbow-brackets = true;
-            end-of-line-diagnostics = "hint";
-            insert-final-newline = false;
-            gutters = [
-              "diff"
-              "line-numbers"
-              "spacer"
-              "diagnostics"
-            ];
             color-modes = true;
+            true-color = true;
             bufferline = "always";
-            completion-replace = false;
+            indent-guides.render = true;
 
             cursor-shape = {
               insert = "bar";
@@ -38,128 +48,107 @@
               select = "underline";
             };
 
-            file-picker = {
-              hidden = true;
+            whitespace.render = {
+              tab = "all";
+              newline = "none";
             };
 
-            soft-wrap = {
-              enable = true;
-              wrap-at-text-width = false;
+            gutters = ["diff" "line-numbers" "spacer" "diagnostics"];
+
+            statusline = {
+              left = ["mode" "spinner" "read-only-indicator" "diagnostics"];
+              center = ["file-name" "file-modification-indicator"];
+              right = [
+                "version-control"
+                "selections"
+                "position"
+                "total-line-numbers"
+                "file-encoding"
+                "file-type"
+              ];
+              separator = "│";
             };
+
+            auto-completion = true;
+            auto-format = true;
+            smart-tab.enable = false;
+            file-picker.hidden = true;
 
             lsp = {
               display-inlay-hints = true;
               display-progress-messages = true;
             };
 
-            statusline = {
-              left = [
-                "mode"
-                "spinner"
-                "read-only-indicator"
-                "diagnostics"
-              ];
-              center = [ "file-name" ];
-              right = [
-                "version-control"
-                "selections"
-                "primary-selection-length"
-                "total-line-numbers"
-                "position"
-                "file-encoding"
-                "file-line-ending"
-                "file-type"
-              ];
-              separator = "|";
-              mode.normal = "NORMAL";
-              mode.insert = "INSERT";
-              mode.select = "SELECT";
-            };
-
-            whitespace = {
-              render = {
-                tab = "all";
-              };
-            };
-
-            auto-save = {
-              after-delay.enable = false;
-              after-delay.timeout = 1000;
-              focus-lost = true;
+            soft-wrap = {
+              enable = true;
+              wrap-at-text-width = false;
             };
           };
+
+          keys.normal = {
+            "esc" = ["collapse_selection" "keep_primary_selection"];
+          };
         };
+
         languages = {
           language-server = {
-            # nil = {
-            #   command = "nil";
-            #   config = {
-            #     formatting = {
-            #       command = [ "alejandra" ];
-            #     };
-            #     nix = {
-            #       maxMemoryMB = 16000;
-            #       flake = {
-            #         autoArchive = true;
-            #         autoEvalInputs = true;
-            #       };
-
-            #     };
-            #   };
-            # };
             nixd = {
               command = "nixd";
-              args = [ ];
               config.nixd = {
-                nixpkgs = {
-                  expr = "import ${inputs.nixpkgs} { }";
-                };
-                formatting = {
-                  command = [ "alejandra" ];
-                };
+                nixpkgs.expr = "import ${inputs.nixpkgs} { }";
+                formatting.command = ["alejandra"];
               };
             };
-            pyright = {
-              command = "pyright-langserver";
-              args = [ "--stdio" ];
-              config = { }; # <- this is the important line
-            };
-            rust-analyzer.config = {
-              checkOnSave = true;
-              cachePriming.enable = true;
-              diagnostics.experimental.enable = true;
-              check.features = "all";
-              procMacro.enable = true;
-              cargo.buildScripts.enable = true;
-              imports.preferPrelude = true;
-              serverPath = "${pkgs.lspmux}/bin/lspmux";
+            tailwindcss-ls = {
+              command = "tailwindcss-language-server";
+              args = ["--stdio"];
             };
           };
 
           language = [
             {
               name = "nix";
-              language-servers = [
-                "nixd"
-                "nil"
-              ];
-              formatter.command = "alejandra";
+              language-servers = ["nixd"];
+              formatter = {command = "alejandra";};
+              auto-format = true;
+            }
+            {
+              name = "html";
+              language-servers = ["vscode-html-language-server" "tailwindcss-ls"];
+              formatter = {
+                command = "prettier";
+                args = ["--parser" "html"];
+              };
+              auto-format = true;
+            }
+            {
+              name = "css";
+              language-servers = ["vscode-css-language-server" "tailwindcss-ls"];
+              formatter = {
+                command = "prettier";
+                args = ["--parser" "css"];
+              };
+              auto-format = true;
+            }
+            {
+              name = "javascript";
+              language-servers = ["typescript-language-server" "tailwindcss-ls"];
+              formatter = {
+                command = "prettier";
+                args = ["--parser" "typescript"];
+              };
+              auto-format = true;
+            }
+            {
+              name = "typescript";
+              language-servers = ["typescript-language-server" "tailwindcss-ls"];
+              formatter = {
+                command = "prettier";
+                args = ["--parser" "typescript"];
+              };
               auto-format = true;
             }
           ];
-
-          formatter = {
-            black = {
-              command = "black";
-              args = [
-                "-"
-                "-q"
-              ];
-            };
-            nixfmt = {
-              command = "nixfmt";
-            };
-          };
         };
       };
     })
