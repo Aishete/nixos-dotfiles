@@ -1,0 +1,5 @@
+name,ttl,type,value
+"portfolio.scriptwiz.fun","3600","NETLIFY","trybunheng.netlify.app"
+"*.scriptwiz.fun","3600","A","192.168.40.229"
+"scriptwiz.fun","3600","A","192.168.40.229"
+"bookstack.scriptwiz.fun","3600","A","192.168.40.229"

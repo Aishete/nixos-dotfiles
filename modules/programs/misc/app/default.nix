@@ -12,5 +12,6 @@
     gimp
     neovim
     chromium
+    libreoffice
   ];
 }
