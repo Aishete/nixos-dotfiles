@@ -48,7 +48,8 @@ in
     mutableUsers = true;
     users.${username} = {
       isNormalUser = true;
-      initialPassword = "123";
+      # initialPassword = "123"; # Set via hashedPassword or first boot
+      # hashedPassword = "$y$..."; # Uncomment and use mkpasswd -m yescrypt
       extraGroups = [
         "wheel" # sudo access
         "input"

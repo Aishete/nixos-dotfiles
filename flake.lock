@@ -3,11 +3,11 @@
     "betterfox": {
       "flake": false,
       "locked": {
-        "lastModified": 1772315048,
-        "narHash": "sha256-rUuEfbjIXox5x5ul/4VarIm7bii/SCcDJjocEbHA1kM=",
+        "lastModified": 1776800442,
+        "narHash": "sha256-elGsTJu+eSzyS9IAnQuEppyhdDkRQwggUP7aypuXRh8=",
         "owner": "yokoffing",
         "repo": "Betterfox",
-        "rev": "f1c8e3809dbd23f4f9aa1e5e70805c61734b1f14",
+        "rev": "5fcaade85eb954095c0daca8bb95ec6217413a1f",
         "type": "github"
       },
       "original": {
@@ -19,14 +19,18 @@
     "doom-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1776411806,
-        "narHash": "sha256-47HFc7/KSzv+NOfYSglMOhVS3oIR8REbDYrb5RL/tzY=",
-        "path": "/home/scriptwiz/config/doom",
-        "type": "path"
+        "lastModified": 1777516672,
+        "narHash": "sha256-1cBLe63UM4HaabAXdoMG3vxuL1QiIdj1Jm4u+QdpBuk=",
+        "owner": "Aishete",
+        "repo": "doom",
+        "rev": "966a037d26af4751b51bca0b1f944927afca4e87",
+        "type": "github"
       },
       "original": {
-        "path": "/home/scriptwiz/config/doom",
-        "type": "path"
+        "owner": "Aishete",
+        "ref": "doom",
+        "repo": "doom",
+        "type": "github"
       }
     },
     "doomemacs": {
@@ -162,19 +166,6 @@
         "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
-      }
-    },
-    "ma-neovim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773894607,
-        "narHash": "sha256-qbEhxZ6X/VBYNgKaofQjFENj5t8Kt3HHZdETcd9qcNQ=",
-        "path": "/home/scriptwiz/config/nvim",
-        "type": "path"
-      },
-      "original": {
-        "path": "/home/scriptwiz/config/nvim",
-        "type": "path"
       }
     },
     "mnw": {
@@ -504,7 +495,6 @@
         "betterfox": "betterfox",
         "doom-config": "doom-config",
         "home-manager": "home-manager",
-        "ma-neovim": "ma-neovim",
         "neovim": "neovim",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",
         "nix-flatpak": "nix-flatpak",

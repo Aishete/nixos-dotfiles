@@ -25,7 +25,7 @@
   bluetoothSupport = false; # Whether your motherboard supports bluetooth
 
   # Localization
-  timezone = "Aisa/Phnom_Penh";
+  timezone = "Asia/Phnom_Penh";
   locale = "en_US.UTF-8";
   clock24h = false;
   kbdLayout = "us";

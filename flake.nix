@@ -1,7 +1,6 @@
 {
   description = "A simple flake for an atomic system";
 
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -28,7 +27,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     doom-config = {
-      url = "/home/scriptwiz/config/doom";
+      url = "github:Aishete/doom/doom";
       flake = false;
     };
     # nixvim = {
@@ -36,11 +35,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
     neovim = {
-      url = "/home/scriptwiz/config/nvim";
-      flake = false;
-    };
-    ma-neovim = {
-      url = "/home/scriptwiz/config/nvim";
+      url = "github:scriptwiz/nvim"; # Change to your nvim repo
       flake = false;
     };
     plasma-manager = {
@@ -94,8 +89,7 @@
       mkHost =
         host:
         nixpkgs.lib.nixosSystem {
-          # inherit system;
-          system = forAllSystems (system: system);
+          system = "x86_64-linux";
           modules = [
             ./hosts/${host}/configuration.nix
           ];
@@ -116,6 +110,7 @@
       nixosConfigurations = {
         Default = mkHost "Default";
         nixwiz = mkHost "nixwiz";
+        script = mkHost "script";
       };
     };
 }

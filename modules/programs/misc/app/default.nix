@@ -5,7 +5,6 @@
     blender
     opencode
     crush
-    penpot-desktop
     teams-for-linux
     telegram-desktop
     blanket

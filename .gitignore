@@ -11,3 +11,10 @@ dev-shells/*/flake.lock
 
 [Bb]ackup
 [Bb]ackup/*
+
+# Sensitive / personal
+*.csv
+*.env
+
+# Machine-specific modules
+/modules/programs/ai/
