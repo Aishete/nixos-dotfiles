@@ -19,6 +19,7 @@ in
   boot = {
     kernelModules = [ "tcp_bbr" ];
     kernel.sysctl = {
+      "vm.swappiness" = 100;
       # TCP hardening
       "kernel.sysrq" = 0;
       "net.ipv4.conf.default.rp_filter" = 1;

@@ -1,13 +1,15 @@
-{ pkgs, host, ... }:
-let
-  inherit (import ../../hosts/${host}/variables.nix) hostname bluetoothSupport;
-in
 {
+  pkgs,
+  host,
+  ...
+}: let
+  inherit (import ../../hosts/${host}/variables.nix) hostname bluetoothSupport;
+in {
   hardware = {
     sane = {
       enable = true;
-      extraBackends = [ pkgs.sane-airscan ];
-      disabledDefaultBackends = [ "escl" ];
+      extraBackends = [pkgs.sane-airscan];
+      disabledDefaultBackends = ["escl"];
     };
     logitech.wireless.enable = false;
     logitech.wireless.enableGraphical = false;

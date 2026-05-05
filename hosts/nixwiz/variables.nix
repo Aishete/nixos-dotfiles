@@ -1,5 +1,5 @@
 {
-  username = "scriptwiz"; # auto-set with install.sh, live-install.sh, and rebuild scripts.
+  username = "archdev"; # auto-set with install.sh, live-install.sh, and rebuild scripts.
 
   # Desktop Environment
   desktop = "hyprland"; # hyprland, i3, gnome, plasma6
@@ -7,7 +7,7 @@
   # Theme & Appearance
   bar = "waybar"; # waybar, hyprpanel, noctalia
   waybarTheme = "minimal"; # stylish, minimal
-  sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
+  sddmTheme = "jake_the_dog"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
   defaultWallpaper = "galaxy.webp"; # Change with SUPER + SHIFT + W (Hyprland)
   hyprlockWallpaper = "galaxy.webp";
 
@@ -17,12 +17,12 @@
   browser = "firefox"; # zen-beta, firefox, floorp
   tuiFileManager = "yazi"; # yazi, lf
   shell = "zsh"; # zsh, bash
-  games = true; # Enable/Disable gaming module
+  games = false; # Enable/Disable gaming module
 
   # Hardware
   hostname = "nixwiz";
-  videoDriver = "intel"; # nvidia, amdgpu, intel
-  bluetoothSupport = false; # Whether your motherboard supports bluetooth
+  videoDriver = "amdgpu"; # nvidia, amdgpu, intel
+  bluetoothSupport = true; # Whether your motherboard supports bluetooth
 
   # Localization
   timezone = "Asia/Phnom_Penh";

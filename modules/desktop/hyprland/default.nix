@@ -260,13 +260,14 @@ in
                 "easeInOutCirc, 0.85, 0, 0.15, 1"
                 "easeOutCirc, 0, 0.55, 0.45, 1"
                 "easeOutExpo, 0.16, 1, 0.3, 1"
+                "quick, 0.05, 0.9, 0.1, 1.05"
               ];
               animation = [
                 "windows, 1, 3, md3_decel, popin 60%"
                 "border, 1, 10, default"
                 "fade, 1, 2.5, md3_decel"
                 # "workspaces, 1, 3.5, md3_decel, slide"
-                "workspaces, 1, 3.5, easeOutExpo, slide"
+                "workspaces, 1, 2, quick, slide"
                 # "workspaces, 1, 7, fluent_decel, slidefade 15%"
                 # "specialWorkspace, 1, 3, md3_decel, slidefadevert 15%"
                 "specialWorkspace, 1, 3, md3_decel, slidevert"
@@ -571,10 +572,10 @@ in
                 x:
                 let
                   ws = builtins.toString (x + 9); # The actual workspace number (11, 12, etc.)
-                  key = 
-                    let 
+                  key =
+                    let
                       n = x + 1;
-                    in 
+                    in
                     if n == 10 then "0" else builtins.toString n; # Mapping key 0 to 10
                 in
                 [
@@ -598,8 +599,8 @@ in
 
             monitor = [
               # Port, Resolution/Refresh, Position, Scale
-              "eDP-1, 1920x1080@60, 0x0, 1"       # Laptop Screen (Left)
-              "DP-1, 1920x1080@60, 1920x0, 1"     # Dell (Center)
+              "eDP-1, 1920x1080@60, 0x0, 1" # Laptop Screen (Left)
+              "DP-1, 1920x1080@60, 1920x0, 1" # Dell (Center)
               "HDMI-A-2, 1920x1080@60, 3840x0, 1" # Acer (Right)
             ];
 
@@ -608,12 +609,12 @@ in
               "1, monitor:eDP-1, default:true"
               "2, monitor:eDP-1"
               "3, monitor:eDP-1"
-            
+
               # Dell (DP-1): Workspaces 4-6
               "4, monitor:DP-1, default:true"
               "5, monitor:DP-1"
               "6, monitor:DP-1"
-            
+
               # Acer (HDMI-A-2): Workspaces 7-9
               "7, monitor:HDMI-A-2, default:true"
               "8, monitor:HDMI-A-2"

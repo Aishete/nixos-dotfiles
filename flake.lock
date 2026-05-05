@@ -205,19 +205,6 @@
         "type": "github"
       }
     },
-    "neovim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773894607,
-        "narHash": "sha256-qbEhxZ6X/VBYNgKaofQjFENj5t8Kt3HHZdETcd9qcNQ=",
-        "path": "/home/scriptwiz/config/nvim",
-        "type": "path"
-      },
-      "original": {
-        "path": "/home/scriptwiz/config/nvim",
-        "type": "path"
-      }
-    },
     "nix-doom-emacs-unstraightened": {
       "inputs": {
         "doomemacs": "doomemacs",
@@ -495,7 +482,6 @@
         "betterfox": "betterfox",
         "doom-config": "doom-config",
         "home-manager": "home-manager",
-        "neovim": "neovim",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",

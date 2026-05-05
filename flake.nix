@@ -34,10 +34,10 @@
     #   url = "github:Sly-Harvey/nixvim";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    neovim = {
-      url = "github:scriptwiz/nvim"; # Change to your nvim repo
-      flake = false;
-    };
+    #neovim = {
+    #  url = "github:scriptwiz/nvim"; # Change to your nvim repo
+    #  flake = false;
+    #};
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
