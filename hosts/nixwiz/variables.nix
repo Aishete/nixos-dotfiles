@@ -13,10 +13,12 @@
 
   # Default Applications
   terminal = "kitty"; # kitty, alacritty
-  editor = "doom-emacs"; # nixvim, vscode, helix, doom-emacs, nvchad, neovim
+  editor = "doom-emacs"; # nixvim, vscode, helix, doom-emacs, nvchad, neovim (primary)
+  extraEditors = [ "helix" ]; # Additional editors to install alongside the primary
   browser = "firefox"; # zen-beta, firefox, floorp
   tuiFileManager = "yazi"; # yazi, lf
   shell = "zsh"; # zsh, bash
+  appimageSupport = true; # Enable/Disable AppImage support
   games = false; # Enable/Disable gaming module
 
   # Hardware

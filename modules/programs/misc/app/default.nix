@@ -9,7 +9,6 @@
     telegram-desktop
     blanket
     gimp
-    neovim
     chromium
     libreoffice
   ];

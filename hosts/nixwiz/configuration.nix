@@ -36,7 +36,9 @@ in
     ../../modules/desktop/${vars.desktop} # Set window manager defined in variables.nix
     ../../modules/programs/browser/${vars.browser} # Set browser defined in variables.nix
     ../../modules/programs/terminal/${vars.terminal} # Set terminal defined in variables.nix
-    ../../modules/programs/editor/${vars.editor} # Set editor defined in variables.nix
+    ../../modules/programs/editor/${vars.editor} # Set primary editor defined in variables.nix
+  ] ++ (map (e: ../../modules/programs/editor/${e}) (vars.extraEditors or [])) # Extra editors
+  ++ [
     ../../modules/programs/cli/${vars.tuiFileManager} # Set file-manager defined in variables.nix
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/direnv
@@ -56,5 +58,6 @@ in
     ../../modules/programs/misc/thunar
     ../../modules/programs/misc/lact # GPU fan, clock and power configuration
   ]
+  ++ lib.optional (vars.appimageSupport == true) ../../modules/programs/misc/appimage
   ++ lib.optional (vars.games == true) ../../modules/core/games.nix;
 }
