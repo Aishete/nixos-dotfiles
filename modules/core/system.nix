@@ -5,18 +5,17 @@
   pkgs,
   overlays,
   ...
-}:
-let
-  inherit (import ../../hosts/${host}/variables.nix)
+}: let
+  inherit
+    (import ../../hosts/${host}/variables.nix)
     consoleKeymap
     kbdLayout
     kbdVariant
     locale
     timezone
     ;
-in
-{
-  imports = [ inputs.nix-index-database.nixosModules.nix-index ];
+in {
+  imports = [inputs.nix-index-database.nixosModules.nix-index];
   programs = {
     nix-index-database.comma.enable = true;
     gnupg.agent = {
@@ -27,14 +26,14 @@ in
 
   zramSwap = {
     enable = true;
-    algorithm = "zstd";
+    algorithm = "lz4";
     memoryPercent = 50;
     priority = 100;
   };
 
   services.xserver = {
     enable = false;
-    excludePackages = with pkgs; [ xterm ];
+    excludePackages = with pkgs; [xterm];
     exportConfiguration = true; # Make sure /etc/X11/xkb is populated so localectl works correctly
     xkb = {
       layout = "${kbdLayout}";

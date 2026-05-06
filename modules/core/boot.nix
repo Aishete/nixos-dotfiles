@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   boot = {
     # Filesystems support
     supportedFilesystems = [
@@ -10,9 +9,11 @@
       "btrfs"
     ];
     tmp.cleanOnBoot = true;
-    kernelPackages = pkgs.linuxPackages_latest; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
+    kernelPackages = pkgs.linuxPackages_zen; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
     kernelParams = [
       "preempt=full" # lower latency but less throughput
+      "amd_pstate=active"
+      "processor.max_cstate=1"
     ];
     loader = {
       efi.canTouchEfiVariables = true;
