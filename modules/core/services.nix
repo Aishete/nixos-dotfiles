@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Services to start
   services = {
     dbus.enable = true;
@@ -10,15 +9,20 @@
     udisks2.enable = true; # For Mounting USB & More
 
     # Userspace CPU Scheduler for Improved Latency for Gaming (Hardware Specific)
-    scx = {
+    # scx = {
+    #   enable = true;
+    #   package = pkgs.scx.rustscheds;
+    #   scheduler = "scx_lavd"; # https://github.com/sched-ext/scx/blob/main/scheds/rust/README.md
+    # };
+
+    ananicy = {
       enable = true;
-      package = pkgs.scx.rustscheds;
-      scheduler = "scx_lavd"; # https://github.com/sched-ext/scx/blob/main/scheds/rust/README.md
+      package = pkgs.ananicy-cpp;
     };
 
     openssh = {
       enable = true;
-      ports = [ 22 ];
+      ports = [22];
       settings = {
         PasswordAuthentication = true;
         KbdInteractiveAuthentication = true;

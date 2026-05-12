@@ -86,7 +86,22 @@ pkgs.writeShellScriptBin "launcher" ''
       | rofi_cmd)
     [ -z "$CHOICE" ] && exit 0
 
-    swww img "$WALLPAPER_DIR/$CHOICE" --transition-step 90 --transition-duration 1 --transition-fps 60 --transition-type wipe
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+      swww img "$WALLPAPER_DIR/$CHOICE" --transition-step 90 --transition-duration 1 --transition-fps 60 --transition-type wipe
+    else
+      TEMP_DIR="/tmp/wallpaper-cache"
+      WALLPAPER="$WALLPAPER_DIR/$CHOICE"
+      case "$WALLPAPER" in
+        *.webp|*.WEBP)
+          mkdir -p "$TEMP_DIR"
+          ${pkgs.imagemagick}/bin/magick "$WALLPAPER" "$TEMP_DIR/$(basename "$WALLPAPER" .webp).png"
+          WALLPAPER="$TEMP_DIR/$(basename "$WALLPAPER" .webp).png"
+          ;;
+      esac
+      for output in $(xrandr --listmonitors 2>/dev/null | awk 'NR>1 {print $4}'); do
+        ${pkgs.feh}/bin/feh --bg-fill "$WALLPAPER" --no-fehbg --output "$output"
+      done
+    fi
     ;;
   emoji)
     rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/type-4/style-4.rasi"

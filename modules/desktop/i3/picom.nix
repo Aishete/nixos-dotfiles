@@ -3,11 +3,9 @@
     enable = true;
     settings = {
       backend = "glx";
-      glx-no-stencil = true;
       use-damage = true;
       xrender-sync-fence = true;
       vsync = true;
-      refresh-rate = 0;
       detect-client-opacity = true;
 
       inactive-opacity = 0.7;

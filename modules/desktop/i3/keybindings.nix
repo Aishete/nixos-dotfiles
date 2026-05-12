@@ -2,6 +2,8 @@
   pkgs,
   terminal,
   browser,
+  editor,
+  fileManager,
   ...
 }:
 let
@@ -16,6 +18,46 @@ in
   # Launch Browser
   "${mod}+f" = "exec --no-startup-id ${browser}";
 
+  # Launch Editor (Hyprland-style $mod+C)
+  "${mod}+c" = "exec --no-startup-id ${editor}";
+
+  # Launch File Manager (Hyprland-style $mod+E)
+  "${mod}+e" = "exec --no-startup-id ${fileManager}";
+
+  # Toggle floating (Hyprland-style $mod+W)
+  "${mod}+w" = "floating toggle";
+
+  # Fullscreen (Alt+Enter like Hyprland)
+  "${alt}+Return" = "fullscreen toggle";
+
+  # Emoji picker (Hyprland-style $mod+Z)
+  "${mod}+z" = "exec --no-startup-id ${menu} emoji";
+
+  # Wallpaper picker (Hyprland-style $mod+Shift+W)
+  "${mod}+Shift+w" = "exec --no-startup-id ${menu} wallpaper";
+
+  # Games launcher (Hyprland-style $mod+G)
+  "${mod}+g" = "exec --no-startup-id ${menu} games";
+
+  # Cycle next window (Hyprland-style $mod+Tab)
+  "${mod}+Tab" = "focus right";
+  "${alt}+Tab" = "focus down";
+
+  # Next/Prev workspace (Hyprland-style $mod+Ctrl+right/left)
+  "${mod}+Ctrl+Right" = "workspace next";
+  "${mod}+Ctrl+Left" = "workspace prev";
+  "${mod}+Ctrl+Down" = "workspace empty";
+
+  # Power menu (wlogout - lock/shutdown/reboot/suspend)
+  "${mod}+backspace" = "exec --no-startup-id pkill -x wlogout || wlogout -b 4";
+
+  # Auto-clicker toggle (Hyprland-style $mod+F8)
+  "${mod}+F8" = "exec --no-startup-id kill \$(cat /tmp/auto-clicker.pid) 2>/dev/null || ${pkgs.xdotool}/bin/xdotool click --repeat 1000 --delay 25 1 & echo \$! > /tmp/auto-clicker.pid";
+
+  # Scroll-tiled workspace cycling (like Hyprland $mod+scroll)
+  "${mod}+Ctrl+mouse_down" = "workspace next";
+  "${mod}+Ctrl+mouse_up" = "workspace prev";
+
   # Launch Spotify
   "${mod}+s" = "exec --no-startup-id spotify";
 
@@ -27,6 +69,7 @@ in
 
   # Kill focused window
   "${mod}+q" = "kill";
+  "${alt}+F4" = "kill";                      # Alt+F4 kill (like Hyprland forcekillactive)
 
   # Change focus
   "${mod}+h" = "focus left";
@@ -106,9 +149,6 @@ in
   # Focus the parent container
   "${mod}+p" = "focus parent";
 
-  # Focus the child container
-  "${mod}+c" = "focus child";
-
   # Make the currently focused window a scratchpad
   "${mod}+Shift+minus" = "move scratchpad";
 
@@ -123,6 +163,9 @@ in
 
   # Lock
   "${mod}+${alt}+l" = "exec loginctl lock-session";
+
+  # Rebuild NixOS (Hyprland-style $mod+U)
+  "${mod}+u" = "exec --no-startup-id ${terminal} -e rebuild";
 
   # Sleep
   "${mod}+${alt}+s" = "exec systemctl suspend-then-hibernate";

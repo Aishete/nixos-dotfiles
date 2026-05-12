@@ -1,17 +1,40 @@
-{ lib, pkgs, host, ... }:
-let
-  inherit (lib) getExe getExe';
-  inherit (import ../../../hosts/${host}/variables.nix) terminal browser defaultWallpaper;
-  monitors = pkgs.callPackage ./scripts/monitors.nix { };
-  wallpaper = pkgs.callPackage ./scripts/wallpaper.nix { };
-in
 {
+  lib,
+  pkgs,
+  host,
+  ...
+}: let
+  inherit (lib) getExe getExe';
+  inherit (import ../../../hosts/${host}/variables.nix) terminal browser editor tuiFileManager defaultWallpaper;
+  # Map editor variable name to actual binary
+  editorBin = let
+    editorMap = {
+      "nvim" = "neovim";
+      "neovim" = "neovim";
+      "nixvim" = "neovim";
+      "vscode" = "vscode";
+      "helix" = "helix";
+      "doom-emacs" = "emacs";
+      "nvchad" = "neovim";
+    };
+    pkgName = editorMap.${editor} or editor;
+  in
+    if pkgName == "emacs"
+    then "emacs"
+    else getExe pkgs.${pkgName};
+  fileManagerBin = "${terminal} --class \"tuiFileManager\" -e ${getExe pkgs.${tuiFileManager}}";
+  monitors = pkgs.callPackage ./scripts/monitors.nix {};
+  wallpaper = pkgs.callPackage ./scripts/wallpaper.nix {};
+in {
   imports = [
     ../../themes/Catppuccin
     ../hyprland/programs/rofi
     ./polybar
     ./dunst.nix
+    ./wlogout
   ];
+
+  environment.systemPackages = [wallpaper];
 
   services.xserver = {
     enable = lib.mkForce true;
@@ -31,22 +54,25 @@ in
         feh
         dmenu
         rofi
+        rofi-emoji
         polybar
         cava
-        xorg.xrandr
+        xrandr
         edid-decode
         vim.xxd
+        xdotool
+        imagemagick
       ];
     };
   };
   home-manager.sharedModules = [
     (_: {
-      imports = [ ./picom.nix ];
+      imports = [./picom.nix];
       xsession.windowManager.i3 = {
         enable = true;
         package = pkgs.i3;
         config = {
-          floating.criteria = [ { class = "^Mpv$"; } ];
+          floating.criteria = [{class = "^Mpv$";}];
           gaps.smartBorders = "on";
           window.titlebar = false;
           window.hideEdgeBorders = "both";
@@ -79,8 +105,10 @@ in
           };
           keybindings = import ./keybindings.nix {
             inherit pkgs terminal browser;
+            editor = editorBin;
+            fileManager = fileManagerBin;
           };
-          bars = [ ];
+          bars = [];
           startup = [
             {
               command = "${getExe monitors}";
@@ -93,7 +121,7 @@ in
               notification = false;
             }
             {
-              command = "sleep 1.5 && polybar &";
+              command = "sleep 1.5 && polybar main";
               always = true;
               notification = false;
             }

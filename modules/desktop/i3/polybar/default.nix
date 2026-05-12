@@ -68,7 +68,7 @@ in
             font-1 = "FontAwesome;2";
             modules-left = "workspaces";
             modules-center = "";
-            modules-right = "tray gpu_temp cpu memory pulseaudio wlan eth battery date";
+            modules-right = "tray gpu_temp cpu memory pulseaudio wlan eth battery date power";
             separator = "|";
             separator-foreground = "${colors.overlay0}";
             cursor-click = "pointer";
@@ -84,6 +84,17 @@ in
             type = "custom/script";
             exec = "${workspaces}/bin/workspaces";
             tail = true;
+            click-left = "${pkgs.rofi}/bin/rofi -show window -theme \$HOME/.config/rofi/launchers/type-4/style-4.rasi";
+          };
+
+          "module/power" = {
+            type = "custom/script";
+            exec = "echo '⏻'";
+            interval = 99999;
+            click-left = "pkill -x wlogout || wlogout -b 4";
+            format = "<label>";
+            label = "%output%";
+            label-foreground = "${colors.peach}";
           };
 
           "module/cava" = {

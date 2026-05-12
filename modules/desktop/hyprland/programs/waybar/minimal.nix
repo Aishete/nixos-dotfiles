@@ -1,11 +1,13 @@
-{ host, pkgs, ... }:
-let
-  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h;
-  gpuinfo = pkgs.callPackage ../../scripts/gpuinfo.nix { };
-  keyboardswitch = pkgs.callPackage ../../scripts/keyboardswitch.nix { };
-  waybarcava = pkgs.callPackage ../../scripts/waybarcava.nix { };
-in
 {
+  host,
+  pkgs,
+  ...
+}: let
+  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h;
+  gpuinfo = pkgs.callPackage ../../scripts/gpuinfo.nix {};
+  keyboardswitch = pkgs.callPackage ../../scripts/keyboardswitch.nix {};
+  waybarcava = pkgs.callPackage ../../scripts/waybarcava.nix {};
+in {
   home-manager.sharedModules = [
     (_: {
       programs.waybar = {
@@ -33,7 +35,7 @@ in
             modules-left = [
               "custom/icon"
               "hyprland/workspaces"
-              "cava"
+              # "cava"
             ];
             # modules-center = ["clock" "custom/notification"];
             modules-center = [
@@ -204,8 +206,14 @@ in
             };
 
             "clock" = {
-              format = if clock24h == true then "{:%a %d %b %R}" else "{:%a %d %b %I:%M %p}";
-              format-alt = if clock24h == true then "{:%a %d %b %I:%M %p}" else "{:%a %d %b %R}";
+              format =
+                if clock24h == true
+                then "{:%a %d %b %R}"
+                else "{:%a %d %b %I:%M %p}";
+              format-alt =
+                if clock24h == true
+                then "{:%a %d %b %I:%M %p}"
+                else "{:%a %d %b %R}";
               # format = "{:%a %d %b %R}";
               # format = "{:%R 󰃭 %d·%m·%y}"; # Inverted
               # format-alt = "{:%I:%M %p}";

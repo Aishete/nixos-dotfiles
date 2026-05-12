@@ -71,46 +71,50 @@
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hermes-agent.url = "github:NousResearch/hermes-agent";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
-      mkHost =
-        host:
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/${host}/configuration.nix
-          ];
-          specialArgs = {
-            overlays = import ./overlays { inherit inputs host; };
-            inherit
-              self
-              inputs
-              outputs
-              host
-              ;
-          };
+  outputs = {
+    self,
+    nixpkgs,
+    hermes-agent,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    systems = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+    mkHost = host:
+      nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          hermes-agent.nixosModules.default
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/${host}/configuration.nix
+        ];
+        specialArgs = {
+          overlays = import ./overlays {inherit inputs host;};
+          inherit
+            self
+            inputs
+            outputs
+            host
+            ;
         };
-    in
-    {
-      templates = import ./dev-shells;
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
-      nixosConfigurations = {
-        Default = mkHost "Default";
-        nixwiz = mkHost "nixwiz";
-        script = mkHost "script";
       };
+  in {
+    templates = import ./dev-shells;
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+    nixosConfigurations = {
+      Default = mkHost "Default";
+      nixwiz = mkHost "nixwiz";
+      script = mkHost "script";
     };
+  };
 }

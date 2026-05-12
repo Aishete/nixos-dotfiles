@@ -11,9 +11,11 @@
     tmp.cleanOnBoot = true;
     kernelPackages = pkgs.linuxPackages_zen; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
     kernelParams = [
-      "preempt=full" # lower latency but less throughput
+      "preempt=full"
       "amd_pstate=active"
       "processor.max_cstate=1"
+      "iommu=pt" # Essential for AMD GPU-to-RAM speed
+      "amdgpu.ppfeaturemask=0xffffffff" # Unlocks manual clock control
     ];
     loader = {
       efi.canTouchEfiVariables = true;
