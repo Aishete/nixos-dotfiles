@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs = {
     mtr.enable = true;
     gnupg.agent = {
@@ -17,7 +16,8 @@
     rclone # Cloning Utility
     jq # Json Formatting Utility
     bibata-cursors
-	whitesur-cursors
+    whitesur-cursors
+    banana-cursor
     sddm-astronaut # Sddm Theme (Overlayed)
     kdePackages.qtsvg # Sddm Dependency
     kdePackages.qtmultimedia # Sddm Dependency

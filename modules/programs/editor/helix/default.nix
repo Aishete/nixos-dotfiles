@@ -25,6 +25,9 @@
           rust-analyzer
           rustfmt
           clippy
+          cargo
+          rustc
+          lldb  # provides lldb-dap for the Helix debugger (DAP)
 
           # ── Go ─────────────────────────────────────────────────────────────
           gopls
@@ -225,6 +228,61 @@
                   functionTypeParameters = true;
                   parameterNames = true;
                   rangeVariableTypes = true;
+                };
+              };
+            };
+
+            # Rust
+            rust-analyzer = {
+              command = "rust-analyzer";
+              config.rust-analyzer = {
+                cargo = {
+                  allFeatures = true;
+                  loadOutDirsFromCheck = true;
+                  runBuildScripts = true;
+                };
+                checkOnSave = {
+                  enable = true;
+                  command = "clippy";   # use clippy instead of check
+                  extraArgs = ["--" "-W" "clippy::pedantic"];
+                };
+                procMacro = {
+                  enable = true;
+                  ignored = {
+                    "async-trait" = ["async_trait"];
+                    "napi-derive" = ["napi"];
+                    "async-recursion" = ["async_recursion"];
+                  };
+                };
+                inlayHints = {
+                  bindingModeHints.enable = true;
+                  closureCaptureHints.enable = true;
+                  closureReturnTypeHints.enable = "always";
+                  discriminantHints.enable = "always";
+                  expressionAdjustmentHints.enable = "always";
+                  implicitDrops.enable = true;
+                  lifetimeElisionHints = {
+                    enable = "always";
+                    useParameterNames = true;
+                  };
+                  parameterHints.enable = true;
+                  rangeExclusiveHints.enable = true;
+                  renderColons = true;
+                  typeHints = {
+                    enable = true;
+                    hideClosureInitialization = false;
+                    hideNamedConstructor = false;
+                  };
+                };
+                completion = {
+                  autoimport.enable = true;
+                  autoself.enable = true;
+                  callable.snippets = "fill_arguments";
+                  postfix.enable = true;
+                };
+                diagnostics = {
+                  enable = true;
+                  experimental.enable = true;
                 };
               };
             };
