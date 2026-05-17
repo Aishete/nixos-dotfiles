@@ -163,7 +163,7 @@
               "s" = "symbol_picker";          # workspace symbols
               "S" = "workspace_symbol_picker";
               "d" = "diagnostics_picker";
-              "D" = "workspace_diagnostics_picker";
+              "D" = "workspace_diagnostics";
               "g" = "goto_definition";
               "r" = "rename_symbol";
               "a" = "code_action";

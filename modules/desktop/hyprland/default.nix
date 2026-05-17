@@ -32,6 +32,7 @@
   screenshot = pkgs.callPackage ./scripts/screenshot.nix {};
   wallpaper = pkgs.callPackage ./scripts/wallpaper.nix {inherit defaultWallpaper;};
   zoom = pkgs.callPackage ./scripts/zoom.nix {};
+  presentation-mirror = pkgs.callPackage ./scripts/presentation-mirror.nix {};
 in {
   imports =
     [
@@ -58,6 +59,7 @@ in {
     swappy
     cliphist
     wl-clipboard
+    wl-mirror
   ];
 
   systemd.user.services.hyprpolkitagent = {
@@ -146,7 +148,6 @@ in {
               "QT_QPA_PLATFORMTHEME,qt6ct"
               "QT_AUTO_SCREEN_SCALE_FACTOR,1"
               "QT_ENABLE_HIGHDPI_SCALING,1"
-              "WLR_RENDERER_ALLOW_SOFTWARE,1"
               "NIXPKGS_ALLOW_UNFREE,1"
             ];
             exec-once = [
@@ -184,8 +185,8 @@ in {
               force_no_accel = true;
             };
             general = {
-              gaps_in = 4;
-              gaps_out = 9;
+              gaps_in = 1;
+              gaps_out = 4;
               border_size = 2;
               "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
               "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
@@ -195,7 +196,7 @@ in {
             };
             decoration = {
               shadow.enabled = false;
-              rounding = 5;
+              rounding = 0;
               dim_special = 0.3;
               blur = {
                 enabled = true;
@@ -273,7 +274,7 @@ in {
               ];
             };
             render = {
-              direct_scanout = 0; # 0 = off, 1 = on, 2 = auto (on with content type ‘game’)
+              direct_scanout = 2; # 0 = off, 1 = on, 2 = auto (on with content type 'game')
             };
             ecosystem = {
               no_update_news = true;
@@ -285,7 +286,7 @@ in {
               swallow_regex = "^(Alacritty|kitty)$";
               enable_swallow = true;
               vfr = true; # always keep on
-              vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only, 3 = fullscreen games/media)
+              vrr = 0; # disable (0=off, 1=on, 2=fullscreen, 3=media)
             };
             xwayland.force_zero_scaling = false;
             gesture = [
@@ -461,6 +462,7 @@ in {
                 "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
                 "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
                 "$mainMod ALT, G, exec, ${getExe gamemode}" # disable hypr effects for gamemode
+                "$mainMod SHIFT, M, exec, ${getExe presentation-mirror}" # presentation mirror (toggle wl-mirror)
                 "$mainMod, V, exec, ${getExe clipmanager}" # Clipboard Manager
                 "$mainMod, M, exec, ${getExe rofimusic}" # online music
 

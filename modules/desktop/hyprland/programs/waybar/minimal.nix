@@ -28,8 +28,8 @@ in {
             ipc = true;
             fixed-center = true;
             margin-top = 10;
-            margin-left = 10;
-            margin-right = 10;
+            margin-left = 5;
+            margin-right = 5;
             margin-bottom = 0;
 
             modules-left = [
@@ -420,7 +420,8 @@ in {
             background: transparent;
             /*border: 2px solid @overlay0;*/
             /*background: @theme_base_color;*/
-            border-radius: 10px;
+            border-radius: 0px;
+            border: none;
           }
 
           window#waybar.hidden {
@@ -444,21 +445,21 @@ in {
            	border: 1px solid @blue;
           	padding-right: 15px;
           	padding-left: 2px;
-          	border-radius: 10px;
+          	border-radius: 0px;
           }
           .modules-center {
           	background: @theme_base_color;
             border: 0.5px solid @overlay0;
           	padding-right: 5px;
           	padding-left: 5px;
-          	border-radius: 10px;
+          	border-radius: 0px;
           }
           .modules-right {
           	background: @theme_base_color;
            	border: 1px solid @blue;
           	padding-right: 15px;
           	padding-left: 15px;
-          	border-radius: 10px;
+          	border-radius: 0px;
           }
 
           #backlight,

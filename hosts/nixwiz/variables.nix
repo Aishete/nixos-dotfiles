@@ -2,11 +2,11 @@
   username = "archdev"; # auto-set with install.sh, live-install.sh, and rebuild scripts.
 
   # Desktop Environment
-  desktop = "i3"; # hyprland, i3, gnome, plasma6
+  desktop = "hyprland"; # hyprland, i3, gnome, plasma6
 
   # Theme & Appearance
   bar = "waybar"; # waybar, hyprpanel, noctalia
-  waybarTheme = "stylish"; # stylish, minimal
+  waybarTheme = "minimal"; # stylish, minimal
   sddmTheme = "jake_the_dog"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
   defaultWallpaper = "galaxy.webp"; # Change with SUPER + SHIFT + W (Hyprland)
   hyprlockWallpaper = "galaxy.webp";
