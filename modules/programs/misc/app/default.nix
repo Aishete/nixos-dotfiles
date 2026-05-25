@@ -11,5 +11,6 @@
     chromium
     libreoffice
     qbittorrent
+    rapidraw
   ];
 }

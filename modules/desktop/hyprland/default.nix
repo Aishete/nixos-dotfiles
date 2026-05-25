@@ -308,7 +308,7 @@ in {
               "opacity 0.90 0.80, match:class ^(Emacs)$"
               "opacity 0.90 0.80, match:class ^(gcr-prompter)$"
               "opacity 0.90 0.80, match:title ^(Hyprland Polkit Agent)$"
-              "opacity 0.90 0.80, match:class ^(obsidian)$"
+              "opacity 1.00 1.00, match:class ^(obsidian)$"
               "opacity 0.90 0.80, match:class ^(proton.vpn.app.gtk)$"
               "opacity 0.90 0.80, match:class ^(heroic)$"
               "opacity 0.90 0.80, match:class ^(Lutris|lutris|net.lutris.Lutris)$"

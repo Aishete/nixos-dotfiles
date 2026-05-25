@@ -35,7 +35,8 @@
     unrar # Tool For Handling .rar Files
     unzip # Tool For Handling .zip Files
     # aider-chat # AI in terminal (Optional: Client only)
-    # cmatrix # Matrix Movie Effect In Terminal
+    cmatrix # Matrix Movie Effect In Terminal
+    alsa-utils
     # cowsay # Great Fun Terminal Program
     # duf # Utility For Viewing Disk Usage In Terminal
     # dysk # Disk space util nice formattting
