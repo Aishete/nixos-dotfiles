@@ -132,6 +132,8 @@ in {
             "$browser" = browser;
 
             env = [
+              "XCURSOR_THEME,Geared Steel 64x"
+              "XCURSOR_SIZE,28"
               "XDG_CURRENT_DESKTOP,Hyprland"
               "XDG_SESSION_DESKTOP,Hyprland"
               "XDG_SESSION_TYPE,wayland"

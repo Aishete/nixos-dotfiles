@@ -56,10 +56,8 @@ in {
         home.pointerCursor = {
           gtk.enable = true;
           x11.enable = true;
-          # package = pkgs.pokemon-cursor;
-          # name = "Pokemon";
-          package = pkgs.banana-cursor;
-          name = "Banana";
+          package = pkgs.geared-cursor;
+          name = "Geared Steel 64x";
           size = 28;
         };
 
