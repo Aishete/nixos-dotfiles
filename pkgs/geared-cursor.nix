@@ -6,8 +6,9 @@ pkgs.stdenv.mkDerivation {
   src = ./geared-steel-64x;
 
   installPhase = ''
-    mkdir -p $out/share/icons/Geared-Steel-64x
-    cp -r $src/* $out/share/icons/Geared-Steel-64x/
+    mkdir -p "$out/share/icons/Geared Steel 64x"
+    cp -r $src/* "$out/share/icons/Geared Steel 64x/"
+    mv "$out/share/icons/Geared Steel 64x/cursor.theme" "$out/share/icons/Geared Steel 64x/index.theme"
   '';
 
   meta = {
