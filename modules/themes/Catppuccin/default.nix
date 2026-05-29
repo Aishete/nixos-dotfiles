@@ -56,9 +56,9 @@ in {
         home.pointerCursor = {
           gtk.enable = true;
           x11.enable = true;
-          package = pkgs.geared-cursor;
-          name = "Geared Steel 64x";
-          size = 28;
+          package = pkgs.apple-cursor;
+          name = "macOS";
+          size = 24;
         };
 
         xdg.configFile = {
