@@ -12,7 +12,7 @@ in {
 
     firewall = {
       enable = true;
-      allowedTCPPorts = [3000 8099];
+      allowedTCPPorts = [3000 8099 7000];
       allowedUDPPorts = [];
     };
   };
