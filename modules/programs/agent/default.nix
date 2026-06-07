@@ -1,31 +1,29 @@
-# FIXME: sops key mismatch — secrets file has key "DEEPSEEK_API_KEY" but
-# sops.secrets."hermes-env" expects a key named "hermes-env".
-# Fix: either rename the key in secrets/hermes-env.yaml to "hermes-env"
-# or change secrets."hermes-env" to secrets."DEEPSEEK_API_KEY" (and update
-# the environmentFiles path reference below).
+# Hermes Agent — NixOS system-level installation
 #
-# {config, ...}: {
-#   sops = {
-#     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-#     defaultSopsFile = ../../../secrets/hermes-env.yaml;
-#     secrets."hermes-env" = {};
-#   };
-#
-#   services.hermes-agent = {
-#     enable = true;
-#
-#     # Change this to DeepSeek
-#     settings = {
-#       model = {
-#         provider = "deepseek";
-#         default = "deepseek-v4-pro"; # or "deepseek-v4-flash"
-#         base_url = "https://api.deepseek.com/v1";
-#       };
-#     };
-#
-#     # Your secrets file needs DEEPSEEK_API_KEY instead
-#     environmentFiles = [config.sops.secrets."hermes-env".path];
-#     addToSystemPackages = true;
-#   };
-# }
-{config, ...}: {}
+# Provides hermes CLI system-wide, systemd service, and web dashboard.
+# User config lives in ~/.hermes/ (untouched by NixOS).
+{config, ...}: {
+  services.hermes-agent = {
+    enable = true;
+
+    # LLM provider — uses OpenCode Go by default (matching user's setup)
+    # Override per-profile via ~/.hermes/config.yaml or --profile flag
+    settings = {
+      model = {
+        provider = "opencode-go";
+        default = "deepseek-v4-flash";
+        base_url = "https://opencode.ai/zen/go/v1";
+      };
+
+      # Web dashboard configuration
+      web = {
+        enable = true;
+        port = 9119;
+        host = "127.0.0.1";  # Local only — use 0.0.0.0 for network access
+      };
+    };
+
+    # Add hermes to system-wide PATH
+    addToSystemPackages = true;
+  };
+}
