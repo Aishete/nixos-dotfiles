@@ -6,24 +6,36 @@
   services.hermes-agent = {
     enable = true;
 
+    # Run as the real user — don't create a separate "hermes" system user.
+    # This makes the service use /home/archdev/.hermes as HERMES_HOME.
+    createUser = false;
+    user = "archdev";
+    group = "users";
+    stateDir = "/home/archdev";
+
     # LLM provider — uses OpenCode Go by default (matching user's setup)
     # Override per-profile via ~/.hermes/config.yaml or --profile flag
     settings = {
       model = {
         provider = "opencode-go";
-        default = "deepseek-v4-flash";
+        default = "mimo-v2.5";
         base_url = "https://opencode.ai/zen/go/v1";
       };
-
-      # Web dashboard configuration
-      web = {
-        enable = true;
-        port = 9119;
-        host = "127.0.0.1";  # Local only — use 0.0.0.0 for network access
-      };
     };
-
-    # Add hermes to system-wide PATH
+   platform_toolsets = {
+        cli = [
+          "browser" "clarify" "code_execution" "cronjob" "delegation"
+          "file" "image_gen" "memory" "messaging" "session_search"
+          "skills" "terminal" "todo" "tts" "vision" "web" "yuanbao"
+          "spotify"
+        ];
+        telegram = [
+          "browser" "clarify" "code_execution" "cronjob" "delegation"
+          "file" "image_gen" "memory" "messaging" "session_search"
+          "skills" "terminal" "todo" "tts" "vision" "web"
+          "spotify"
+        ];
+    # Add hermes to system-wide PATH and export HERMES_HOME
     addToSystemPackages = true;
   };
 }
