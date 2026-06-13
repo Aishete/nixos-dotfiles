@@ -21,8 +21,7 @@
         default = "mimo-v2.5";
         base_url = "https://opencode.ai/zen/go/v1";
       };
-    };
-   platform_toolsets = {
+      platform_toolsets = {
         cli = [
           "browser" "clarify" "code_execution" "cronjob" "delegation"
           "file" "image_gen" "memory" "messaging" "session_search"
@@ -35,6 +34,9 @@
           "skills" "terminal" "todo" "tts" "vision" "web"
           "spotify"
         ];
+      };
+    };
+
     # Add hermes to system-wide PATH and export HERMES_HOME
     addToSystemPackages = true;
   };

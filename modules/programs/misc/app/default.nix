@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    godotPackages_4_5.godot
+    godot
     blender
     opencode
     teams-for-linux
