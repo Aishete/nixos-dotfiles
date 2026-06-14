@@ -1,10 +1,12 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs = {
     mtr.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
     };
+    nix-ld.enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -40,6 +42,7 @@
     libxi
     libxrandr
     libxkbcommon
+    nixd
     # cowsay # Great Fun Terminal Program
     # duf # Utility For Viewing Disk Usage In Terminal
     # dysk # Disk space util nice formattting

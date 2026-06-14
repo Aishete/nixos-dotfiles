@@ -11,6 +11,6 @@
     libreoffice
     qbittorrent
     rapidraw
-    zed
+    zed-editor
   ];
 }
