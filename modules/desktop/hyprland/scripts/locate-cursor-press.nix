@@ -1,31 +1,24 @@
 { pkgs, ... }:
 pkgs.writeShellScriptBin "locate-cursor-press" ''
-  # Hold-to-activate: smoothly zooms cursor area, stays zoomed until release
-  # Triggered by: SUPER+F7 (press)
-  # Released by:  SUPER+F7 (release) via locate-cursor-release
+  # Hold-to-activate: smoothly enlarges cursor icon, stays big until release
+  STEP=8
+  TARGET=96
 
-  STEP=0.15
-  TARGET=3.0
-
-  CURRENT=$(hyprctl getoption cursor:zoom_factor -j | ${pkgs.jq}/bin/jq -r '.float')
+  CURRENT=$(hyprctl getoption cursor:hyprcursor_size -j 2>/dev/null | ${pkgs.jq}/bin/jq -r '.int // empty' 2>/dev/null)
   if [ -z "$CURRENT" ] || [ "$CURRENT" = "null" ]; then
-    CURRENT="1.0"
+    CURRENT="''${XCURSOR_SIZE:-24}"
   fi
 
-  # Already zoomed? skip
-  if [ "$(echo "$CURRENT >= $TARGET" | ${pkgs.bc}/bin/bc -l)" -eq 1 ]; then
+  if [ "$CURRENT" -ge "$TARGET" ] 2>/dev/null; then
     exit 0
   fi
 
-  # Smoothly grow from current to target
-  while true; do
-    NEW=$(echo "$CURRENT + $STEP" | ${pkgs.bc}/bin/bc)
-    if [ "$(echo "$NEW >= $TARGET" | ${pkgs.bc}/bin/bc -l)" -eq 1 ]; then
-      hyprctl keyword cursor:zoom_factor "$TARGET" > /dev/null 2>&1
-      break
+  while [ "$CURRENT" -lt "$TARGET" ]; do
+    CURRENT=$((CURRENT + STEP))
+    if [ "$CURRENT" -gt "$TARGET" ]; then
+      CURRENT=$TARGET
     fi
-    hyprctl keyword cursor:zoom_factor "$NEW" > /dev/null 2>&1
-    CURRENT=$NEW
+    hyprctl keyword cursor:hyprcursor_size "$CURRENT" > /dev/null 2>&1
     sleep 0.02
   done
 ''
