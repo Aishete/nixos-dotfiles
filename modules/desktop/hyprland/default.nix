@@ -20,6 +20,8 @@
   # Import script modules
   # autowaybar = pkgs.callPackage ./scripts/autowaybar.nix { };
   autoclicker = pkgs.callPackage ./scripts/autoclicker.nix {};
+  locate-cursor-press = pkgs.callPackage ./scripts/locate-cursor-press.nix {};
+  locate-cursor-release = pkgs.callPackage ./scripts/locate-cursor-release.nix {};
   batterynotify = pkgs.callPackage ./scripts/batterynotify.nix {};
   clipmanager = pkgs.callPackage ./scripts/clipmanager.nix {};
   gamemode = pkgs.callPackage ./scripts/gamemode.nix {};
@@ -422,6 +424,10 @@ in {
 
                 "$mainMod, F8, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${getExe autoclicker} --cps 40"
                 # "$mainMod ALT, mouse:276, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 60"
+
+                # Locate Cursor (hold ALT+Space = smooth zoom, release = smooth shrink)
+                "ALT, space, exec, ${getExe locate-cursor-press}"
+                "ALT r, space, exec, ${getExe locate-cursor-release}"
 
                 # Night Mode (lower value means warmer temp)
                 "$mainMod, F9, exec, ${getExe pkgs.hyprsunset} --temperature 3500" # good values: 3500, 3000, 2500
