@@ -1,12 +1,12 @@
 { pkgs, ... }:
 pkgs.writeShellScriptBin "locate-cursor-release" ''
-  # Release handler: smoothly shrinks cursor icon back to normal
+  # Release handler: smoothly shrinks cursor icon back to default
   THEME="macOS"
-  STEP=8
+  STEP=2
   TARGET="''${XCURSOR_SIZE:-24}"
-  START=96
 
-  CURRENT=$START
+  # Current size is whatever the cursor is now (likely 96 from press)
+  CURRENT=96
 
   while [ "$CURRENT" -gt "$TARGET" ]; do
     CURRENT=$((CURRENT - STEP))
@@ -14,6 +14,9 @@ pkgs.writeShellScriptBin "locate-cursor-release" ''
       CURRENT=$TARGET
     fi
     hyprctl setcursor "$THEME" "$CURRENT" > /dev/null 2>&1
-    sleep 0.02
+    sleep 0.015
   done
+
+  # Make sure we land exactly on target
+  hyprctl setcursor "$THEME" "$TARGET" > /dev/null 2>&1
 ''
