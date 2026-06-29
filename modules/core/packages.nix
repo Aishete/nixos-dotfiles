@@ -10,7 +10,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
   environment.systemPackages = with pkgs; [
     killall # For Killing All Instances Of Programs
     lm_sensors # Used For Getting Hardware Temps
@@ -25,12 +24,12 @@
     kdePackages.qtmultimedia # Sddm Dependency
     kdePackages.qtvirtualkeyboard # Sddm Dependency
     fzf # Fuzzy Finder
-    fd # Better Find
+    fd # Better find
     git # Git
     zoxide # Fast directory jumping (z/cd replacement)
     gh # Github Authentication Client
     libjxl # Support for JXL Images
-    microfetch # Small fetch (Blazingly fast)
+    microfetch # Great little fetch program
     nix-prefetch-scripts # Find Hashes/Revisions of Nix Packages
     ripgrep # Improved Grep
     tldr # Improved Man
@@ -44,34 +43,34 @@
     libxkbcommon
     nixd
     # cowsay # Great Fun Terminal Program
-    # duf # Utility For Viewing Disk Usage In Terminal
+    # duf # Utility For Displaying Disk Usage Information
     # dysk # Disk space util nice formattting
-    # ffmpeg # Terminal Video / Audio Editing
+    # ffmpeg # Incredible Video Player / Editing
     # gemini-cli # CLI AI client ONLY (optional)
     # glxinfo # needed for inxi diag util
     # inxi # CLI System Information Tool
     # libsForQt5.qt5.qtgraphicaleffects # Sddm Dependency (Old)
     # libnotify # For Notifications
-    # lolcat # Add Colors To Your Terminal Command Output
+    # lolcat # Add Colors To Terminal Text
     # lshw # Detailed Hardware Information
     # mpv # Incredible Video Player
     # ncdu # Disk Usage Analyzer With Ncurses Interface
     # nixfmt-rfc-style # Nix Formatter
     # nwg-displays # configure monitor configs via GUI
-    # onefetch # provides zsaneyos build info on current system
+    # onefetch # provides zsaneyos build information
     # pavucontrol # For Editing Audio Levels & Devices
-    # pciutils # Collection Of Tools For Inspecting PCI Devices
-    # picard # For Changing Music Metadata & Getting Cover Art
-    # pkg-config # Wrapper Script For Allowing Packages To Get Info On Others
+    # pciutils # Collection Of Tools for Inspecting PCI Devices
+    # picard # Change Metadata For Your Audio Files
+    # pkg-config # Wrapper Script For Allowing Packages To Get Info About Other Packages
     # rhythmbox # audio player
     # socat # Needed For Screenshots
-    # usbutils # Good Tools For USB Devices
+    # usbutils # Good Tools for USB Devices
     # uwsm # Universal Wayland Session Manager (optional must be enabled)
-    # v4l-utils # Used For Things Like OBS Virtual Camera
+    # v4l-utils # Good For OBS Virtual Camera
     # warp-terminal # Terminal with AI support build in
     # waypaper # Change wallpaper
-    # wget # Tool For Fetching Files With Links
-    # ytmdl # Tool For Downloading Audio From YouTube
+    # wget # Useful Network retriever
+    # ytmdl # Download Music From Youtube
 
     # devenv
     # devbox

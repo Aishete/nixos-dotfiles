@@ -13,8 +13,7 @@
 
   # Default Applications
   terminal = "kitty"; # kitty, alacritty
-  editor = "doom-emacs"; # nixvim, vscode, helix, doom-emacs, nvchad, neovim (primary)
-  extraEditors = ["helix"]; # Additional editors to install alongside the primary
+  editor = "helix"; # nixvim, vscode, helix, doom-emacs, nvchad, neovim (primary)
   browser = "firefox"; # zen-beta, firefox, floorp
   tuiFileManager = "yazi"; # yazi, lf
   shell = "zsh"; # zsh, bash
@@ -30,7 +29,7 @@
   timezone = "Asia/Phnom_Penh";
   locale = "en_US.UTF-8";
   clock24h = false;
-  kbdLayout = "us";
-  kbdVariant = "";
+  kbdLayout = "us,kh";
+  kbdVariant = ",";
   consoleKeymap = "us";
 }

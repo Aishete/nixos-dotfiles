@@ -5,12 +5,12 @@
     opencode
     teams-for-linux
     telegram-desktop
-    blanket
     gimp
     chromium
     libreoffice
     qbittorrent
     rapidraw
+    ghostty
     zed-editor
   ];
 }

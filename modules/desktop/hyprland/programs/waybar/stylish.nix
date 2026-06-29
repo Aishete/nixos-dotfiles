@@ -548,7 +548,7 @@ in
         ];
         style = ''
           * {
-              font-family: "0xProto Nerd Font";
+              font-family: "JetBrainsMono Nerd Font";
               font-weight: bold;
               font-size: 16px;
               color: @main-fg;

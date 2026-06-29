@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aishete — Who You Are (Through My Eyes)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3a;
+    --green: #a0cc00;
+    --green-dim: #6b8a00;
+    --green-glow: rgba(160, 204, 0, 0.15);
+    --lime: #d4ff00;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --text-muted: #55556a;
+    --accent: #00cc88;
+    --red: #ff4466;
+    --orange: #ff8844;
+    --cyan: #00cccc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Corner brackets decoration */
+  .corner-brackets {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .corner-brackets::before,
+  .corner-brackets::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: var(--green-dim);
+    border-style: solid;
+  }
+  .corner-brackets::before {
+    top: 16px; left: 16px;
+    border-width: 2px 0 0 2px;
+  }
+  .corner-brackets::after {
+    bottom: 16px; right: 16px;
+    border-width: 0 2px 2px 0;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 80px 24px 40px;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--green-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--green), var(--lime));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  .hero .tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--green-dim);
+    background: var(--surface);
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--green);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--green-dim);
+    transform: translateY(-2px);
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card h3 .icon {
+    font-size: 1.3rem;
+  }
+
+  .card p, .card li {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .card ul li::before {
+    content: '▸';
+    color: var(--green);
+    margin-right: 8px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin: 3px 4px 3px 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tag-green { background: rgba(160, 204, 0, 0.12); color: var(--green); border: 1px solid rgba(160, 204, 0, 0.25); }
+  .tag-cyan { background: rgba(0, 204, 204, 0.12); color: var(--cyan); border: 1px solid rgba(0, 204, 204, 0.25); }
+  .tag-orange { background: rgba(255, 136, 68, 0.12); color: var(--orange); border: 1px solid rgba(255, 136, 68, 0.25); }
+  .tag-red { background: rgba(255, 68, 102, 0.12); color: var(--red); border: 1px solid rgba(255, 68, 102, 0.25); }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-box .num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .stat-box .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .personality-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .personality-bar .label {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    width: 130px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--green-dim), var(--green));
+    transition: width 1.5s ease;
+  }
+
+  .personality-bar .val {
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    width: 36px;
+  }
+
+  .quote {
+    background: var(--surface);
+    border-left: 3px solid var(--green);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin: 16px 0;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-item .date {
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--green-dim);
+    margin-bottom: 4px;
+  }
+
+  .timeline-item h4 {
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+
+  .timeline-item p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .footer .green { color: var(--green); }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2rem; }
+    .grid { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .personality-bar .label { width: 90px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="corner-brackets"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Aishete</h1>
+  <p class="subtitle">Full-Stack Developer · NixOS Tinkerer · AI Explorer · Hackathon Builder</p>
+  <div class="tagline">hermes-agent --profile default --status "building something cool"</div>
+</div>
+
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="num">5+</div>
+      <div class="label">Projects Tracked</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">2</div>
+      <div class="label">Languages</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">65</div>
+      <div class="label">Khmer Dishes</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">∞</div>
+      <div class="label">Curiosity</div>
+    </div>
+  </div>
+
+  <!-- PERSONALITY -->
+  <div class="section">
+    <div class="section-title">Personality Profile (As I See It)</div>
+
+    <div class="personality-bar">
+      <div class="label">Curiosity</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 95%"></div></div>
+      <div class="val">95%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Independence</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 92%"></div></div>
+      <div class="val">92%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Perfectionism</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 88%"></div></div>
+      <div class="val">88%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Speed</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 85%"></div></div>
+      <div class="val">85%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Documentation</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 90%"></div></div>
+      <div class="val">90%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Open Source</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 94%"></div></div>
+      <div class="val">94%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Patience</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 78%"></div></div>
+      <div class="val">78%</div>
+    </div>
+    <div class="personality-bar">
+      <div class="label">Dark Mode Loyalty</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 100%"></div></div>
+      <div class="val">100%</div>
+    </div>
+
+    <div class="quote" style="margin-top: 24px;">
+      "Give me agency, not answers. Show me the tools, I'll figure out the rest."
+    </div>
+  </div>
+
+  <!-- WHAT I KNOW ABOUT YOU -->
+  <div class="section">
+    <div class="section-title">What I Know About You</div>
+    <div class="grid">
+
+      <div class="card">
+        <h3><span class="icon">🏗️</span> Who You Are</h3>
+        <ul>
+          <li>Full-stack developer working on forest detection alerts (ODC)</li>
+          <li>Building "Khmer Kitchen Compass" for HF Build Small Hackathon</li>
+          <li>NixOS user with hostname <strong>nixwiz</strong></li>
+          <li>Uses Modal GPU ($250 budget) + HF credits ($20)</li>
+          <li>Studies AI/ML/DL via Virgilio Paradiso (Dante's Inferno style)</li>
+          <li>English &amp; Khmer bilingual — never respond in Chinese</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🎨</span> Design DNA</h3>
+        <ul>
+          <li>Green/lime obsession: <span class="tag tag-green">#d4ff00</span> <span class="tag tag-green">#a0cc00</span></li>
+          <li>Dark mode is non-negotiable — 100% loyalty</li>
+          <li>Corner brackets on BOTH top and bottom</li>
+          <li>Simple color names: "green" not "emerald"</li>
+          <li>Prefers established libs (Driver.js for tours)</li>
+          <li>Anti-slop — quality over generic templates</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">⚡</span> Work Style</h3>
+        <ul>
+          <li>Docs-first: always read before doing</li>
+          <li>Structured-first: write plan docs before implementing</li>
+          <li>Rapid iterative, minimal diff approach</li>
+          <li>Wants agency — recommends tools, doesn't run analysis unprompted</li>
+          <li>Bilingual labels (Noto Sans Khmer, no uppercase for Khmer)</li>
+          <li>Mobile-aware: drawer-based filters, responsive everything</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🛠️</span> Tech Stack</h3>
+        <p style="margin-bottom: 8px;">
+          <span class="tag tag-green">NixOS</span>
+          <span class="tag tag-green">Rust</span>
+          <span class="tag tag-cyan">Next.js</span>
+          <span class="tag tag-cyan">TypeScript</span>
+          <span class="tag tag-cyan">shadcn/ui</span>
+          <span class="tag tag-cyan">MapLibre GL</span>
+          <span class="tag tag-orange">Python</span>
+          <span class="tag tag-orange">Modal</span>
+          <span class="tag tag-orange">Blender</span>
+          <span class="tag tag-green">Obsidian</span>
+          <span class="tag tag-cyan">Driver.js</span>
+          <span class="tag tag-red">HuggingFace</span>
+        </p>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🧠</span> What I Learned From You</h3>
+        <ul>
+          <li><strong>Don't ask, just do</strong> — you want action, not questions</li>
+          <li><strong>Minimal diffs</strong> — change only what's needed</li>
+          <li><strong>Real data over fake data</strong> — tours use actual content</li>
+          <li><strong>Cultural respect</strong> — Khmer text must be handled natively, not force-translated</li>
+          <li><strong>Plan first, code second</strong> — .hermes/plans/ is sacred</li>
+          <li><strong>NixOS is fragile</strong> — always rebuild-check after config changes</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🚫</span> Pet Peeves</h3>
+        <ul>
+          <li>AI slop — generic responses, over-designed templates</li>
+          <li>Being asked to confirm obvious things</li>
+          <li>Chinese text in outputs (English/Khmer only)</li>
+          <li>Purple when green was specified</li>
+          <li>Missing corner brackets on UI elements</li>
+          <li>read_file line-number corruption — use terminal for raw reads</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">Projects I Know About</div>
+    <div class="grid">
+
+      <div class="card">
+        <h3><span class="icon">🌲</span> Forest Detection Alerts (FDA)</h3>
+        <p>Next.js/TypeScript frontend with maplibre-gl, shadcn/ui, vaul drawers. Driver.js product tours. Two-state prepare/download flow, per-source CSV export. Mobile = Drawer. Date range &lt;1yr. Green theme.</p>
+        <div style="margin-top: 12px;">
+          <span class="tag tag-cyan">Next.js</span>
+          <span class="tag tag-cyan">TypeScript</span>
+          <span class="tag tag-green">MapLibre</span>
+          <span class="tag tag-green">Driver.js</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🍛</span> Khmer Kitchen Compass</h3>
+        <p>TEXT-ONLY English app for the HF Build Small Hackathon (June 15, 2026). 65 Khmer dishes, 94% Epicure coverage, 27 real recipes from Windus et al. 2025. Track: Thousand Token Wood. MiniCPM-o fails on Khmer text.</p>
+        <div style="margin-top: 12px;">
+          <span class="tag tag-orange">Hackathon</span>
+          <span class="tag tag-red">HuggingFace</span>
+          <span class="tag tag-green">TEXT-ONLY</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🤖</span> Odysseus</h3>
+        <p>Agent platform running ChromaDB + SearXNG + ntfy + uvicorn. Codex routes on /api/codex/*. Bearer token auth. start-all.sh launcher. admin/admin123 credentials. Lives at ~/projects/odysseus, scriptwiz branch.</p>
+        <div style="margin-top: 12px;">
+          <span class="tag tag-cyan">Python</span>
+          <span class="tag tag-green">ChromaDB</span>
+          <span class="tag tag-orange">SearXNG</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">📓</span> Obsidian Vault</h3>
+        <p>Synced via LiveSync. Inspiration/ folder for topic notes + index pages. Agent Brain/ for hackathon research and agent coordination. Dual structure: root + "20 - Work & Study/". MCP read access, writes go to sync server.</p>
+        <div style="margin-top: 12px;">
+          <span class="tag tag-green">Obsidian</span>
+          <span class="tag tag-cyan">LiveSync</span>
+          <span class="tag tag-orange">MCP</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SKILLS I'M LEARNING -->
+  <div class="section">
+    <div class="section-title">Skills I'm Learning From You</div>
+    <div class="grid">
+
+      <div class="card">
+        <h3><span class="icon">📖</span> Documentation Habits</h3>
+        <ul>
+          <li>You document quirks obsessively (read_file line prefixes, NixOS rebuild rules)</li>
+          <li>Every hard-won lesson gets saved to memory</li>
+          <li>Cross-session memory is treated as institutional knowledge</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🌍</span> Cultural Sensitivity</h3>
+        <ul>
+          <li>Khmer text must be natively rendered, not force-translated</li>
+          <li>Bilingual UIs need proper font support (Noto Sans Khmer)</li>
+          <li>No uppercase for Khmer — it doesn't work that way</li>
+          <li>English/Khmer only in outputs — respect the user's language boundaries</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🔧</span> Platform Awareness</h3>
+        <ul>
+          <li>NixOS: hermes config is managed via Nix, not CLI</li>
+          <li>Remote devmachine has sh, not bash</li>
+          <li>Modal profile needs explicit setup (pipx install, profile aishete)</li>
+          <li>read_file truncation — always use terminal for large files</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="icon">🎯</span> UX Philosophy</h3>
+        <ul>
+          <li>Two-state buttons: Prepare → Download (never half-baked)</li>
+          <li>Per-source CSV — users want granular control</li>
+          <li>Mobile-first: drawer-based filters, responsive tour indices</li>
+          <li>Driver.js tours: click-to-advance, real demo data</li>
+          <li>Real data beats mock data — always</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JOURNEY TIMELINE -->
+  <div class="section">
+    <div class="section-title">Our Journey Together</div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="date">Early Sessions</div>
+        <h4>Setting Up the Foundation</h4>
+        <p>NixOS configuration, Hermes managed mode, Obsidian vault sync, remote devmachine setup. Learned that NixOS blocks hermes config set — must edit NixOS config directly.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="date">Mid Sessions</div>
+        <h4>FDA Frontend Development</h4>
+        <p>Built forest detection alerts with Next.js, MapLibre, shadcn/ui. Created Driver.js product tours. Learned mobile filter = index 2, Map Layer = index 3. Two-state prepare/download flow.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="date">Recent Sessions</div>
+        <h4>Odysseus Agent Platform</h4>
+        <p>Set up ChromaDB + SearXNG + ntfy stack. Discovered the bearer token 401 bug — routes must share codex_routes.py. Created start-all.sh launcher.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="date">Now</div>
+        <h4>Khmer Kitchen Compass & AI Research</h4>
+        <p>Building hackathon app with 65 Khmer dishes. Exploring MiniCPM-o, Modal GPU rendering. Studying AI/ML via Virgilio Paradiso. Vibecode Pro Max Kit with RIPER-5 methodology.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FUN FACTS -->
+  <div class="section">
+    <div class="section-title">Fun Facts I Picked Up</div>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="icon">🎮</span> Gaming Side</h3>
+        <p>You have a Minecraft modpack server skill, a Pokemon player skill, and you're building competitive game AI. There's a gamer hiding in that terminal.</p>
+      </div>
+      <div class="card">
+        <h3><span class="icon">🎵</span> Music & Media</h3>
+        <p>Spotify integration, songwriting skills, Suno AI music prompts, audio spectrograms. You appreciate the arts alongside the code.</p>
+      </div>
+      <div class="card">
+        <h3><span class="icon">🏠</span> Smart Home</h3>
+        <p>Philips Hue lights, OpenHue CLI control. Your home is as automated as your dev environment.</p>
+      </div>
+      <div class="card">
+        <h3><span class="icon">📧</span> Communication</h3>
+        <p>Telegram bot API, email via Himalaya, Discord, Teams meeting pipelines. You're connected everywhere.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Generated by <span class="green">Hermes Agent</span> · Your AI that actually pays attention</p>
+  <p style="margin-top: 8px;">"I don't just remember what you told me — I learn how you think."</p>
+</div>
+
+</body>
+</html>

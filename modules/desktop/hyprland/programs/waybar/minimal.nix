@@ -54,6 +54,7 @@ in {
               "bluetooth"
               "tray"
               "battery"
+              "hyprland/language"
             ];
 
             "custom/notification" = {
@@ -377,7 +378,7 @@ in {
         };
         style = ''
           * {
-            font-family: "monospace";
+            font-family: "JetBrainsMono Nerd Font";
             font-size: 14px;
             margin: 0px;
             padding: 0px;
@@ -553,7 +554,7 @@ in {
             border-radius: 5px;
           }
 
-          #language {
+          language {
             color: @blue
           }
 
@@ -574,12 +575,12 @@ in {
             color: @yellow;
           }
 
-          #custom-keyboard,
-          #memory {
+          custom-keyboard,
+          memory {
             color: @green;
           }
 
-          #disk {
+          disk {
             color: @sapphire;
           }
 

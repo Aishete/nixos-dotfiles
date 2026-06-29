@@ -46,7 +46,11 @@
       #   enable = true;
       #   configPackages = [
       #     (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/11-bluetooth-policy.conf" ''
-      #       bluetooth.autoswitch-to-headset-profile = false
+      #       context.modules = [
+      #         { name = "libpipewire-module-bluetooth-policy"
+      #           args = { policy.bluetooth.autoswitch-to-headset-profile = false; }
+      #         }
+      #       ]
       #     '')
       #   ];
       # };
@@ -67,7 +71,6 @@
               pulse.default.req = "256/48000";
               pulse.max.req = "256/48000";
               pulse.min.quantum = "256/48000";
-              pulse.max.quantum = "256/48000";
             };
           }
         ];
