@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, host, ... }:
+let
+  inherit (import ../../../../hosts/${host}/variables.nix) monospaceFont;
+in
 {
   home-manager.sharedModules = [
     (_: {
@@ -6,7 +9,7 @@
         enable = true;
         font = {
           size = 12.0;
-          name = "monospace";
+          name = monospaceFont;
         };
         themeFile = "Catppuccin-Mocha";
         settings = {
