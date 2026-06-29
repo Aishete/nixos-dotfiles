@@ -50,11 +50,11 @@ in {
               "memory"
               "backlight"
               "pulseaudio"
+              "hyprland/language"
               "network"
               "bluetooth"
               "tray"
               "battery"
-              "hyprland/language"
             ];
 
             "custom/notification" = {
