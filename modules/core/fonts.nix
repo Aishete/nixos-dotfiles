@@ -36,4 +36,30 @@ in
       };
     };
   };
+
+  # Also configure home-manager fontconfig so apps pick up the defaults
+  home-manager.sharedModules = [
+    {
+      fonts.fontconfig = {
+        enable = true;
+        defaultFonts = {
+          monospace = [
+            monospaceFont
+            "Maple Mono NF"
+            "Noto Mono"
+            "DejaVu Sans Mono"
+          ];
+          sansSerif = [
+            "Noto Sans"
+            "DejaVu Sans"
+          ];
+          serif = [
+            "Noto Serif"
+            "DejaVu Serif"
+          ];
+          emoji = [ "Noto Color Emoji" ];
+        };
+      };
+    }
+  ];
 }
