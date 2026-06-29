@@ -1,6 +1,6 @@
 { host, pkgs, ... }:
 let
-  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h terminal;
+  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h terminal monospaceFont;
   gpuinfo = pkgs.callPackage ../../scripts/gpuinfo.nix { };
 in
 {
@@ -548,7 +548,7 @@ in
         ];
         style = ''
           * {
-              font-family: "JetBrainsMono Nerd Font";
+              font-family: "${monospaceFont}";
               font-weight: bold;
               font-size: 16px;
               color: @main-fg;
@@ -846,3 +846,4 @@ in
     })
   ];
 }
+

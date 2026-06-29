@@ -5,6 +5,7 @@
   desktop = "hyprland"; # hyprland, i3, gnome, plasma6
 
   # Theme & Appearance
+  monospaceFont = "JetBrainsMono Nerd Font"; # JetBrainsMono Nerd Font, Maple Mono NF, 0xProto Nerd Font
   bar = "waybar"; # waybar, hyprpanel, noctalia
   waybarTheme = "minimal"; # stylish, minimal
   sddmTheme = "jake_the_dog"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath

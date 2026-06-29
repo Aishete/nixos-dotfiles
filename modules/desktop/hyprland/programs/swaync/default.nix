@@ -1,5 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, host, ... }:
 let
+  inherit (import ../../../../../hosts/${host}/variables.nix) monospaceFont;
   gamemode = pkgs.callPackage ../../scripts/gamemode.nix { };
   togglepowermode = pkgs.callPackage ../../scripts/togglepowermode.nix { };
 in
@@ -238,7 +239,7 @@ in
           @define-color mauve_lighter #caa6f7;
 
           * {
-            font-family: "JetBrainsMono NFM SemiBold", monospace;
+            font-family: "${monospaceFont}", monospace;
             border-radius: 8px;
           }
 

@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, host, ... }:
+let
+  inherit (import ../../hosts/${host}/variables.nix) monospaceFont;
+in
 {
   fonts = {
     fontDir.enable = true;
@@ -16,7 +19,7 @@
       antialias = true;
       defaultFonts = {
         monospace = [
-          "JetBrainsMono Nerd Font"
+          monospaceFont
           "Maple Mono NF"
           "Noto Mono"
           "DejaVu Sans Mono" # Default

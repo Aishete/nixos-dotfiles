@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h;
+  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h monospaceFont;
   gpuinfo = pkgs.callPackage ../../scripts/gpuinfo.nix {};
   keyboardswitch = pkgs.callPackage ../../scripts/keyboardswitch.nix {};
   waybarcava = pkgs.callPackage ../../scripts/waybarcava.nix {};
@@ -378,7 +378,7 @@ in {
         };
         style = ''
           * {
-            font-family: "JetBrainsMono Nerd Font";
+            font-family: "${monospaceFont}";
             font-size: 14px;
             margin: 0px;
             padding: 0px;
