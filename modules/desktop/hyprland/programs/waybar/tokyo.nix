@@ -41,14 +41,18 @@ in {
 
           modules-left = [
             "hyprland/workspaces"
-            "custom/cpucat"
+            "custom/sep"
+            "hyprland/window"
           ];
           modules-center = [
+            "custom/cpucat"
             "clock"
           ];
           modules-right = [
             "wireplumber"
             "backlight"
+            "bluetooth"
+            "network"
             "battery"
             "mpris"
             "clock#date"
@@ -60,6 +64,25 @@ in {
             format = "{name}";
             on-click = "activate";
             sort-by-number = true;
+          };
+
+          "custom/sep" = {
+            format = "";
+            tooltip = false;
+            interval = "once";
+          };
+
+          "hyprland/window" = {
+            format = "{}";
+            rewrite = {
+              "" = "Desktop";
+              "kitty" = "Terminal";
+              "zsh" = "Terminal";
+              "~" = "Terminal";
+            };
+            icon = true;
+            separate-outputs = true;
+            max-length = 60;
           };
 
           "custom/cpucat" = {
@@ -111,6 +134,29 @@ in {
               headphones = "󰋋";
               headset = "󰋎";
             };
+          };
+
+          "bluetooth" = {
+            format = "";
+            format-connected = " {num_connections}";
+            tooltip-format = " {device_alias}";
+            tooltip-format-connected = "{device_enumerate}";
+            tooltip-format-enumerate-connected = " {device_alias}";
+            on-click = "blueman-manager";
+          };
+
+          "network" = {
+            format-wifi = "󰤨";
+            format-ethernet = "󰈀";
+            format-disconnected = "󰤯";
+            format-disabled = "󰤮";
+            format-icons = ["󰤟" "󰤢" "󰤥" "󰤨"];
+            on-click = "nm-connection-editor";
+            tooltip-format = "Gateway: {gwaddr}";
+            tooltip-format-wifi = "Network: {essid}\nIP: {ipaddr}/{cidr}\nStrength: {signalStrength}%";
+            tooltip-format-ethernet = "Interface: {ifname}";
+            tooltip-format-disconnected = "Wi-Fi Disconnected";
+            tooltip-format-disabled = "Wi-Fi Disabled";
           };
 
           "backlight" = {
@@ -231,6 +277,36 @@ in {
 
         #workspaces button.urgent {
           background: ${palette.muted};
+        }
+
+        #window {
+          font-weight: 700;
+          padding: 0 4px;
+          color: ${palette.fg0};
+        }
+
+        #custom-sep {
+          color: ${palette.surface2};
+          font-size: 10px;
+          padding: 0 2px;
+        }
+
+        #bluetooth {
+          padding: 0 4px;
+        }
+
+        #bluetooth.disabled,
+        #bluetooth.off {
+          opacity: 0.4;
+        }
+
+        #network {
+          padding: 0 4px;
+        }
+
+        #network.disconnected,
+        #network.disabled {
+          opacity: 0.4;
         }
 
         #mpris {
