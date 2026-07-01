@@ -250,6 +250,10 @@ in {
               "ignore_alpha 0.7, match:namespace swaync-control-center"
               "ignore_alpha 0.8, match:namespace swaync-notification-window"
               # "dim_around on, match:namespace swaync-control-center"
+
+              # Waybar (tokyo theme)
+              "blur on, match:namespace waybar"
+              "ignore_alpha 0.75, match:namespace waybar"
             ];
             animations = {
               enabled = true;

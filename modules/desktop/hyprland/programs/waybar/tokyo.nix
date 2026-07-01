@@ -252,7 +252,7 @@ in {
         }
 
         window#waybar {
-          background: ${palette.bg0};
+          background: rgba(20, 18, 33, 0.75);
           border-radius: 0;
           margin: 0;
           padding: 0;
