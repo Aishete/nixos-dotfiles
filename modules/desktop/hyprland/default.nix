@@ -24,6 +24,7 @@
   batterynotify = pkgs.callPackage ./scripts/batterynotify.nix {};
   clipmanager = pkgs.callPackage ./scripts/clipmanager.nix {};
   gamemode = pkgs.callPackage ./scripts/gamemode.nix {};
+  gapstoggle = pkgs.callPackage ./scripts/gaps-toggle.nix {};
   keyboardswitch = pkgs.callPackage ./scripts/keyboardswitch.nix {};
   keybinds-yad = pkgs.callPackage ./scripts/keybinds-yad.nix {};
   # keybinds-rofi = pkgs.callPackage ./scripts/keybinds-yad.nix { };
@@ -484,6 +485,7 @@ in {
                 "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
                 "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
                 "$mainMod ALT, G, exec, ${getExe gamemode}" # disable hypr effects for gamemode
+                "$mainMod CTRL, G, exec, ${getExe gapstoggle}" # cycle gap presets
                 "$mainMod SHIFT, M, exec, ${getExe presentation-mirror}" # presentation mirror (toggle wl-mirror)
                 "$mainMod, V, exec, ${getExe clipmanager}" # Clipboard Manager
                 "$mainMod, M, exec, ${getExe rofimusic}" # online music
