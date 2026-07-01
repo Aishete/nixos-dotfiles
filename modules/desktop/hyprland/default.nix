@@ -15,6 +15,7 @@
     kbdLayout
     kbdVariant
     defaultWallpaper
+    gapsStyle
     ;
 
   # Import script modules
@@ -33,6 +34,14 @@
   wallpaper = pkgs.callPackage ./scripts/wallpaper.nix {inherit defaultWallpaper;};
   zoom = pkgs.callPackage ./scripts/zoom.nix {};
   presentation-mirror = pkgs.callPackage ./scripts/presentation-mirror.nix {};
+
+  # Gap presets
+  gaps = {
+    compact  = { gaps_in = 1; gaps_out = 4; };
+    normal   = { gaps_in = 4; gaps_out = 5; };  # Zeibytes-style
+    spacious = { gaps_in = 8; gaps_out = 12; };
+  };
+  selectedGaps = gaps.${gapsStyle} or gaps.compact;
 in {
   imports =
     [
@@ -190,8 +199,8 @@ in {
               force_no_accel = true;
             };
             general = {
-              gaps_in = 1;
-              gaps_out = 4;
+              gaps_in = selectedGaps.gaps_in;
+              gaps_out = selectedGaps.gaps_out;
               border_size = 2;
               "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
               "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";

@@ -8,6 +8,7 @@
   bar = "waybar"; # waybar, hyprpanel, noctalia
   waybarTheme = "minimal"; # stylish, minimal
   rofiColorTheme = "catppuccin"; # catppuccin, zeibytes (or any .rasi in rofi/colors/)
+  gapsStyle = "compact"; # compact (1/4), normal (4/5), spacious (8/12)
   sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
   defaultWallpaper = "galaxy.webp"; # Change with SUPER + SHIFT + W (Hyprland)
   hyprlockWallpaper = "galaxy.webp";
