@@ -1,0 +1,13 @@
+/**
+ * Zeibytes Tokyo Night — from most-racist-rice
+ * Purple accent (#C4A7E7) on deep navy (#141221)
+ **/
+
+* {
+    background:     #141221FF;
+    background-alt: #1B1D2EFF;
+    foreground:     #CDD6F4FF;
+    selected:       #C4A7E7FF;
+    active:         #A6E3A1FF;
+    urgent:         #F38BA8FF;
+}

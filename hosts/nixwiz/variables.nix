@@ -5,9 +5,10 @@
   desktop = "hyprland"; # hyprland, i3, gnome, plasma6
 
   # Theme & Appearance
-  monospaceFont = "JetBrainsMono Nerd Font"; # JetBrainsMono Nerd Font, Maple Mono NF, 0xProto Nerd Font
+  monospaceFont = "Iosevka Nerd Font"; # JetBrainsMono Nerd Font, Maple Mono NF, 0xProto Nerd Font
   bar = "waybar"; # waybar, hyprpanel, noctalia
-  waybarTheme = "minimal"; # stylish, minimal
+  waybarTheme = "tokyo"; # stylish, minimal, tokyo
+  rofiColorTheme = "zeibytes"; # catppuccin, zeibytes (or any .rasi in rofi/colors/)
   sddmTheme = "jake_the_dog"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
   defaultWallpaper = "galaxy.webp"; # Change with SUPER + SHIFT + W (Hyprland)
   hyprlockWallpaper = "galaxy.webp";
@@ -15,7 +16,7 @@
   # Default Applications
   terminal = "kitty"; # kitty, alacritty
   editor = "helix"; # nixvim, vscode, helix, doom-emacs, nvchad, neovim (primary)
-  extraEditors = [ "doom-emacs" ];
+  extraEditors = ["doom-emacs"];
   browser = "firefox"; # zen-beta, firefox, floorp
   tuiFileManager = "yazi"; # yazi, lf
   shell = "zsh"; # zsh, bash

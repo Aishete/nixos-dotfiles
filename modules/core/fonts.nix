@@ -9,6 +9,7 @@ in
       # Nerd Fonts
       maple-mono.NF
       pkgs.nerd-fonts.jetbrains-mono
+      pkgs.nerd-fonts.iosevka
 
       # Normal Fonts
       noto-fonts
@@ -19,6 +20,7 @@ in
       antialias = true;
       defaultFonts = {
         monospace = [
+          "Iosevka Nerd Font"
           monospaceFont
           "Maple Mono NF"
           "Noto Mono"
@@ -44,6 +46,7 @@ in
         enable = true;
         defaultFonts = {
           monospace = [
+            "Iosevka Nerd Font"
             monospaceFont
             "Maple Mono NF"
             "Noto Mono"
