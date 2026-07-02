@@ -104,6 +104,8 @@ in {
               format = "{}";
               interval = 5;
               tooltip = true;
+              on-click = "rofi -show drun";
+              on-click-right = "rofi -show window";
             };
 
             "cpu" = {
@@ -416,7 +418,7 @@ in {
             padding-left: 5px;
             padding-right: 8px;
           }
-          #notification {
+          #custom-notification {
             padding: 0px 2px;
           }
 
