@@ -22,6 +22,8 @@
   keyboardswitch = pkgs.callPackage ../../scripts/keyboardswitch.nix {};
   backgroundApps = pkgs.callPackage ../../scripts/background-apps.nix {};
   backgroundAppsMenu = pkgs.callPackage ../../scripts/background-apps-menu.nix {};
+  dockerStatus = pkgs.callPackage ../../scripts/docker-status.nix {};
+  dockerMenu = pkgs.callPackage ../../scripts/docker-menu.nix {};
 in {
   home-manager.sharedModules = [
     (_: {
@@ -53,6 +55,7 @@ in {
               "custom/sep"
               "hyprland/window"
               "custom/background-apps"
+              "custom/docker"
               "cpu"
               "memory"
               "custom/gpuinfo"
@@ -107,6 +110,16 @@ in {
               tooltip = true;
               on-click = "rofi -show drun";
               on-click-right = "${backgroundAppsMenu}/bin/background-apps-menu";
+            };
+
+            "custom/docker" = {
+              exec = "${dockerStatus}/bin/docker-status";
+              exec-if = "test -x ${dockerStatus}/bin/docker-status";
+              return-type = "json";
+              format = "{}";
+              interval = 10;
+              tooltip = true;
+              on-click = "${dockerMenu}/bin/docker-menu";
             };
 
             "cpu" = {
@@ -396,6 +409,19 @@ in {
             color: ${palette.green};
           }
 
+          #custom-docker {
+            padding: 0 4px;
+            color: ${palette.fg0};
+          }
+
+          #custom-docker.active {
+            color: ${palette.blue};
+          }
+
+          #custom-docker.stopped {
+            color: ${palette.muted};
+          }
+
           /* RIGHT SIDE STATES */
           #battery.warning {
             background: rgba(246, 193, 119, 0.15);
@@ -420,7 +446,7 @@ in {
             padding-right: 8px;
           }
           #custom-notification {
-            padding: 0px 2px;
+            padding: 0px 8px;
           }
 
           /* TOOLTIP */

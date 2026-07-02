@@ -1,7 +1,7 @@
 { pkgs, ... }:
 pkgs.writeShellScriptBin "background-apps-menu" ''
   # Right-click menu for background apps
-  # Shows running apps with options: Focus, Close
+  # Shows running apps with options: Focus, Close, Kill
 
   apps=()
   pids=()
@@ -39,8 +39,11 @@ pkgs.writeShellScriptBin "background-apps-menu" ''
   done
   menu+="---\n󰆋 Close All"
 
+  # Tokyo Night rofi theme
+  rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/type-4/style-4.rasi"
+
   # Show rofi menu
-  chosen=$(echo -e "$menu" | rofi -dmenu -p "Background Apps" -theme str 'window {width: 350px;}')
+  chosen=$(echo -e "$menu" | rofi -dmenu -i -p "Background Apps" -config "$rofi_theme" -theme-str 'window {width: 350px;}')
 
   if [ -z "$chosen" ]; then
     exit 0
@@ -67,9 +70,9 @@ pkgs.writeShellScriptBin "background-apps-menu" ''
   done
 
   # Show action menu for selected app
-  action=$(echo -e "󰋋 Focus\n󰅖 Close\n󰏗 Kill" | rofi -dmenu -p "$app_name")
+  action=$(echo -e "󰋋 Focus\n󰅖 Close\n󰏗 Kill" | rofi -dmenu -i -p "$app_name" -config "$rofi_theme")
 
-  case "$action"
+  case "$action" in
     *"Focus"*)
       # Try to focus the window
       hyprctl dispatch focuswindow "pid:$pid" 2>/dev/null
