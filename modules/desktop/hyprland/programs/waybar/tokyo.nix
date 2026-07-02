@@ -21,6 +21,7 @@
   gpuinfo = pkgs.callPackage ../../scripts/gpuinfo.nix {};
   keyboardswitch = pkgs.callPackage ../../scripts/keyboardswitch.nix {};
   backgroundApps = pkgs.callPackage ../../scripts/background-apps.nix {};
+  backgroundAppsMenu = pkgs.callPackage ../../scripts/background-apps-menu.nix {};
 in {
   home-manager.sharedModules = [
     (_: {
@@ -105,7 +106,7 @@ in {
               interval = 5;
               tooltip = true;
               on-click = "rofi -show drun";
-              on-click-right = "rofi -show window";
+              on-click-right = "${backgroundAppsMenu}/bin/background-apps-menu";
             };
 
             "cpu" = {

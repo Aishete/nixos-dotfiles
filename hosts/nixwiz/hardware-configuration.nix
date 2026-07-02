@@ -30,26 +30,6 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  fileSystems."/var/lib/docker/rootfs/overlayfs/b3d7cd571fe646a9c7f20c8cc22f38983cf70aadec3b6531b535f767fb02dbcf" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  fileSystems."/var/lib/docker/rootfs/overlayfs/5e7332fdcc34ebc796f025f422ef32a1373961d544cf3c5cc46989b6b5b6ae3c" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  fileSystems."/var/lib/docker/rootfs/overlayfs/f71287c56e03e0cd25a59311d3f87de8fa6182edcaf8d083e5001e3decd02690" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  fileSystems."/var/lib/docker/rootfs/overlayfs/05d089b0d0546181c92c9a950366a0cd94aabaea76428aab09fcc98aa4162aec" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/888ad3e3-40f4-476c-8991-aaec95b1e08d"; }
     ];
