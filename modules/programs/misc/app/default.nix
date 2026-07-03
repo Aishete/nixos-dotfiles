@@ -12,5 +12,7 @@
     rapidraw
     ghostty
     zed-editor
+    pgadmin4-desktopmode
+    qgis
   ];
 }
