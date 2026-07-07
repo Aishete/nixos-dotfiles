@@ -33,101 +33,96 @@ hl.layer_rule({
 	ignore_alpha = 0.75,
 })
 
--- Window rules - opacity
-hl.window_rule({ opacity = "1.0 1.0", match = { class = "^(firefox|Brave-browser|floorp|zen|zen-beta)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(Emacs)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(gcr-prompter)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { title = "^(Hyprland Polkit Agent)$" } })
-hl.window_rule({ opacity = "1.0 1.0", match = { class = "^(obsidian)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(proton.vpn.app.gtk)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(heroic)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(Lutris|lutris|net.lutris.Lutris)$" } })
+-- Window rules - opacity (string format: "active_strength inactive_strength")
+hl.window_rule({ match = { class = "^(firefox|Brave-browser|floorp|zen|zen-beta)$" }, opacity = "1.00 1.00" })
+hl.window_rule({ match = { class = "^(Emacs)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { class = "^(gcr-prompter)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { title = "^(Hyprland Polkit Agent)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { class = "^(obsidian)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { class = "^(proton.vpn.app.gtk)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { class = "^(heroic)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { class = "^(Lutris|lutris|net.lutris.Lutris)$" }, opacity = "0.90 0.80" })
 
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(kitty|alacritty|Alacritty|org.wezfurlong.wezterm|com.mitchellh.ghostty)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(nvim-wrapper)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(gnome-disks)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(org.gnome.Nautilus|Thunar|thunar|pcmanfm)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(thunar-volman-settings)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(org.gnome.FileRoller)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(io.github.ilya_zlobintsev.LACT)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(Steam|steam|steamwebhelper)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(Spotify|spotify|com.github.th_ch.youtube_music)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { title = "^(Kvantum Manager)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(VSCodium|codium-url-handler)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(code|code-url-handler)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(tuiFileManager)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(org.kde.dolphin)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(org.kde.ark)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(nwg-look)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(qt5ct|qt6ct)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(yad)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(gjs)$" } })
+hl.window_rule({ match = { class = "^(kitty|alacritty|Alacritty|org.wezfurlong.wezterm|com.mitchellh.ghostty)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(nvim-wrapper)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(gnome-disks)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(org.gnome.Nautilus|Thunar|thunar|pcmanfm)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(thunar-volman-settings)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(org.gnome.FileRoller)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(io.github.ilya_zlobintsev.LACT)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(Steam|steam|steamwebhelper)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(Spotify|spotify|com.github.th_ch.youtube_music)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { title = "^(Kvantum Manager)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(VSCodium|codium-url-handler)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(code|code-url-handler)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(tuiFileManager)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(org.kde.dolphin)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(org.kde.ark)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(nwg-look)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(qt5ct|qt6ct)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(qt5ct)$" }, float = true })
+hl.window_rule({ match = { class = "^(yad)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(gjs)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(com.github.tchx84.Flatseal)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(hu.kramo.Cartridges)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(com.obsproject.Studio)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(gnome-boxes)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(app.drey.Warp)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(net.davidotek.pupgui2)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(Signal)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(io.gitlab.theevilskeleton.Upscaler)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(com.github.rafostar.Clapper)$" }, opacity = "0.90 0.80", float = true })
 
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(discord)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(WebCord)$" } })
-hl.window_rule({ opacity = "0.9 0.8", match = { class = "^(com.github.rafostar.Clapper)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(com.github.tchx84.Flatseal)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(hu.kramo.Cartridges)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(com.obsproject.Studio)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(gnome-boxes)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(app.drey.Warp)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(net.davidotek.pupgui2)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(Signal)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(io.gitlab.theevilskeleton.Upscaler)$" } })
-
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(pavucontrol)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(org.pulseaudio.pavucontrol)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(blueman-manager)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(.blueman-manager-wrapped)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(nm-applet)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(nm-connection-editor)$" } })
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(org.kde.polkit-kde-authentication-agent-1)$" } })
+hl.window_rule({ match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(pavucontrol)$" }, float = true })
+hl.window_rule({ match = { class = "^(blueman-manager|.blueman-manager-wrapped)$" }, opacity = "0.80 0.70" })
+hl.window_rule({ match = { class = "^(blueman-manager)$" }, float = true })
+hl.window_rule({ match = { class = "^(.blueman-manager-wrapped)$" }, float = true })
+hl.window_rule({ match = { class = "^(nm-applet)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(nm-connection-editor)$" }, opacity = "0.80 0.70", float = true })
+hl.window_rule({ match = { class = "^(org.kde.polkit-kde-authentication-agent-1)$" }, opacity = "0.80 0.70", float = true })
 
 -- Picture-in-Picture
-hl.window_rule({ floating = true, match = { title = "^(Picture-in-Picture)$", class = "^(zen|zen-beta|floorp|firefox)$" } })
-hl.window_rule({ pin = true, match = { title = "^(Picture-in-Picture)$", class = "^(zen|zen-beta|floorp|firefox)$" } })
+hl.window_rule({
+	match = {
+		title = "^(Picture-in-Picture)$",
+		class = "^(zen|zen-beta|floorp|firefox)$",
+	},
+	float = true,
+	pin = true,
+})
 
 -- Games
-hl.window_rule({ content = "game", match = { tag = "games" } })
-hl.window_rule({ tag = "+games", match = { content = "3" } })
-hl.window_rule({ tag = "+games", match = { class = "^(steam_app.*|steam_app_\\d+)$" } })
-hl.window_rule({ tag = "+games", match = { class = "^(gamescope)$" } })
-hl.window_rule({ tag = "+games", match = { class = "(Waydroid)" } })
-hl.window_rule({ tag = "+games", match = { class = "(osu!)" } })
-
-hl.window_rule({ sync_fullscreen = true, match = { tag = "games" } })
-hl.window_rule({ fullscreen = true, match = { tag = "games" } })
-hl.window_rule({ border_size = 0, match = { tag = "games" } })
-hl.window_rule({ no_shadow = true, match = { tag = "games" } })
-hl.window_rule({ no_blur = true, match = { tag = "games" } })
-hl.window_rule({ no_anim = true, match = { tag = "games" } })
+hl.window_rule({
+	match = { tag = "games" },
+	content = "game",
+	sync_fullscreen = true,
+	fullscreen = true,
+	border_size = 0,
+	no_shadow = true,
+	no_blur = true,
+	no_anim = true,
+})
+hl.window_rule({ match = { content = "3" }, tag = "+games" })
+hl.window_rule({ match = { class = "^(steam_app.*|steam_app_\\d+)$" }, tag = "+games" })
+hl.window_rule({ match = { class = "^(gamescope)$" }, tag = "+games" })
+hl.window_rule({ match = { class = "(Waydroid)" }, tag = "+games" })
+hl.window_rule({ match = { class = "(osu!)" }, tag = "+games" })
 
 -- Godot
-hl.window_rule({ tile = true, match = { title = "(.*)(Godot)(.*)$" } })
+hl.window_rule({
+	match = { title = "(.*)(Godot)(.*)$" },
+	tile = true,
+})
 
 -- Microfetch
-hl.window_rule({ opacity = "0.8 0.7", match = { class = "^(microfetch)$" } })
-hl.window_rule({ floating = true, match = { class = "^(microfetch)$" } })
-hl.window_rule({ center = true, match = { class = "^(microfetch)$" } })
-hl.window_rule({ size = { w = 802, h = 261 }, match = { class = "^(microfetch)$" } })
+hl.window_rule({
+	match = { class = "^(microfetch)$" },
+	opacity = "0.80 0.70",
+	float = true,
+	center = true,
+	size = "802 261",
+})
 
 -- Floating windows
-hl.window_rule({ floating = true, match = { class = "^(qt5ct)$" } })
-hl.window_rule({ floating = true, match = { class = "^(nwg-look)$" } })
-hl.window_rule({ floating = true, match = { class = "^(org.kde.ark)$" } })
-hl.window_rule({ floating = true, match = { class = "^(Signal)$" } })
-hl.window_rule({ floating = true, match = { class = "^(com.github.rafostar.Clapper)$" } })
-hl.window_rule({ floating = true, match = { class = "^(app.drey.Warp)$" } })
-hl.window_rule({ floating = true, match = { class = "^(net.davidotek.pupgui2)$" } })
-hl.window_rule({ floating = true, match = { class = "^(eog)$" } })
-hl.window_rule({ floating = true, match = { class = "^(io.gitlab.theevilskeleton.Upscaler)$" } })
-hl.window_rule({ floating = true, match = { class = "^(yad)$" } })
-hl.window_rule({ floating = true, match = { class = "^(pavucontrol)$" } })
-hl.window_rule({ floating = true, match = { class = "^(blueman-manager)$" } })
-hl.window_rule({ floating = true, match = { class = "^(.blueman-manager-wrapped)$" } })
-hl.window_rule({ floating = true, match = { class = "^(nm-applet)$" } })
-hl.window_rule({ floating = true, match = { class = "^(nm-connection-editor)$" } })
-hl.window_rule({ floating = true, match = { class = "^(org.kde.polkit-kde-authentication-agent-1)$" } })
-
--- No blur on games
-hl.window_rule({ no_blur = true, match = { tag = "games" } })
+hl.window_rule({ match = { class = "^(eog)$" }, float = true })
