@@ -25,13 +25,15 @@ pkgs.writeShellScriptBin "rebuild" ''
   # replace username variable in variables.nix with $USER
   sudo sed -i -e "s/username = \".*\"/username = \"$currentUser\"/" "$flake/hosts/${host}/variables.nix"
 
-  if [ -f "/etc/nixos/hardware-configuration.nix" ]; then
-    cat "/etc/nixos/hardware-configuration.nix" | sudo tee "$flake/hosts/${host}/hardware-configuration.nix" >/dev/null
-  else
-    sudo nixos-generate-config --show-hardware-config >"$flake/hosts/${host}/hardware-configuration.nix"
+  # Generate hardware config only if missing — don't overwrite existing
+  if [ ! -f "$flake/hosts/${host}/hardware-configuration.nix" ]; then
+    if [ -f "/etc/nixos/hardware-configuration.nix" ]; then
+      cat "/etc/nixos/hardware-configuration.nix" | sudo tee "$flake/hosts/${host}/hardware-configuration.nix" >/dev/null
+    else
+      sudo nixos-generate-config --show-hardware-config >"$flake/hosts/${host}/hardware-configuration.nix"
+    fi
+    sudo git -C "$flake" add hosts/${host}/hardware-configuration.nix
   fi
-
-  sudo git -C "$flake" add hosts/${host}/hardware-configuration.nix
 
   # nh os switch --hostname "${host}"
   sudo nixos-rebuild switch --flake "$flake#${host}"
