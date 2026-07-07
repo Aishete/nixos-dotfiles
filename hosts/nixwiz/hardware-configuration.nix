@@ -8,7 +8,7 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "ahci" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -28,6 +28,11 @@
     { device = "/dev/disk/by-uuid/9FA1-35B9";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  fileSystems."/var/lib/docker/rootfs/overlayfs/0d97e1cb67a5714cae1bfe3609597f9dfe1c5dbb6f649d4cb94824938a02185f" =
+    { device = "overlay";
+      fsType = "overlay";
     };
 
   swapDevices =

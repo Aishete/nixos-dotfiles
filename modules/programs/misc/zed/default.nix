@@ -31,6 +31,23 @@
       git_panel = {
         dock = "right";
       };
+      agent_servers = {
+        "hermes-agent" = {
+          type = "custom";
+          command = "hermes";
+          args = ["acp"];
+        };
+      };
+      context_servers = {
+        "gortex" = {
+          source = "custom";
+          args = ["mcp"];
+          command = "gortex";
+          env = {
+            GORTEX_INDEX_WORKERS = "8";
+          };
+        };
+      };
     };
     extensions = [
       "nix"
