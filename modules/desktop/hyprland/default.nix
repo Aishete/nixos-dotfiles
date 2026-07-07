@@ -64,7 +64,7 @@ in {
             xdg-desktop-portal-gtk
           ];
           xdgOpenUsePortal = true;
-          configPackages = [config.programs.hyprland.package];
+          configPackages = [pkgs.hyprland];
           config.hyprland = {
             default = [
               "hyprland"
