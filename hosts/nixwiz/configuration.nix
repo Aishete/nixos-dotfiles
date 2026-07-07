@@ -55,6 +55,7 @@ in {
       # ../../modules/programs/media/obs-studio
       ../../modules/programs/media/mpv
       ../../modules/programs/misc/app
+      ../../modules/programs/misc/zed
       ../../modules/programs/misc/tlp
       ../../modules/programs/misc/thunar
       ../../modules/programs/misc/lact # GPU fan, clock and power configuration

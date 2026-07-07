@@ -1,6 +1,9 @@
 { pkgs, defaultWallpaper, ... }:
 pkgs.writeShellScriptBin "wallpaper" ''
 
+# Add swww to PATH
+export PATH="${pkgs.swww}/bin:$PATH"
+
 # Restore
 swww restore &> /dev/null
 
