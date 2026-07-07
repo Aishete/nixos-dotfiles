@@ -28,7 +28,7 @@
   rofimusic = pkgs.callPackage ./scripts/rofimusic.nix {};
   screen-record = pkgs.callPackage ./scripts/screen-record.nix {};
   screenshot = pkgs.callPackage ./scripts/screenshot.nix {};
-  wallpaper = pkgs.callPackage ./scripts/wallpaper.nix {};
+  wallpaper = pkgs.callPackage ./scripts/wallpaper.nix {inherit defaultWallpaper;};
   zoom = pkgs.callPackage ./scripts/zoom.nix {};
   presentation-mirror = pkgs.callPackage ./scripts/presentation-mirror.nix {};
 
