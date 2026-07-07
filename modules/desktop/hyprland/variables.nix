@@ -14,6 +14,7 @@
     kbdLayout
     kbdVariant
     gapsStyle
+    defaultWallpaper
     ;
 
   # Import script modules
