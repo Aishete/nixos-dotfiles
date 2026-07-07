@@ -118,14 +118,12 @@ hl.config({
 		mouse_move_focuses_monitor = true,
 		swallow_regex = "^(Alacritty|kitty)$",
 		enable_swallow = true,
-		vfr = true,
 		vrr = 0,
 	},
 	xwayland = {
 		force_zero_scaling = false,
 	},
 	dwindle = {
-		pseudotile = true,
 		preserve_split = true,
 	},
 	master = {

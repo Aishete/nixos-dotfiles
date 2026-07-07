@@ -41,7 +41,7 @@ hl.bind(mainMod .. " + F10", hl.dsp.exec_cmd("pkill hyprsunset"))
 
 -- Window/Session actions
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind("ALT + F4", hl.dsp.window.force_close())
+hl.bind("ALT + F4", hl.dsp.exec_cmd("killactive"))
 hl.bind(mainMod .. " + delete", hl.dsp.session.exit())
 hl.bind(mainMod .. " + W", hl.dsp.window.toggle_floating())
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.window.toggle_group())
