@@ -21,7 +21,6 @@ in
     (_: {
       programs.neovim = {
         enable = true;
-        defaultEditor = true;
         # Optional: ensure these aliases point to your wrapped nvim
         viAlias = true;
         vimAlias = true;

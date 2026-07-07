@@ -14,12 +14,12 @@
           alejandra
 
           # ── Web (HTML / CSS / JS / TS / Tailwind / Svelte) ────────────────
-          nodePackages.vscode-langservers-extracted # html, css, json, eslint
-          nodePackages.typescript-language-server
+          vscode-langservers-extracted # html, css, json, eslint
+          typescript-language-server
           tailwindcss-language-server
-          nodePackages.svelte-language-server
-          nodePackages.prettier
-          nodePackages."@astrojs/language-server" # Astro support
+          svelte-language-server
+          prettier
+          astro-language-server # Astro support
 
           # ── Rust ───────────────────────────────────────────────────────────
           rust-analyzer
@@ -213,7 +213,7 @@
               command = "astro-ls";
               args = ["--stdio"];
               config = {
-                typescript.tsdk = "${pkgs.nodePackages.typescript}/lib/node_modules/typescript/lib";
+                typescript.tsdk = "${pkgs.typescript}/lib/node_modules/typescript/lib";
               };
             };
 

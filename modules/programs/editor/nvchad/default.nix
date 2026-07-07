@@ -27,9 +27,9 @@
         extraPackages = with pkgs; [
           nixd
           sshfs
-          nodePackages.bash-language-server
+          bash-language-server
           docker-compose-language-service
-          dockerfile-language-server-nodejs
+          dockerfile-language-server
           # emmet-language-server
           /*
              (python3.withPackages (ps:
