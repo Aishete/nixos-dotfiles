@@ -77,9 +77,43 @@ in {
             ];
 
             "hyprland/workspaces" = {
-              format = "{name}";
               on-click = "activate";
+              all-outputs = false;
+              show-special = false;
               sort-by-number = true;
+              # Optional: Add icons to make it look cleaner
+              format = "{name}:{icon}";
+              format-icons = {
+                "1" = "∀";
+                "2" = "∃";
+                "3" = "∂";
+                "4" = "∇";
+                "5" = "∆";
+                "6" = "∫";
+                "7" = "∑";
+                "8" = "∏";
+                "9" = "√";
+                "empty" = " ";
+                "urgent" = "";
+              };
+            };
+
+            "hyprland/window" = {
+              format = "   {}";
+              rewrite = {
+                "harvey@hyprland =(.*)" = "$1 ";
+                "(.*) — Mozilla Firefox" = "$1 󰈹";
+                "(.*)Mozilla Firefox" = " Firefox 󰈹";
+                "(.*) - Visual Studio Code" = "$1 󰨞";
+                "(.*)Visual Studio Code" = "Code 󰨞";
+                "(.*) — Dolphin" = "$1 󰉋";
+                "(.*)Spotify" = "Spotify 󰓇";
+                "(.*)Spotify Premium" = "Spotify 󰓇";
+                "(.*)Steam" = "Steam 󰓓";
+              };
+              icon = true;
+              separate-outputs = true;
+              max-length = 50;
             };
 
             "custom/sep" = {
@@ -88,18 +122,6 @@ in {
               interval = "once";
             };
 
-            "hyprland/window" = {
-              format = "{}";
-              rewrite = {
-                "" = "Desktop";
-                "kitty" = "Terminal";
-                "zsh" = "Terminal";
-                "~" = "Terminal";
-              };
-              icon = true;
-              separate-outputs = true;
-              max-length = 60;
-            };
 
             "custom/background-apps" = {
               exec = "${backgroundApps}/bin/background-apps";
@@ -340,6 +362,18 @@ in {
 
           #workspaces button.active {
             border-bottom: 2px solid ${palette.accent};
+          }
+
+          #workspaces button.empty {
+              font-size: 0px;          /* Shrinks the icon font to absolutely nothing */
+              color: transparent;      /* Makes sure it doesn't render text */
+              min-width: 0;
+              min-height: 0;
+              padding: 0;
+              margin: 0;
+              background: transparent;
+              border: none;
+              box-shadow: none;
           }
 
           #workspaces button:hover {
