@@ -80,6 +80,7 @@ hl.bind(mainMod .. " + ALT + G", hl.dsp.exec_cmd(gamemode))
 hl.bind(mainMod .. " + CTRL + G", hl.dsp.exec_cmd(gapstoggle))
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd(presentation_mirror))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(clipmanager))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(notes))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd(rofimusic))
 
 -- Screenshot/Screencapture

@@ -31,6 +31,7 @@
   wallpaper = pkgs.callPackage ./scripts/wallpaper.nix {inherit defaultWallpaper;};
   zoom = pkgs.callPackage ./scripts/zoom.nix {};
   presentation-mirror = pkgs.callPackage ./scripts/presentation-mirror.nix {};
+  notes = pkgs.callPackage ./scripts/notes.nix {};
 
   # Gap presets
   gaps = {
@@ -58,6 +59,7 @@ in {
           wallpaper = "${getExe wallpaper}"
           zoom = "${getExe zoom}"
           presentation_mirror = "${getExe presentation-mirror}"
+          notes = "${getExe notes}"
 
           -- Variables
           mainMod = "SUPER"
