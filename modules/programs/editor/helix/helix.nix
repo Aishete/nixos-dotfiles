@@ -173,6 +173,23 @@
               "y" = "yank_to_clipboard";
               "p" = "paste_clipboard_after";
               "P" = "paste_clipboard_before";
+
+              # Git
+              "G" = {
+                "s" = ":shell git status<ret>";
+                "b" = ":shell git branch<ret>";
+                "l" = ":shell git log --oneline -20<ret>";
+                "d" = ":shell git diff<ret>";
+                "w" = ":shell git diff --stat<ret>";
+                "a" = ":shell git add -p<ret>";
+                "c" = ":shell git commit<ret>";
+                "p" = ":shell git pull --rebase<ret>";
+                "P" = ":shell git push<ret>";
+                "f" = ":shell git fetch --all<ret>";
+                "r" = ":shell git rebase -i<ret>";
+                "t" = ":shell git stash<ret>";
+                "T" = ":shell git stash pop<ret>";
+              };
             };
           };
 
