@@ -1,11 +1,5 @@
 { ... }:
 {
-  home-manager.sharedModules = [
-    {
-      xdg.configFile = {
-        "zed/settings.json".source = ./settings.json;
-        "zed/keymap.json".source = ./keymap.json;
-      };
-    }
-  ];
+  # Zed settings are managed by Zed itself (editable in UI)
+  # Previously managed via xdg.configFile but that creates read-only symlinks
 }

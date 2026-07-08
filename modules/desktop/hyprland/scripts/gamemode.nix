@@ -2,25 +2,25 @@
 pkgs.writeShellScriptBin "gamemode" ''
   HYPRGAMEMODE=$(hyprctl getoption animations:enabled | ${pkgs.gnused}/bin/sed -n '1p' | ${pkgs.gawk}/bin/awk '{print $2}')
 
-  if [ "$HYPRGAMEMODE" = 1 ]; then
-    hyprctl -q --batch "\
-          keyword animations:enabled 0;\
-          keyword decoration:shadow:enabled 0;\
-          keyword decoration:drop_shadow 0;\
-          keyword decoration:blur:enabled 0;\
-          keyword decoration:blur:xray 1;\
-          keyword general:gaps_in 0;\
-          keyword general:gaps_out 0;\
-          keyword general:border_size 1;\
-          keyword decoration:rounding 0;\
-          keyword decoration:active_opacity 1 ;\
-          keyword decoration:inactive_opacity 1 ;\
-          keyword decoration:fullscreen_opacity 1 ;\
-          keyword layerrule noanim,waybar ;\
-          keyword layerrule noanim,swaync-notification-window ;\
-          keyword layerrule noanim,swww-daemon ;\
-          keyword layerrule noanim,rofi"
-    hyprctl 'keyword windowrule opaque,class:(.*)'
+  if [ "$HYPRGAMEMODE" = true ]; then
+    hyprctl -q eval "
+      hl.config({
+        animations = { enabled = false },
+        general = {
+          border_size = 1,
+          gaps_in = 0,
+          gaps_out = 0,
+        },
+        decoration = {
+          rounding = 0,
+          active_opacity = 1.0,
+          inactive_opacity = 1.0,
+          fullscreen_opacity = 1.0,
+          shadow = { enabled = false },
+          blur = { enabled = false, xray = true },
+        },
+      })
+    "
     exit
   else
     hyprctl reload config-only -q

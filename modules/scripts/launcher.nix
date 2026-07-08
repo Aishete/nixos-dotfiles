@@ -87,7 +87,7 @@ pkgs.writeShellScriptBin "launcher" ''
     [ -z "$CHOICE" ] && exit 0
 
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-      swww img "$WALLPAPER_DIR/$CHOICE" --transition-step 90 --transition-duration 1 --transition-fps 60 --transition-type wipe
+      awww img "$WALLPAPER_DIR/$CHOICE" --transition-step 90 --transition-duration 1 --transition-fps 60 --transition-type wipe
     else
       TEMP_DIR="/tmp/wallpaper-cache"
       WALLPAPER="$WALLPAPER_DIR/$CHOICE"

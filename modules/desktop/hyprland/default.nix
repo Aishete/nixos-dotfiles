@@ -81,8 +81,19 @@ in {
           recursive = true;
         };
 
+        systemd.user.services.awww-daemon = {
+          Unit.Description = "AWW daemon for wallpaper management";
+          Unit.PartOf = [ "graphical-session-pre.target" ];
+          Service = {
+            Type = "simple";
+            ExecStart = "${pkgs.awww}/bin/awww-daemon";
+            Restart = "on-failure";
+            RestartSec = 5;
+          };
+        };
+
         # Set wallpaper
-        services.swww.enable = true;
+        services.awww.enable = true;
 
         # Hyprland lua config files
         xdg.configFile = {
