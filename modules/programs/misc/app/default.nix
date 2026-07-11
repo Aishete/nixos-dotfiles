@@ -14,5 +14,6 @@
     zed-editor
     pgadmin4-desktopmode
     qgis
+    signal-desktop
   ];
 }
