@@ -73,7 +73,7 @@ pkgs.writeShellScriptBin "keybinds-yad" ''
     "SUPER SHIFT G" "Toggle window group" "togglegroup" \
     "ALT Return" "Toggle fullscreen" "fullscreen" \
     "SUPER ALT L" "Lock screen" "hyprlock" \
-    "SUPER Backspace" "Power menu" "wlogout -b 4" \
+    "SUPER Backspace" "Power menu" "wleave" \
     "CTRL Escape" "Toggle Bar" "pkill waybar|hyprpanel || waybar|hyprpanel" \
     "SUPER CTRL mouse_down" "zoom in" "zoom in" \
     "SUPER CTRL mouse_up" "zoom out" "zoom out" \

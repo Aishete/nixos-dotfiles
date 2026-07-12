@@ -38,6 +38,10 @@
     # aider-chat # AI in terminal (Optional: Client only)
     cmatrix # Matrix Movie Effect In Terminal
     alsa-utils
+    brightnessctl
+    pamixer
+    playerctl
+    hyprpicker
     libxi
     libxrandr
     libxkbcommon

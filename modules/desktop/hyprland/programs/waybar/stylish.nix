@@ -465,7 +465,7 @@ in
 
             "custom/power_menu" = {
               format = "";
-              on-click = "pkill -x wlogout || wlogout -b 4";
+              on-click = "pkill -x wleave || wleave";
               tooltip-format = "Power Menu";
             };
 

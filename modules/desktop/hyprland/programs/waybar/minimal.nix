@@ -370,7 +370,7 @@ in {
 
             "custom/power" = {
               format = "{}";
-              on-click = "wlogout -b 4";
+              on-click = "wleave";
               interval = 86400; # once every day
               tooltip = true;
             };
