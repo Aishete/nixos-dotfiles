@@ -21,7 +21,7 @@
   autoclicker = pkgs.callPackage ./scripts/autoclicker.nix {};
   batterynotify = pkgs.callPackage ./scripts/batterynotify.nix {};
   clipmanager = pkgs.callPackage ./scripts/clipmanager.nix {};
-  gamemode = pkgs.callPackage ./scripts/gamemode.nix {};
+  appearance = pkgs.callPackage ./scripts/appearance.nix {};
   gapstoggle = pkgs.callPackage ./scripts/gaps-toggle.nix {};
   keyboardswitch = pkgs.callPackage ./scripts/keyboardswitch.nix {};
   keybinds-yad = pkgs.callPackage ./scripts/keybinds-yad.nix {};
@@ -49,7 +49,7 @@ in {
           autoclicker = "${getExe autoclicker}"
           batterynotify = "${getExe batterynotify}"
           clipmanager = "${getExe clipmanager}"
-          gamemode = "${getExe gamemode}"
+          appearance = "${getExe appearance}"
           gapstoggle = "${getExe gapstoggle}"
           keyboardswitch = "${getExe keyboardswitch}"
           keybinds_yad = "${getExe keybinds-yad}"

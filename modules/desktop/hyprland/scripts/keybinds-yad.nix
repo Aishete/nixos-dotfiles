@@ -84,7 +84,7 @@ pkgs.writeShellScriptBin "keybinds-yad" ''
     "SUPER Z" "Launch emoji picker" "launcher emoji" \
     "SUPER ALT K" "Change keyboard layout" "keyboardswitch" \
     "SUPER U" "Rebuild system" "$_terminal -e rebuild" \
-    "SUPER ALT G" "Enable game mode" "gamemode" \
+    "SUPER ALT G" "Appearance settings" "appearance" \
     "SUPER V" "Clipboard manager" "clipmanager" \
     "SUPER SHIFT M" "Online music" "rofimusic" \
     "SUPER SHIFT R" "Screen record (select area)" "screen-record a" \

@@ -55,9 +55,9 @@ hl.config({
 		force_no_accel = true,
 	},
 	general = {
-		gaps_in = gaps_in,
-		gaps_out = gaps_out,
-		border_size = 2,
+		gaps_in = 0,
+		gaps_out = 0,
+		border_size = 1,
 		col = {
 			active_border = {
 				colors = { "rgba(ca9ee6ff)", "rgba(f2d5cfff)" },
@@ -76,6 +76,9 @@ hl.config({
 			enabled = false,
 		},
 		rounding = 0,
+		active_opacity = 1.0,
+		inactive_opacity = 1.0,
+		fullscreen_opacity = 1.0,
 		dim_special = 0.3,
 		blur = {
 			enabled = true,

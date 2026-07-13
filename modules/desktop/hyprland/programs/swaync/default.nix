@@ -1,7 +1,7 @@
 { pkgs, host, ... }:
 let
   inherit (import ../../../../../hosts/${host}/variables.nix) monospaceFont;
-  gamemode = pkgs.callPackage ../../scripts/gamemode.nix { };
+  appearance = pkgs.callPackage ../../scripts/appearance.nix { };
   togglepowermode = pkgs.callPackage ../../scripts/togglepowermode.nix { };
 in
 {
@@ -148,7 +148,7 @@ in
                 {
                   label = "🎮";
                   type = "toggle";
-                  command = "${gamemode}/bin/gamemode";
+                  command = "${appearance}/bin/appearance";
                   update-command = "hyprctl getoption animations:enabled | grep -q 'int: 1' && echo false || echo true";
                 }
 
