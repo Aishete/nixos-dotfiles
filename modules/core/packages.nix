@@ -42,6 +42,7 @@
     pamixer
     playerctl
     hyprpicker
+    hyprsunset
     libxi
     libxrandr
     libxkbcommon
