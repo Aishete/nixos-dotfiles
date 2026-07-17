@@ -32,6 +32,7 @@ in {
     cliphist
     wl-clipboard
     wl-mirror
+    hyprlandPlugins.hypr-dynamic-cursors
   ];
 
   systemd.user.services.hyprpolkitagent = {
@@ -103,6 +104,43 @@ in {
           "hypr/animations.lua".source = ./lua/animations.lua;
           "hypr/binds.lua".source = ./lua/binds.lua;
           "hypr/rules.lua".source = ./lua/rules.lua;
+          "hypr/plugins.lua".text = ''
+            -- Dynamic cursors plugin
+            if hl.plugin.load then
+              hl.plugin.load("${pkgs.hyprlandPlugins.hypr-dynamic-cursors}/lib/libhypr-dynamic-cursors.so")
+            end
+
+            if hl.plugin.dynamic_cursors then
+              hl.config { plugin = { dynamic_cursors = {
+                enabled = true,
+                mode = "tilt",
+                threshold = 2,
+                tilt = {
+                  limit = 5000,
+                  activation = "negative_quadratic",
+                  window = 100,
+                  full = 60,
+                },
+                shake = {
+                  enabled = true,
+                  threshold = 4.0,
+                  base = 4.0,
+                  speed = 4.0,
+                  influence = 0.0,
+                  limit = 0.0,
+                  timeout = 2000,
+                  effects = false,
+                  ipc = false,
+                },
+                hyprcursor = {
+                  nearest = 1,
+                  enabled = true,
+                  resolution = 1,
+                  fallback = "clientside",
+                },
+              }}}
+            end
+          '';
         };
 
         # Enable hyprland via home-manager but don't use settings

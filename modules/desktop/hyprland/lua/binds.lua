@@ -33,7 +33,8 @@ hl.bind(mainMod .. " + slash", hl.dsp.exec_cmd(keybinds_yad))
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_cmd(keybinds_yad))
 
 -- Autoclicker
-hl.bind(mainMod .. " + F8", hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || " .. autoclicker .. " --cps 40"))
+hl.bind(mainMod .. " + F8",
+    hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || " .. autoclicker .. " --cps 40"))
 
 -- Night Mode
 hl.bind(mainMod .. " + F9", hl.dsp.exec_cmd("hyprsunset --temperature 3500"))
@@ -41,7 +42,6 @@ hl.bind(mainMod .. " + F10", hl.dsp.exec_cmd("pkill hyprsunset"))
 
 -- Window/Session actions
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind("ALT + F4", hl.dsp.window.kill())
 hl.bind(mainMod .. " + delete", hl.dsp.exit())
 hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.group.toggle())
@@ -153,15 +153,15 @@ hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 -- Workspace 1-10 with mainMod + number
 for i = 1, 10 do
-	local key = i % 10
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = tostring(i) }))
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = tostring(i) }))
-	hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ workspace = tostring(i), follow = false }))
+    local key = i % 10
+    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = tostring(i) }))
+    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = tostring(i) }))
+    hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ workspace = tostring(i), follow = false }))
 end
 
 -- Workspace 11-20 with ALT + number
 for i = 1, 10 do
-	local key = i % 10
-	hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.focus({ workspace = tostring(i + 10) }))
-	hl.bind(mainMod .. " + ALT + SHIFT + " .. key, hl.dsp.window.move({ workspace = tostring(i + 10) }))
+    local key = i % 10
+    hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.focus({ workspace = tostring(i + 10) }))
+    hl.bind(mainMod .. " + ALT + SHIFT + " .. key, hl.dsp.window.move({ workspace = tostring(i + 10) }))
 end
