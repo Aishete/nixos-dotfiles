@@ -13,13 +13,20 @@
     group = "users";
     stateDir = "/home/archdev";
 
-    # LLM provider — uses OpenCode Go by default (matching user's setup)
+    # LLM providers
+    # Default: OpenCode Go (mimo-v2.5)
+    # Ollama Cloud available via profile switch or --provider flag
     # Override per-profile via ~/.hermes/config.yaml or --profile flag
     settings = {
       model = {
         provider = "opencode-go";
         default = "mimo-v2.5";
         base_url = "https://opencode.ai/zen/go/v1";
+      };
+      providers = {
+        ollama = {
+          base_url = "https://ollama.com/api/v1";
+        };
       };
       platform_toolsets = {
         cli = [
