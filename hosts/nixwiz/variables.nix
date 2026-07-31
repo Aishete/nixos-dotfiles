@@ -4,6 +4,11 @@
   # Desktop Environment
   desktop = "hyprland"; # hyprland, i3, gnome, plasma6
 
+  # Rice / Shell Template — Layer 2 of the 2D matrix (color x rice)
+  # nixwiz    = Waybar + SwayNC + awww wallpaper (current baseline)
+  # antiquity = Quickshell + hyprpaper + mako (art-nouveau shell)
+  rice = "nixwiz"; # nixwiz, antiquity
+
   # Theme & Appearance
   monospaceFont = "Iosevka Nerd Font"; # JetBrainsMono Nerd Font, Maple Mono NF, 0xProto Nerd Font
   bar = "waybar"; # waybar, hyprpanel, noctalia

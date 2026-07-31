@@ -5,7 +5,10 @@
   pkgs,
   ...
 }: let
-  inherit (import ../../../hosts/${host}/variables.nix) bar waybarTheme;
+  hostVars = import ../../../hosts/${host}/variables.nix;
+  inherit (hostVars) bar waybarTheme;
+  # Layer-2 rice selector; defaults to nixwiz for hosts that don't define it
+  rice = hostVars.rice or "nixwiz";
 in {
   imports =
     [
@@ -16,15 +19,19 @@ in {
       ./programs/hypridle
       ./programs/hyprlock
     ]
-    ++ lib.optional (bar == "hyprpanel") ./programs/hyprpanel
-    ++ lib.optionals (bar == "noctalia") [
+    # Bar / notification pieces belong to the nixwiz rice.
+    # Skip them when running the antiquity rice (which brings its own shell).
+    ++ lib.optionals (rice == "nixwiz" && bar == "hyprpanel") ./programs/hyprpanel
+    ++ lib.optionals (rice == "nixwiz" && bar == "noctalia") [
       ./programs/swaync
       ./programs/noctalia
     ]
-    ++ lib.optionals (bar == "waybar") [
+    ++ lib.optionals (rice == "nixwiz" && bar == "waybar") [
       ./programs/swaync
       ./programs/waybar/${waybarTheme}.nix
-    ];
+    ]
+    # Antiquity rice: Quickshell bar + hyprpaper + mako (shares your lua binds)
+    ++ lib.optional (rice == "antiquity") ./rices/antiquity;
 
   environment.systemPackages = with pkgs; [
     pavucontrol
@@ -58,7 +65,7 @@ in {
 
   home-manager.sharedModules = [
     (
-      {config, ...}: {
+      {config, lib, ...}: {
         xdg.portal = {
           enable = true;
           extraPortals = with pkgs; [
@@ -82,7 +89,7 @@ in {
           recursive = true;
         };
 
-        systemd.user.services.awww-daemon = {
+        systemd.user.services.awww-daemon = lib.mkIf (rice == "nixwiz") {
           Unit.Description = "AWW daemon for wallpaper management";
           Unit.PartOf = [ "graphical-session-pre.target" ];
           Service = {
@@ -93,8 +100,8 @@ in {
           };
         };
 
-        # Set wallpaper
-        services.awww.enable = true;
+        # Set wallpaper (nixwiz rice only; antiquity uses hyprpaper)
+        services.awww.enable = (rice == "nixwiz");
 
         # Hyprland lua config files
         xdg.configFile = {
