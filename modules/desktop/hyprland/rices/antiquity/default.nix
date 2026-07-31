@@ -8,7 +8,7 @@
   #
   # The bar/widget/config SOURCE is vendored into ./source (tracked, editable)
   # rather than pulled from the flake input at build time. Only the bulky assets
-  # (buuf-nestort icons, bundled wallpapers) remain referenced from inputs.antiquity.
+  # (buuf-nestort icons) remain referenced from inputs.antiquity.
   home-manager.sharedModules = [
     (
       { pkgs, lib, ... }: {
@@ -24,17 +24,16 @@
         xdg.configFile."kitty/antiquity".source = ./source/kitty;
 
         # hyprpaper.conf generated with YOUR monitors (vendored copy targets the
-        # wrong DP-2/DP-4 names). preload + wallpaper = format (hyprpaper v0.8.x).
+        # wrong DP-2/DP-4 names). Uses the SAME wallpaper as the default rice
+        # (modules/themes/wallpapers/galaxy.webp, via defaultWallpaper) so both
+        # rices share one image. Path is absolute (hyprpaper does NOT expand ~).
         xdg.configFile."hypr/hyprpaper.conf".text = ''
-          preload = ~/.config/hypr/wallpapers_bundled/georges_riom_collage.png
-          wallpaper = eDP-1, ~/.config/hypr/wallpapers_bundled/georges_riom_collage.png, cover
-          wallpaper = DP-1, ~/.config/hypr/wallpapers_bundled/georges_riom_collage.png, cover
-          wallpaper = HDMI-A-2, ~/.config/hypr/wallpapers_bundled/georges_riom_collage.png, cover
+          preload = ${../../../../themes/wallpapers/galaxy.webp}
+          wallpaper = eDP-1, ${../../../../themes/wallpapers/galaxy.webp}, cover
+          wallpaper = DP-1, ${../../../../themes/wallpapers/galaxy.webp}, cover
+          wallpaper = HDMI-A-2, ${../../../../themes/wallpapers/galaxy.webp}, cover
           splash = false
         '';
-        # Antiquity's bundled wallpapers (kept as input ref; large binary assets).
-        xdg.configFile."hypr/wallpapers_bundled".source =
-          "${inputs.antiquity}/configs/hypr/wallpapers_bundled";
 
         # Icon theme referenced by shell.qml (`//@ pragma IconTheme buuf-nestort`).
         # Kept as input ref (2854 files — not worth vendoring).
