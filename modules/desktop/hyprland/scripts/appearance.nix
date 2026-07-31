@@ -51,7 +51,7 @@ pkgs.writeShellScriptBin "appearance" ''
         -theme "$HOME/.config/rofi/launchers/type-1/style-6.rasi" \
         -p "Opacity 0-100 (current: $OPACITY_INT)")
       if [ -n "$NEW_VAL" ]; then
-        DECIMAL=$(echo "scale=2; $NEW_VAL / 100" | ${pkgs.coreutils}/bin/bc)
+        DECIMAL=$(echo "scale=2; $NEW_VAL / 100" | ${pkgs.gawk}/bin/awk '{printf "%.2f", $1 / 100}')
         hyprctl -q eval "hl.config({ decoration = { active_opacity = $DECIMAL, inactive_opacity = $DECIMAL, fullscreen_opacity = 1.0 } })"
       fi
       ;;
