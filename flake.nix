@@ -76,6 +76,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    antiquity = {
+      url = "github:diinki/linux-antiquity";
+      flake = false;
+    };
   };
 
   outputs = {
