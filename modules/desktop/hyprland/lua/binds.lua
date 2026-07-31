@@ -3,9 +3,9 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Which rice/shell is active? Lets the same chord trigger a rice-specific
--- action (e.g. SUPER+SPACE opens rofi on nixwiz, quickshell launcher on antiquity).
-local rice_state = "nixwiz"
-pcall(function() rice_state = require("rice").rice or "nixwiz" end)
+-- action (e.g. SUPER+SPACE opens rofi on default, quickshell launcher on antiquity).
+local rice_state = "default"
+pcall(function() rice_state = require("rice").rice or "default" end)
 
 -- Resize windows
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = 30, y = 0 }), { repeating = true })

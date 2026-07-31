@@ -7,8 +7,8 @@
 }: let
   hostVars = import ../../../hosts/${host}/variables.nix;
   inherit (hostVars) bar waybarTheme;
-  # Layer-2 rice selector; defaults to nixwiz for hosts that don't define it
-  rice = hostVars.rice or "nixwiz";
+  # Layer-2 rice selector; defaults to "default" for hosts that don't define it
+  rice = hostVars.rice or "default";
 in {
   imports =
     [
@@ -19,18 +19,20 @@ in {
       ./programs/hypridle
       ./programs/hyprlock
     ]
-    # Bar / notification pieces belong to the nixwiz rice.
-    # Skip them when running the antiquity rice (which brings its own shell).
-    ++ lib.optionals (rice == "nixwiz" && bar == "hyprpanel") ./programs/hyprpanel
-    ++ lib.optionals (rice == "nixwiz" && bar == "noctalia") [
+    # Layer-2 rice module (shell template). Symmetric matrix: each rice owns its
+    # Layer-2 rice modules (shell templates). `default` = Waybar+SwayNC+awww,
+    # `antiquity` = Quickshell+hyprpaper+mako. Common config (lua binds, xdg
+    # portals, hyprland wm) stays in this parent module regardless of rice.
+    ++ lib.optional (rice == "default") ./rices/default
+    ++ lib.optionals (rice == "default" && bar == "hyprpanel") ./programs/hyprpanel
+    ++ lib.optionals (rice == "default" && bar == "noctalia") [
       ./programs/swaync
       ./programs/noctalia
     ]
-    ++ lib.optionals (rice == "nixwiz" && bar == "waybar") [
+    ++ lib.optionals (rice == "default" && bar == "waybar") [
       ./programs/swaync
       ./programs/waybar/${waybarTheme}.nix
     ]
-    # Antiquity rice: Quickshell bar + hyprpaper + mako (shares your lua binds)
     ++ lib.optional (rice == "antiquity") ./rices/antiquity;
 
   environment.systemPackages = with pkgs; [
@@ -89,19 +91,7 @@ in {
           recursive = true;
         };
 
-        systemd.user.services.awww-daemon = lib.mkIf (rice == "nixwiz") {
-          Unit.Description = "AWW daemon for wallpaper management";
-          Unit.PartOf = [ "graphical-session-pre.target" ];
-          Service = {
-            Type = "simple";
-            ExecStart = "${pkgs.awww}/bin/awww-daemon";
-            Restart = "on-failure";
-            RestartSec = 5;
-          };
-        };
-
-        # Set wallpaper (nixwiz rice only; antiquity uses hyprpaper)
-        services.awww.enable = (rice == "nixwiz");
+        # Wallpaper is owned by the active rice module (default => awww, antiquity => hyprpaper).
 
         # Hyprland lua config files
         xdg.configFile = {
@@ -112,7 +102,7 @@ in {
           "hypr/binds.lua".source = ./lua/binds.lua;
           # Generated per-host: tells binds.lua which rice is active so the same
           # chord can trigger a rice-specific action (2D matrix: chord is yours,
-          # action is the rice's). Returns { rice = "nixwiz" | "antiquity" }.
+          # action is the rice's). Returns { rice = "default" | "antiquity" }.
           "hypr/rice.lua".text = ''
             return { rice = "${rice}" }
           '';
