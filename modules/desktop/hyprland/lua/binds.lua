@@ -2,6 +2,11 @@
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
+-- Which rice/shell is active? Lets the same chord trigger a rice-specific
+-- action (e.g. SUPER+SPACE opens rofi on nixwiz, quickshell launcher on antiquity).
+local rice_state = "nixwiz"
+pcall(function() rice_state = require("rice").rice or "nixwiz" end)
+
 -- Resize windows
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = 30, y = 0 }), { repeating = true })
 hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.resize({ x = -30, y = 0 }), { repeating = true })
@@ -64,9 +69,15 @@ hl.bind("CONTROL + ALT + DELETE", hl.dsp.exec_cmd(term .. " -e btop"))
 hl.bind("CONTROL + ALT + M", hl.dsp.exec_cmd(term .. ' --class "microfetch" --hold -e microfetch'))
 hl.bind(mainMod .. " + CTRL + C", hl.dsp.exec_cmd("hyprpicker --autocopy --format=hex"))
 
--- Launcher
+-- Launcher (rice-aware: same chord, rice-specific action)
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("launcher drun"))
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("launcher drun"))
+if rice_state == "antiquity" then
+  -- Antiquity's Quickshell app launcher (control panel / app menu)
+  local qs_launcher = "quickshell ipc call appLauncher_$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name') toggleAppLauncher"
+  hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(qs_launcher))
+else
+  hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("launcher drun"))
+end
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("launcher wallpaper"))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("launcher emoji"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("launcher tmux"))
@@ -77,6 +88,8 @@ hl.bind(mainMod .. " + ALT + K", hl.dsp.exec_cmd(keyboardswitch))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind(mainMod .. " + ALT + G", hl.dsp.exec_cmd(appearance))
+-- Instant blur toggle (no menu): read current state, flip it
+hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("b=$(hyprctl getoption decoration:blur:enabled | awk 'NR==1{print $2}'); if [ \"$b\" = true ]; then hyprctl -q keyword decoration:blur:enabled false; else hyprctl -q keyword decoration:blur:enabled true; fi"))
 hl.bind(mainMod .. " + CTRL + G", hl.dsp.exec_cmd(gapstoggle))
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd(presentation_mirror))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(clipmanager))
@@ -111,7 +124,6 @@ hl.bind(mainMod .. " + CTRL + down", hl.dsp.focus({ workspace = "empty" }))
 
 -- Cycle windows
 hl.bind(mainMod .. " + Tab", hl.dsp.window.cycle_next())
-hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("hyprctl dispatch bringactivetotop"))
 
 -- Rebuild
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd(term .. " -e rebuild"))

@@ -110,6 +110,12 @@ in {
           "hypr/settings.lua".source = ./lua/settings.lua;
           "hypr/animations.lua".source = ./lua/animations.lua;
           "hypr/binds.lua".source = ./lua/binds.lua;
+          # Generated per-host: tells binds.lua which rice is active so the same
+          # chord can trigger a rice-specific action (2D matrix: chord is yours,
+          # action is the rice's). Returns { rice = "nixwiz" | "antiquity" }.
+          "hypr/rice.lua".text = ''
+            return { rice = "${rice}" }
+          '';
           "hypr/rules.lua".source = ./lua/rules.lua;
           "hypr/plugins.lua".text = ''
             -- Dynamic cursors plugin
