@@ -73,13 +73,12 @@ hl.bind(mainMod .. " + CTRL + C", hl.dsp.exec_cmd("hyprpicker --autocopy --forma
 -- are driven by quickshell IPC handlers.
 if (theme == "antiquity") then
   -- Antiquity's main menu (Control Panel) + bottom bar (workspaces strip):
-  -- both come up on ONE keypress. NOTE: SUPER+M is taken by rofimusic, so we
-  -- use SUPER+Grave (free). A single command toggles BOTH the main menu popup
-  -- and raises the bottom bar above fullscreen windows, so pressing the key
-  -- brings them up together (and pressing again drops them together).
-  local mon = "$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')"
-  local qs_raise = "quickshell ipc call mainMenu_" .. mon .. " toggleMainMenu; quickshell ipc call workspacesBar_" .. mon .. " toggleFront"
-  hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd(qs_raise))
+  -- both come up on ONE keypress (SUPER+Grave). The actual raise (focused
+  -- monitor resolved at keypress time + both quickshell handlers) lives in the
+  -- antiquity-raise script, so we don't depend on parse-time monitor state or
+  -- on shell-`;` chaining inside a single exec_cmd (which Hyprland doesn't
+  -- interpret), either of which would silently drop one of the two handlers.
+  hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd("antiquity-raise"))
 else
   hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("launcher drun"))
 end

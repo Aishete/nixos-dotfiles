@@ -2,6 +2,7 @@ require("monitors")
 require("variables")
 require("settings")
 require("animations")
+pcall(require, "rices")  -- sets theme = "antiquity" for the antiquity rice
 require("binds")
 require("rules")
 require("plugins")
