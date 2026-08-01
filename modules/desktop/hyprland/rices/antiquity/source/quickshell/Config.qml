@@ -19,15 +19,23 @@ Singleton {
         return Quickshell.env("HOME") + "/.local/share/wallpapers/" + name;
     }
 
-    // Apply a wallpaper to all known monitors via hyprpaper IPC. Empty/invalid
-    // paths are ignored. Called on startup, theme switch, and selector override.
+    // Apply a wallpaper to all connected monitors via hyprpaper IPC.
+    // IMPORTANT: every apply is routed through ONE canonical symlink,
+    // ~/.local/share/wallpapers/selected.webp, which hyprpaper.conf PRELOADS.
+    // hyprpaper 0.8.4 has no `preload` IPC verb, so preloading by the exact
+    // applied path is the only way to avoid a black gap on swap — and the
+    // applied path must match the preloaded path byte-for-byte. By always
+    // pointing selected.webp at the chosen image and applying selected.webp,
+    // theme switches AND arbitrary custom selections both hit the preloaded
+    // texture (no reparse from disk -> no black flash).
     function applyWallpaper(path) {
         if (path === "" || path === null || path === undefined) return;
-        // Only target monitors that are ACTUALLY connected. Setting wallpaper on
-        // a disconnected output makes hyprpaper error/flash for no reason. The
-        // image itself is preloaded via hyprpaper.conf, so the swap reuses the
-        // buffered texture and does not reparse (no bright flash on change).
-        wpSetter.command = ["bash", "-c", "for m in $(hyprctl monitors -j 2>/dev/null | jq -r '.[].name'); do hyprctl hyprpaper wallpaper \"$m," + path + "\"; done"];
+        var canon = Quickshell.env("HOME") + "/.local/share/wallpapers/selected.webp";
+        // Point the canonical symlink at the chosen image (cheap, instant).
+        symlinkProc.command = ["bash", "-c", "ln -sf \"" + path + "\" \"" + canon + "\""];
+        symlinkProc.running = true;
+        // Apply the canonical (preloaded) path to every connected monitor.
+        wpSetter.command = ["bash", "-c", "for m in $(hyprctl monitors -j 2>/dev/null | jq -r '.[].name'); do hyprctl hyprpaper wallpaper \"$m," + canon + "\"; done"];
         wpSetter.running = true;
     }
 
@@ -43,6 +51,13 @@ Singleton {
     // Wallpaper setter process (hyprpaper IPC). Started on demand by applyWallpaper().
     Process {
         id: wpSetter
+        running: false
+    }
+
+    // Symlink-update process: points the canonical selected.webp at the chosen
+    // image before applying it (so the applied path matches the preloaded one).
+    Process {
+        id: symlinkProc
         running: false
     }
 

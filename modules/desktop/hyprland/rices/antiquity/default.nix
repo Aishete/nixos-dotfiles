@@ -118,6 +118,11 @@
         home.file.".local/share/wallpapers/carnation_collage.png".source = "${bundled}/carnation_collage.png";
         home.file.".local/share/wallpapers/oc_the_blackboard.png".source = "${bundled}/oc_the_blackboard.png";
         home.file.".local/share/wallpapers/galaxy.webp".source = galaxy;
+        # Canonical preloaded path. Every wallpaper apply (theme switch OR custom
+        # selection) routes through this symlink (see Config.qml applyWallpaper)
+        # so the applied path always matches a preloaded texture -> no black gap.
+        # Default points at galaxy; the selector/quickshell rewrites it on select.
+        home.file.".local/share/wallpapers/selected.webp".source = galaxy;
         # Per-theme pool wallpapers (distinct from the bundled collages).
         home.file.".local/share/wallpapers/ALCHEMY-dark.png".source = ../../../../themes/wallpapers/ALCHEMY-dark.png;
         home.file.".local/share/wallpapers/HIRAETH.png".source = ../../../../themes/wallpapers/HIRAETH.png;
@@ -143,6 +148,8 @@
           preload = ${homeDir}/.local/share/wallpapers/oc_the_blackboard.png
           preload = ${homeDir}/.local/share/wallpapers/ALCHEMY-dark.png
           preload = ${homeDir}/.local/share/wallpapers/HIRAETH.png
+          # Canonical path every apply routes through (theme + custom selection).
+          preload = ${homeDir}/.local/share/wallpapers/selected.webp
           wallpaper = eDP-1, ${galaxy}, cover
           wallpaper = DP-1, ${galaxy}, cover
           wallpaper = HDMI-A-2, ${galaxy}, cover
