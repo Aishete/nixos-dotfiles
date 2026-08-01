@@ -20,7 +20,7 @@
     settings = {
       model = {
         provider = "opencode-go";
-        default = "mimo-v2.5";
+        default = "hy3";
         base_url = "https://opencode.ai/zen/go/v1";
       };
       providers = {
@@ -28,17 +28,51 @@
           base_url = "https://ollama.com/api/v1";
         };
       };
+      display = {
+        pet = {
+          enabled = false;
+          slug = "homelander";
+          render_mode = "auto";
+        };
+      };
       platform_toolsets = {
         cli = [
-          "browser" "clarify" "code_execution" "cronjob" "delegation"
-          "file" "image_gen" "memory" "messaging" "session_search"
-          "skills" "terminal" "todo" "tts" "vision" "web" "yuanbao"
+          "browser"
+          "clarify"
+          "code_execution"
+          "cronjob"
+          "delegation"
+          "file"
+          "image_gen"
+          "memory"
+          "messaging"
+          "session_search"
+          "skills"
+          "terminal"
+          "todo"
+          "tts"
+          "vision"
+          "web"
+          "yuanbao"
           "spotify"
         ];
         telegram = [
-          "browser" "clarify" "code_execution" "cronjob" "delegation"
-          "file" "image_gen" "memory" "messaging" "session_search"
-          "skills" "terminal" "todo" "tts" "vision" "web"
+          "browser"
+          "clarify"
+          "code_execution"
+          "cronjob"
+          "delegation"
+          "file"
+          "image_gen"
+          "memory"
+          "messaging"
+          "session_search"
+          "skills"
+          "terminal"
+          "todo"
+          "tts"
+          "vision"
+          "web"
           "spotify"
         ];
       };
