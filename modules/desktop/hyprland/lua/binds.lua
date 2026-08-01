@@ -69,12 +69,17 @@ hl.bind("CONTROL + ALT + DELETE", hl.dsp.exec_cmd(term .. " -e btop"))
 hl.bind("CONTROL + ALT + M", hl.dsp.exec_cmd(term .. ' --class "microfetch" --hold -e microfetch'))
 hl.bind(mainMod .. " + CTRL + C", hl.dsp.exec_cmd("hyprpicker --autocopy --format=hex"))
 
--- Launcher (rice-aware: same chord, rice-specific action)
-hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("launcher drun"))
-if rice_state == "antiquity" then
-  -- Antiquity's Quickshell app launcher (control panel / app menu)
-  local qs_launcher = "quickshell ipc call appLauncher_$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name') toggleAppLauncher"
-  hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(qs_launcher))
+-- Antiquity themed-rice binds live below. The bottom bar / Control Panel here
+-- are driven by quickshell IPC handlers.
+if (theme == "antiquity") then
+  -- Antiquity's main menu (Control Panel) + bottom bar (workspaces strip):
+  -- both come up on ONE keypress. NOTE: SUPER+M is taken by rofimusic, so we
+  -- use SUPER+Grave (free). A single command toggles BOTH the main menu popup
+  -- and raises the bottom bar above fullscreen windows, so pressing the key
+  -- brings them up together (and pressing again drops them together).
+  local mon = "$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')"
+  local qs_raise = "quickshell ipc call mainMenu_" .. mon .. " toggleMainMenu; quickshell ipc call workspacesBar_" .. mon .. " toggleFront"
+  hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd(qs_raise))
 else
   hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("launcher drun"))
 end

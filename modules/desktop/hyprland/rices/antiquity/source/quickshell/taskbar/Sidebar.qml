@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
+import Quickshell.Io
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -53,6 +54,25 @@ Scope {
 
                 property int currentPopup: Config.SidebarPopup.None
 
+                // Keyboard toggle for the MainMenu popup (mirrors Bar.qml's appLauncher
+                // IPC handler). Requires `import Quickshell.Io` for IpcHandler. Called
+                // from Hyprland binds.lua as:
+                //   quickshell ipc call mainMenu_<monitor> toggleMainMenu
+                Scope {
+                    IpcHandler {
+                        target: "mainMenu_" + radialTaskbar.screen.name
+                        function toggleMainMenu() {
+                            radialTaskbar.isOpen = true;
+                            if (radialTaskbar.currentPopup == Config.SidebarPopup.MainMenu) {
+                                radialTaskbar.currentPopup = Config.SidebarPopup.None;
+                                radialTaskbar.isOpen = false;
+                            } else {
+                                radialTaskbar.currentPopup = Config.SidebarPopup.MainMenu;
+                            }
+                        }
+                    }
+                }
+
                 property bool isOpen: false
                 function refreshState(workspaceId) {
                     Hyprland.dispatch(`workspace ` + workspaceId);
@@ -62,6 +82,7 @@ Scope {
 
                     radialTaskbar.isOpen = false;
                 }
+
                 anchors {
                     top: true
                     bottom: true

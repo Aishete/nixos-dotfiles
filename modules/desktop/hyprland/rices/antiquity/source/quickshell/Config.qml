@@ -6,6 +6,117 @@ import Quickshell.Io
 Singleton {
     id: root
 
+    // Quickshell's runtime state (settings/favorites/widgets JSON) must live in a
+    // WRITABLE location. The QML code itself is a read-only Nix store symlink
+    // (~/.config/quickshell -> store), so writing state files there fails with
+    // "Read-only file system" and the theme/favorites menus can't persist.
+    // Point state at XDG_STATE_HOME/quickshell (or ~/.local/state/quickshell).
+    readonly property string stateDir: (Quickshell.env("XDG_STATE_HOME") !== "" ? Quickshell.env("XDG_STATE_HOME") : Quickshell.env("HOME") + "/.local/state") + "/quickshell"
+
+    // Wallpapers are exposed under ~/.local/share/wallpapers (linked by the rice
+    // module). hyprpaper does NOT expand ~, so build absolute paths via $HOME.
+    function wp(name) {
+        return Quickshell.env("HOME") + "/.local/share/wallpapers/" + name;
+    }
+
+    // Apply a wallpaper to all known monitors via hyprpaper IPC. Empty/invalid
+    // paths are ignored. Called on startup, theme switch, and selector override.
+    function applyWallpaper(path) {
+        if (path === "" || path === null || path === undefined) return;
+        // Only target monitors that are ACTUALLY connected. Setting wallpaper on
+        // a disconnected output makes hyprpaper error/flash for no reason. The
+        // image itself is preloaded via hyprpaper.conf, so the swap reuses the
+        // buffered texture and does not reparse (no bright flash on change).
+        wpSetter.command = ["bash", "-c", "for m in $(hyprctl monitors -j 2>/dev/null | jq -r '.[].name'); do hyprctl hyprpaper wallpaper \"$m," + path + "\"; done"];
+        wpSetter.running = true;
+    }
+
+    // Effective wallpaper = user-selected override (if set), else the active
+    // theme's default. Switching theme resets the override to the theme default.
+    function effectiveWallpaper() {
+        if (root.selectedWallpaper !== "" && root.selectedWallpaper !== null)
+            return root.selectedWallpaper;
+        var t = themes[settings.currentTheme] != null ? settings.currentTheme : "helios";
+        return themes[t].defaultWallpaperPath;
+    }
+
+    // Wallpaper setter process (hyprpaper IPC). Started on demand by applyWallpaper().
+    Process {
+        id: wpSetter
+        running: false
+    }
+
+    // User-selected wallpaper override (persisted to state dir by the selector).
+    // Empty = use the active theme's default. Populated from the override file via
+    // an async process read (FileView.onLoaded does not expose `file` in this
+    // quickshell build, so we shell out to cat instead).
+    property string selectedWallpaper: ""
+
+    Process {
+        id: selWpReader
+        running: false
+        stdout: SplitParser { onRead: (line) => {
+            root.selectedWallpaper = line.trim();
+            applyWallpaper(effectiveWallpaper());
+        } }
+        command: ["bash", "-c", "cat \"$HOME/.local/state/quickshell/selectedWallpaper\" 2>/dev/null || true"]
+    }
+
+    // Watch the override file for changes with inotifywait (if available); the
+    // selector writes it on every change. Falls back to one read at startup.
+    Process {
+        id: selWpWatch
+        running: false
+        stdout: SplitParser { onRead: (line) => {
+            root.selectedWallpaper = line.trim();
+            applyWallpaper(effectiveWallpaper());
+        } }
+        command: ["bash", "-c", "while true; do inotifywait -q -e modify -e attrib \"$HOME/.local/state/quickshell/selectedWallpaper\" 2>/dev/null; cat \"$HOME/.local/state/quickshell/selectedWallpaper\" 2>/dev/null || true; done"]
+    }
+
+    // Writable handle used to clear the override file on theme switch. We shell out
+    // (bash echo) because FileView has no settable `text` property; this matches how
+    // the `launcher wallpaper` selector writes the override file.
+    function clearSelectedWallpaper() {
+        clearWpProc.command = ["bash", "-c", "mkdir -p \"$HOME/.local/state/quickshell\"; : > \"$HOME/.local/state/quickshell/selectedWallpaper\""];
+        clearWpProc.running = true;
+    }
+
+    Process {
+        id: clearWpProc
+        running: false
+    }
+
+    // OpenWeatherMap API key is read from a RUNTIME SECRET in a .env file, never
+    // from the repo. The QML ships via a read-only Nix store symlink, and we must
+    // not commit credentials. Put `OWM_API_KEY=<key>` in
+    // ~/.local/state/quickshell/.env (chmod 600). Falls back to the legacy
+    // ~/.local/state/quickshell/owm_key file if .env is absent, then to the
+    // (placeholder) settings.openWeatherMap.apiKey.
+    property string owmApiKey: settings.openWeatherMap.apiKey
+
+    // Read the runtime secret from ~/.local/state/quickshell/.env (OWM_API_KEY=...),
+    // falling back to the legacy owm_key file. FileView.onLoaded does not expose
+    // `file` in this quickshell build, so we shell out.
+    Process {
+        id: owmKeyReader
+        running: false
+        stdout: SplitParser { onRead: (line) => {
+            if (line.trim() !== "") root.owmApiKey = line.trim();
+        } }
+        command: ["bash", "-c", "f=\"$HOME/.local/state/quickshell/.env\"; if [ -f \"$f\" ]; then grep -E '^OWM_API_KEY=' \"$f\" | head -1 | cut -d= -f2-; elif [ -s \"$HOME/.local/state/quickshell/owm_key\" ]; then cat \"$HOME/.local/state/quickshell/owm_key\"; fi 2>/dev/null || true"]
+    }
+
+    Component.onCompleted: {
+        // Kick off the async readers once the singleton is constructed.
+        selWpReader.running = true;
+        selWpWatch.running = true;
+        owmKeyReader.running = true;
+        // Apply the active theme's default wallpaper immediately (quickshell side);
+        // the hyprpaper service's ExecStartPost also applies it once the display is up.
+        applyWallpaper(effectiveWallpaper());
+    }
+
     //*=======================================================================*/
     // READ THIS NOTE:
     // Simply add to this list in order to create your
@@ -23,7 +134,7 @@ Singleton {
             "textLight": "#d0daed",
             "outline": "#121212",
             "outlineGradientFade": "#161616",
-            "defaultWallpaperPath": "",
+            "defaultWallpaperPath": wp("georges_riom_collage.png"),
             "danger": "#fc5870",
             "warning": "#fcd37b",
             "cbodyBackground": "#fccf8a",
@@ -50,6 +161,7 @@ Singleton {
         "eris": {
             "base": "#1b1c1e",
             "shadow": "#121212",
+            "defaultWallpaperPath": wp("carnation_collage.png"),
             "highlight": "#2f2f33",
             "urgent": "#ff723e",
             "accent": "#c7cfe5",
@@ -83,6 +195,7 @@ Singleton {
         "priapus": {
             "base": "#1f211e",
             "shadow": "#121410",
+            "defaultWallpaperPath": wp("oc_the_blackboard.png"),
             "highlight": "#393d2d",
             "urgent": "#ff723e",
             "accent": "#a7b777",
@@ -116,6 +229,7 @@ Singleton {
         "eros": {
             "base": "#15101c",
             "shadow": "#110c16",
+            "defaultWallpaperPath": wp("ALCHEMY-dark.png"),
             "highlight": "#2c243d",
             "urgent": "#ff723e",
             "accent": "#fccb7b",
@@ -153,6 +267,7 @@ Singleton {
             "urgent": "#ff723e",
             "accent": "#d1ceca",
             "accentDark": "#969593",
+            "defaultWallpaperPath": wp("HIRAETH.png"),
             "text": "#eaeaea",
             "textLight": "#f7f8f9",
             "outline": "#e3e7e8",
@@ -227,7 +342,9 @@ Singleton {
         };
 
         // encodeURIComponent so city names with spaces or special characters work (e.g. "São Paulo").
-        const url = `https://api.openweathermap.org/data/2.5/weather` + `?q=${encodeURIComponent(settings.openWeatherMap.city)}` + `&appid=${settings.openWeatherMap.apiKey}` + `&units=metric` + `&lang=en`;
+        // API key is resolved from the runtime secret (~/.local/state/quickshell/owm_key) with a
+        // fallback to the placeholder in settings; the real key is never stored in the repo.
+        const url = `https://api.openweathermap.org/data/2.5/weather` + `?q=${encodeURIComponent(settings.openWeatherMap.city)}` + `&appid=${root.owmApiKey}` + `&units=metric` + `&lang=en`;
 
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
@@ -259,7 +376,7 @@ Singleton {
     }
     property alias favoriteApps: favoriteAppsAdapter.apps
     FileView {
-        path: Qt.resolvedUrl("./favoriteapps.json")
+        path: root.stateDir + "/favoriteapps.json"
         // when changes are made on disk, reload the file's content
         watchChanges: true
         onFileChanged: reload()
@@ -322,7 +439,7 @@ Singleton {
     }
     property alias widgets: widgetsAdapter.monitors
     FileView {
-        path: Qt.resolvedUrl("./widgets.json")
+        path: root.stateDir + "/widgets.json"
         // when changes are made on disk, reload the file's content
         watchChanges: true
         onFileChanged: reload()
@@ -345,7 +462,7 @@ Singleton {
     property bool openSettingsWindow: false
     property alias settings: settingsJsonAdapter.settings
     FileView {
-        path: Qt.resolvedUrl("./settings.json")
+        path: root.stateDir + "/settings.json"
         // when changes are made on disk, reload the file's content
         watchChanges: true
         onFileChanged: reload()
@@ -367,10 +484,10 @@ Singleton {
                 property int defaultWindowRadius: 12
                 property bool appLauncherBackground: true
                 property JsonObject openWeatherMap: JsonObject {
-                    property string apiKey: ""
-                    property string city: "Umeå"
+                    property string apiKey: "***SET_VIA_RUNTIME_SECRET***" // real key lives in ~/.local/state/quickshell/owm_key
+                    property string city: "Phnom Penh" // Cambodia
                     property string unit: "metric" //standard = kelvin, metric = c, imperial = F
-                    property bool enableWeather: false
+                    property bool enableWeather: true
                 }
                 property JsonObject execCommands: JsonObject {
                     property string terminal: "kitty"
@@ -384,6 +501,13 @@ Singleton {
                 }
                 onCurrentThemeChanged: {
                     console.info("Updated theme to: " + currentTheme);
+                    // Switching theme resets any user-selected wallpaper override
+                    // back to this theme's default (per design: override only lasts
+                    // until the next theme switch).
+                    root.selectedWallpaper = "";
+                    // Clear the persisted override file so a reboot also resets.
+                    clearSelectedWallpaper();
+                    applyWallpaper(effectiveWallpaper());
                 }
             }
         }

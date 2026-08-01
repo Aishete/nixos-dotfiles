@@ -14,11 +14,14 @@ Scope {
             id: root
             required property var modelData
             property int currentPopup: Config.SystemPopup.None
+            // When true, the bottom bar is raised to the Overlay layer so the
+            // workspaces strip stays visible/clickable above fullscreen windows.
+            property bool frontMode: false
 
             PanelWindow {
                 id: taskbar
                 screen: root.modelData
-                WlrLayershell.layer: WlrLayer.Bottom
+                WlrLayershell.layer: root.frontMode ? WlrLayer.Overlay : WlrLayer.Bottom
                 WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
                 WlrLayershell.namespace: "diinki_celestialantiquity:bars"
 
@@ -100,6 +103,20 @@ Scope {
                             } else {
                                 root.currentPopup = Config.SystemPopup.None;
                             }
+                        }
+                    }
+                }
+
+                // Raise/lower the bottom bar (workspaces strip + tray) above fullscreen
+                // windows. Called from Hyprland binds.lua as:
+                //   quickshell ipc call workspacesBar_<monitor> toggleFront
+                Scope {
+                    id: workspacesBarIpc
+                    property string screenName: taskbar.screen.name
+                    IpcHandler {
+                        target: "workspacesBar_" + workspacesBarIpc.screenName
+                        function toggleFront() {
+                            root.frontMode = !root.frontMode;
                         }
                     }
                 }

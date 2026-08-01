@@ -187,14 +187,6 @@ PanelWindow {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
-                        Image {
-                            anchors.centerIn: parent
-                            width: 50
-                            height: 50
-                            asynchronous: true
-                            antialiasing: true
-                            source: parent.iconPath
-                        }
                         MouseArea {
 
                             anchors.fill: buttonOutline
