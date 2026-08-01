@@ -16,3 +16,10 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("systemctl --user start quickshell.service hyprpaper.service")
 end)
 
+-- External monitor hotplug: when a monitor is added, re-apply the current
+-- wallpaper so the new output isn't left blank/black. hyprpaper preloads every
+-- theme wallpaper (see antiquity/default.nix), so the swap is flash-free.
+-- The actual apply path is injected by the rice module (it owns the script's
+-- store path); we just register the handler here.
+pcall(require, "monitor_hotplug")
+

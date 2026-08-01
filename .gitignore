@@ -21,3 +21,6 @@ dev-shells/*/flake.lock
 
 # Download sidecar artifacts (e.g. wallpaper fetch metadata) — not nix source
 *.rrdata
+
+# gortex code-intelligence runtime DB (sqlite sidecar, regenerated at runtime)
+.gortex/sidecar.sqlite*

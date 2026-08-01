@@ -48,13 +48,20 @@
           export HYPRLAND_INSTANCE_SIGNATURE="$HIS"
           # Give hyprpaper's IPC a moment to come up after the socket.
           sleep 2
-          WP=${galaxy}
-          # If a user-selected override exists, prefer it over the theme default.
-          if [ -s "$HOME/.local/state/quickshell/selectedWallpaper" ]; then
+          # Wallpaper path may be passed as $1 (used on monitor hotplug); else
+          # prefer a user-selected override file, then the galaxy fallback.
+          if [ -n "''${1:-}" ]; then
+            WP="$1"
+          elif [ -s "$HOME/.local/state/quickshell/selectedWallpaper" ]; then
             WP="$(cat "$HOME/.local/state/quickshell/selectedWallpaper")"
+          else
+            WP=${galaxy}
           fi
-          for m in eDP-1 DP-1 HDMI-A-2; do
-            hyprctl hyprpaper wallpaper "$m,$WP" || true
+          # Only target monitors that are ACTUALLY connected right now. Setting
+          # wallpaper on a disconnected output returns an error (and in 0.8.4
+          # triggers a reparse/flash on every monitor), so skip the dead ones.
+          for m in $(hyprctl monitors -j 2>/dev/null | jq -r '.[].name'); do
+            [ -n "$m" ] && hyprctl hyprpaper wallpaper "$m,$WP" || true
           done
         '';
       in
@@ -69,6 +76,19 @@
         xdg.configFile."quickshell".source = ./source/quickshell;
         xdg.configFile."mako/config".source = ./source/mako/config;
         xdg.configFile."kitty/antiquity".source = ./source/kitty;
+
+        # External-monitor hotplug hook (Nix-interpolated so it can see the
+        # applyWallpaper store path, which plain hyprland.lua cannot). Registered
+        # via `require("monitor_hotplug")` in lua/hyprland.lua.
+        xdg.configFile."hypr/lua/monitor_hotplug.lua".text = ''
+          -- Re-apply wallpaper when a monitor is hot-plugged. hyprpaper preloads
+          -- every theme wallpaper, so the swap is flash-free. We re-run the same
+          -- apply script the service uses (override > selectedWallpaper > galaxy),
+          # with a short delay so hyprpaper's IPC has come up for the new output.
+          hl.on("monitor.added", function(_)
+            hl.exec_cmd("sleep 2; ${applyWallpaper} >/dev/null 2>&1 || true")
+          end)
+        '';
 
         # Wallpaper pool exposed under ~/.local/share/wallpapers for QML + selector.
         home.file.".local/share/wallpapers/georges_riom_collage.png".source = "${bundled}/georges_riom_collage.png";
@@ -87,6 +107,15 @@
         # "no target"; the ExecStartPost below applies the wallpaper via IPC once
         # the Wayland session is up, so this file is a fallback / reload source.
         xdg.configFile."hypr/hyprpaper.conf".text = ''
+          # Preload every theme wallpaper so runtime swaps (theme switch / selector)
+          # reuse the buffered texture — no reparse, no bright flash. hyprpaper 0.8.4
+          # has no `preload` IPC verb, so this conf directive is the only path.
+          preload = ${galaxy}
+          preload = ${bundled}/georges_riom_collage.png
+          preload = ${bundled}/carnation_collage.png
+          preload = ${bundled}/oc_the_blackboard.png
+          preload = ${../../../../themes/wallpapers/ALCHEMY-dark.png}
+          preload = ${../../../../themes/wallpapers/HIRAETH.png}
           wallpaper = eDP-1, ${galaxy}, cover
           wallpaper = DP-1, ${galaxy}, cover
           wallpaper = HDMI-A-2, ${galaxy}, cover
