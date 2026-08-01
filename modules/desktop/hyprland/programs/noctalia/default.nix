@@ -207,7 +207,9 @@ in
           };
           wallpaper = {
             enabled = false;
-            directory = "${../../../../themes/wallpapers}";
+            directory = builtins.filterSource
+              (path: _: !(builtins.match ".*\\.rrdata" (baseNameOf path) == null))
+              ../../../../themes/wallpapers;
             setWallpaperOnAllMonitors = true;
           };
           appLauncher = {

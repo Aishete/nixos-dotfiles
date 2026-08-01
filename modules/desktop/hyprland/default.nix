@@ -20,7 +20,7 @@ in {
       ./programs/hyprlock
     ]
     # Layer-2 rice module (shell template). Symmetric matrix: each rice owns its
-    # Layer-2 rice modules (shell templates). `default` = Waybar+SwayNC+awww,
+    # Layer-2 rice modules (shell templates). `default` = Waybar+SwayNC+hyprpaper,
     # `antiquity` = Quickshell+hyprpaper+mako. Common config (lua binds, xdg
     # portals, hyprland wm) stays in this parent module regardless of rice.
     ++ lib.optional (rice == "default") ./rices/default
@@ -91,7 +91,7 @@ in {
           recursive = true;
         };
 
-        # Wallpaper is owned by the active rice module (default => awww, antiquity => hyprpaper).
+        # Wallpaper is owned by the active rice module (both use hyprpaper).
 
         # Hyprland lua config files
         xdg.configFile = {

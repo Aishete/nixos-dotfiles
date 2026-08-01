@@ -5,7 +5,12 @@
   ...
 }:
 let
-  wallpaperDir = "${../themes/wallpapers}";
+  # Filter out .rrdata sidecar files (download artifacts) so Nix's git-path check
+  # doesn't reject the whole themes/wallpapers directory.
+  wallpapersDir = builtins.filterSource
+    (path: _: let b = baseNameOf path; in !(lib.hasSuffix ".rrdata" b))
+    ../themes/wallpapers;
+  wallpaperDir = "${wallpapersDir}";
   wallpaperThumbs =
     pkgs.runCommand "wallpaper-thumbnails"
       {
@@ -87,7 +92,14 @@ pkgs.writeShellScriptBin "launcher" ''
     [ -z "$CHOICE" ] && exit 0
 
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-      awww img "$WALLPAPER_DIR/$CHOICE" --transition-step 90 --transition-duration 1 --transition-fps 60 --transition-type wipe
+      # Unified on hyprpaper: apply to all known monitors via IPC, and persist the
+      # choice as the override (until the next theme switch resets to the theme default).
+      WP_ABS="$WALLPAPER_DIR/$CHOICE"
+      for output in eDP-1 DP-1 HDMI-A-2; do
+        hyprctl hyprpaper wallpaper "$output,$WP_ABS"
+      done
+      mkdir -p "$HOME/.local/state/quickshell"
+      echo "$WP_ABS" > "$HOME/.local/state/quickshell/selectedWallpaper"
     else
       TEMP_DIR="/tmp/wallpaper-cache"
       WALLPAPER="$WALLPAPER_DIR/$CHOICE"
