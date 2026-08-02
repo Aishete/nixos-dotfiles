@@ -92,11 +92,18 @@ pkgs.writeShellScriptBin "launcher" ''
     [ -z "$CHOICE" ] && exit 0
 
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-      # Unified on hyprpaper: apply to all known monitors via IPC, and persist the
-      # choice as the override (until the next theme switch resets to the theme default).
+      # Unified on hyprpaper. NO black gap: every apply must route through the
+      # canonical preloaded symlink ~/.local/share/wallpapers/selected.webp
+      # (hyprpaper.conf preloads it; 0.8.4 has no preload IPC verb). Applying
+      # the raw store path directly would force a fresh decode -> black flash.
+      # Mirrors Config.qml's applyWallpaper: re-point the symlink, then apply
+      # the canonical path to every CONNECTED monitor (dynamic, not hardcoded).
       WP_ABS="$WALLPAPER_DIR/$CHOICE"
-      for output in eDP-1 DP-1 HDMI-A-2; do
-        hyprctl hyprpaper wallpaper "$output,$WP_ABS"
+      CANON="$HOME/.local/share/wallpapers/selected.webp"
+      mkdir -p "$HOME/.local/share/wallpapers"
+      ln -sf "$WP_ABS" "$CANON"
+      for output in $(hyprctl monitors -j 2>/dev/null | jq -r '.[].name'); do
+        hyprctl hyprpaper wallpaper "$output,$CANON" || true
       done
       mkdir -p "$HOME/.local/state/quickshell"
       echo "$WP_ABS" > "$HOME/.local/state/quickshell/selectedWallpaper"
