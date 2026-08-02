@@ -27,7 +27,7 @@ Scope {
                 WlrLayershell.namespace: "diinki_celestialantiquity:bars"
 
                 anchors {
-                    top: true
+                    bottom: true
                     //left: true
                     //right: true
                 }
