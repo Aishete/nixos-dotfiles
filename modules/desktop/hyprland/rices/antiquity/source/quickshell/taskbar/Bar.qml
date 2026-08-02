@@ -21,7 +21,7 @@ Scope {
             PanelWindow {
                 id: taskbar
                 screen: root.modelData
-                visible: root.frontMode
+                visible: true
                 WlrLayershell.layer: root.frontMode ? WlrLayer.Overlay : WlrLayer.Bottom
                 WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
                 WlrLayershell.namespace: "diinki_celestialantiquity:bars"
