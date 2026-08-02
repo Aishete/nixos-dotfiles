@@ -74,8 +74,15 @@
         # bottom bar together. The focused monitor is resolved at keypress time
         # (config parse is too early — Hyprland isn't up yet), and the two
         # quickshell IPC calls are separate so neither is dropped. Installed to
-        # PATH so binds.lua can call it by name.
+        # PATH so binds.lua can call it by name. The Hyprland instance signature
+        # is derived from the runtime dir (not assumed in the environment) so the
+        # quickshell IPC call works even when Hyprland doesn't propagate
+        # HYPRLAND_INSTANCE_SIGNATURE to its exec children.
         antiquityRaise = pkgs.writeShellScriptBin "antiquity-raise" ''
+          # Derive the Hyprland instance signature so quickshell ipc can find the
+          # running quickshell instance, independent of the exec environment.
+          HIS=$(ls -1 "''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr" 2>/dev/null | head -1)
+          export HYPRLAND_INSTANCE_SIGNATURE="$HIS"
           mon=$(hyprctl monitors -j 2>/dev/null | jq -r '.[] | select(.focused) | .name' | head -1)
           [ -z "$mon" ] && mon=eDP-1
           quickshell ipc call "mainMenu_''${mon}" toggleMainMenu || true
@@ -96,8 +103,11 @@
         xdg.configFile."kitty/antiquity".source = ./source/kitty;
 
         # Rice identity (read by binds.lua's `if (theme == "antiquity")`).
+        # Also export the absolute path to the antiquity-raise script so the
+        # bind works regardless of Hyprland's exec PATH.
         xdg.configFile."hypr/lua/rices.lua".text = ''
           theme = "antiquity"
+          antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise"
         '';
 
         # External-monitor hotplug hook (Nix-interpolated so it can see the

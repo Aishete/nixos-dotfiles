@@ -78,7 +78,9 @@ if (theme == "antiquity") then
   -- antiquity-raise script, so we don't depend on parse-time monitor state or
   -- on shell-`;` chaining inside a single exec_cmd (which Hyprland doesn't
   -- interpret), either of which would silently drop one of the two handlers.
-  hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd("antiquity-raise"))
+  -- antiquityRaiseBin is the absolute store path (set by rices.lua) so the
+  -- bind works regardless of Hyprland's exec PATH.
+  hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd(antiquityRaiseBin))
 else
   hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("launcher drun"))
 end
