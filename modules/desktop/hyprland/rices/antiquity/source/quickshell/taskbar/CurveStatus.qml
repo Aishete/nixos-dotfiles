@@ -15,13 +15,18 @@ Item {
 
     required property var curve // the radialBarCurve Item (pointOnCurve + pointA/B)
 
+    // Push the status text DOWN off the curve line into the glass body, so the
+    // items sit inside the curve instead of half-floating above its edge.
+    // (Centering on the curve line leaves the top half over the wallpaper.)
+    readonly property real drop: 14
+
     // Clock at the curve peak (t=0.5)
     Item {
         id: clockHolder
         property real t: 0.5
         property point p: root.curve.pointOnCurve(t, root.curve.pointA, root.curve.pointB)
         x: p.x - width / 2
-        y: p.y - height / 2
+        y: p.y - height / 2 + root.drop
         width: clockText.implicitWidth + 10
         height: 18
         Text {
@@ -42,7 +47,7 @@ Item {
         property real t: 0.62
         property point p: root.curve.pointOnCurve(t, root.curve.pointA, root.curve.pointB)
         x: p.x - width / 2
-        y: p.y - height / 2
+        y: p.y - height / 2 + root.drop
         width: powerW.width
         height: 18
         Widgets.PowerWidget { id: powerW }
@@ -52,7 +57,7 @@ Item {
         property real t: 0.70
         property point p: root.curve.pointOnCurve(t, root.curve.pointA, root.curve.pointB)
         x: p.x - width / 2
-        y: p.y - height / 2
+        y: p.y - height / 2 + root.drop
         width: gpuW.width
         height: 18
         Widgets.GpuWidget { id: gpuW }
@@ -62,7 +67,7 @@ Item {
         property real t: 0.78
         property point p: root.curve.pointOnCurve(t, root.curve.pointA, root.curve.pointB)
         x: p.x - width / 2
-        y: p.y - height / 2
+        y: p.y - height / 2 + root.drop
         width: ramW.width
         height: 18
         Widgets.RamWidget { id: ramW }
