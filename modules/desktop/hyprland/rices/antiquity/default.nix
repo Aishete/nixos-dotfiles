@@ -127,7 +127,7 @@
           -- Re-apply wallpaper when a monitor is hot-plugged. hyprpaper preloads
           -- every theme wallpaper, so the swap is flash-free. We re-run the same
           -- apply script the service uses (override > selectedWallpaper > galaxy),
-          # with a short delay so hyprpaper's IPC has come up for the new output.
+          -- with a short delay so hyprpaper's IPC has come up for the new output.
           hl.on("monitor.added", function(_)
             hl.exec_cmd("sleep 2; ${applyWallpaper} >/dev/null 2>&1 || true")
           end)
