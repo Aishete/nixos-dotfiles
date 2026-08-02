@@ -14,12 +14,12 @@ RowLayout {
     anchors.left: parent.left
     anchors.verticalCenter: parent.verticalCenter
 
-    property var currentWorkspaces: Hyprland.workspaces.values.filter(w => w.monitor.name == taskbar.screen.name)
+    property var currentWorkspaces: Hyprland.workspaces.values.filter(w => w.monitor != null && w.monitor.name == taskbar.screen.name)
     Repeater {
         model: parent.currentWorkspaces
         Button {
             id: control
-            anchors.centerIn: parent.centerIn
+            anchors.centerIn: parent
             contentItem: Text {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -38,12 +38,11 @@ RowLayout {
             }
 
             // TODO: Improve this, it's very messy right now.
-            property int focusedWindowId: 0
             function getColor() {
-                focusedWindowId = Hyprland.focusedWorkspace.id;
+                var focusedId = Hyprland.focusedWorkspace.id;
                 if (modelData.urgent) {
                     return Config.colors.urgent;
-                } else if (modelData.id == focusedWindowId || mouse.hovered) {
+                } else if (modelData.id == focusedId || mouse.hovered) {
                     return Config.colors.accent;
                 }
                 return Config.colors.text;
