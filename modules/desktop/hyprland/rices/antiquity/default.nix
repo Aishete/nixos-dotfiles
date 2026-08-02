@@ -88,6 +88,7 @@
           quickshell ipc call "mainMenu_''${mon}" toggleMainMenu || true
           quickshell ipc call "workspacesBar_''${mon}" toggleFront || true
           quickshell ipc call "radialBar_''${mon}" toggleFront || true
+          quickshell ipc call "widgetScreen_''${mon}" toggleFront || true
         '';
       in
       {

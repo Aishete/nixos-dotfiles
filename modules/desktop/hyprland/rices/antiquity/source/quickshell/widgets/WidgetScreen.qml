@@ -17,13 +17,25 @@ Scope {
             PanelWindow {
                 id: widgetScreen
                 screen: root.modelData
-                WlrLayershell.layer: WlrLayer.Bottom
+                // Raised to Overlay by SUPER+Grave (shared with the bars) so the
+                // stats/network panel sits on top of all apps. Toggled by
+                // widgetScreen_<mon> toggleFront.
+                property bool frontMode: false
+                WlrLayershell.layer: root.frontMode ? WlrLayer.Overlay : WlrLayer.Bottom
                 color: "Transparent"
                 anchors {
                     top: true
                     left: true
                     right: true
                     bottom: true
+                }
+                Scope {
+                    IpcHandler {
+                        target: "widgetScreen_" + widgetScreen.screen.name
+                        function toggleFront() {
+                            root.frontMode = !root.frontMode;
+                        }
+                    }
                 }
                 Rectangle {
                     anchors.fill: parent
