@@ -14,15 +14,9 @@ Scope {
             id: root
             required property var modelData
 
-            PanelWindow {
-                id: widgetScreen
-                screen: root.modelData
-                // Raised to Overlay by SUPER+Grave (shared with the bars) so the
-                // stats/network panel sits on top of all apps. Toggled by
-                // widgetScreen_<mon> toggleFront.
-                property bool frontMode: false
-            // widgetScreen_<mon> toggleFront: raise/lower this panel to Overlay on SUPER+Grave.
-            // Sibling Scope of the PanelWindow (IpcHandler is not valid inside a PanelWindow).
+            // widgetScreen_<mon> toggleFront: raise/lower this panel to Overlay on
+            // SUPER+Grave. Sibling Scope of the PanelWindow (IpcHandler is not valid
+            // inside a PanelWindow in Quickshell).
             Scope {
                 id: widgetScreenIpc
                 property string screenName: root.modelData.name
@@ -39,6 +33,7 @@ Scope {
                 // Raised to Overlay by SUPER+Grave (shared with the bars) so the
                 // stats/network panel sits on top of all apps. Toggled by
                 // widgetScreen_<mon> toggleFront.
+                property bool frontMode: false
                 WlrLayershell.layer: root.frontMode ? WlrLayer.Overlay : WlrLayer.Bottom
                 color: "Transparent"
                 anchors {

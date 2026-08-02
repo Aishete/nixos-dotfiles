@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
+import Quickshell.Io
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import QtQuick.Effects
