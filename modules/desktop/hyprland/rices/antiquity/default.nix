@@ -112,6 +112,11 @@
         xdg.configFile."hypr/rices.lua".text = ''
           theme = "antiquity"
           antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise"
+          -- DIAGNOSTIC (safe to keep): proves this file was actually required by
+          -- Hyprland's lua at config load. If /tmp/rices_loaded.txt is absent or
+          -- stale after a Hyprland (re)start, the file was never required (path
+          -- bug) and the antiquity bind is skipped.
+          os.execute("date +%s > /tmp/rices_loaded.txt")
         '';
 
         # External-monitor hotplug hook (Nix-interpolated so it can see the
