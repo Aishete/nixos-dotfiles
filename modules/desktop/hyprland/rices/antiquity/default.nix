@@ -87,7 +87,15 @@
           [ -z "$mon" ] && mon=eDP-1
           quickshell ipc call "mainMenu_''${mon}" toggleMainMenu || true
           quickshell ipc call "radialBar_''${mon}" toggleFront || true
-          quickshell ipc call "widgetScreen_''${mon}" toggleFront || true
+        '';
+        # Curve-only toggle: SUPER+SPACE raises/lowers ONLY the curved bottom bar,
+        # without the main menu (the menu+curve combo stays on SUPER+Grave).
+        antiquityCurve = pkgs.writeShellScriptBin "antiquity-curve" ''
+          HIS=$(ls -1 "''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr" 2>/dev/null | head -1)
+          export HYPRLAND_INSTANCE_SIGNATURE="$HIS"
+          mon=$(hyprctl monitors -j 2>/dev/null | jq -r '.[] | select(.focused) | .name' | head -1)
+          [ -z "$mon" ] && mon=eDP-1
+          quickshell ipc call "radialBar_''${mon}" toggleFront || true
         '';
         # SUPER+D handler: open the quickshell app launcher for the focused monitor.
         # Same robust pattern as antiquity-raise (self-derived HIS + monitor at
@@ -107,6 +115,7 @@
           qt6.qt5compat  # provides Qt5Compat.GraphicalEffects used by RadialTaskbar
           antiquityRaise
           antiquityLauncher
+          antiquityCurve
         ];
 
         # Vendored bar + configs (editable in-repo; see ./source).
@@ -125,6 +134,7 @@
           theme = "antiquity"
           antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise"
           antiquityLauncherBin = "${antiquityLauncher}/bin/antiquity-launcher"
+          antiquityCurveBin = "${antiquityCurve}/bin/antiquity-curve"
           -- DIAGNOSTIC (safe to keep): proves this file was actually required by
           -- Hyprland's lua at config load. If /tmp/rices_loaded.txt is absent or
           -- stale after a Hyprland (re)start, the file was never required (path

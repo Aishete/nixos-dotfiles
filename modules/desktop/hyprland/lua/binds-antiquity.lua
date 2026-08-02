@@ -7,6 +7,9 @@
 -- (workspaces strip) in one keypress via the antiquity-raise script, which resolves
 -- the focused monitor at keypress time and calls both quickshell IPC handlers.
 hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd(antiquityRaiseBin))
+-- SUPER+SPACE raises/lowers ONLY the curved bottom bar (no main menu).
+-- The menu+curve combo stays on SUPER+Grave.
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(antiquityCurveBin))
 -- SUPER+D opens the quickshell app launcher (upstream parity: quickshell ipc
 -- call appLauncher_<mon> toggleAppLauncher). Script resolves the focused
 -- monitor at keypress time.

@@ -488,32 +488,11 @@ Scope {
                     }
                 }
 
-                /*=== Status widgets (RAM / GPU / Power) — moved from Bar.qml ===*/
-                // Glass container at the top-right of the bar, ABOVE the curve fill
-                // (verticalCenter would put them inside the curve's glass area where
-                // dark text on dark wallpaper is invisible).
-                Rectangle {
-                    id: statusContainer
-                    anchors.top: parent.top
-                    anchors.right: parent.right
-                    anchors.topMargin: 8
-                    anchors.rightMargin: 12
-                    height: 22
-                    width: statusRow.implicitWidth + 16
-                    radius: 6
-                    color: Qt.rgba(Config.colors.glassTintColor.r, Config.colors.glassTintColor.g, Config.colors.glassTintColor.b, 0.35)
-                    border.width: 1
-                    border.color: Config.colors.outline
-                    RowLayout {
-                        id: statusRow
-                        anchors.fill: parent
-                        anchors.leftMargin: 8
-                        anchors.rightMargin: 8
-                        spacing: 8
-                        Widgets.PowerWidget { id: powerW }
-                        Widgets.GpuWidget   { id: gpuW }
-                        Widgets.RamWidget   { id: ramW }
-                    }
+                /*=== Status widgets (RAM / GPU / Power) + clock — on the curve ===*/
+                // Positioned along the radial curve (center-right band, between the
+                // workspace stars and the systray arc) via pointOnCurve.
+                CurveStatus {
+                    curve: radialBarCurve
                 }
             }
         }
