@@ -22,6 +22,20 @@ Scope {
             // Raised to Overlay by SUPER+Grave (shared with the bottom bar) so
             // both bars sit on top of all apps. Toggled by radialBar_<mon> toggleFront.
             property bool frontMode: false
+
+            // radialBar_<mon> toggleFront: raise/lower this bar to Overlay on SUPER+Grave.
+            // Must be a sibling Scope of the PanelWindow (IpcHandler is not valid inside a
+            // PanelWindow in Quickshell).
+            Scope {
+                id: radialBarIpc
+                property string screenName: root.modelData.name
+                IpcHandler {
+                    target: "radialBar_" + radialBarIpc.screenName
+                    function toggleFront() {
+                        root.frontMode = !root.frontMode;
+                    }
+                }
+            }
             PanelWindow {
                 id: radialTaskbar
                 screen: root.modelData
@@ -32,14 +46,6 @@ Scope {
 
                 property bool isOpen: false
 
-                Scope {
-                    IpcHandler {
-                        target: "radialBar_" + radialTaskbar.screen.name
-                        function toggleFront() {
-                            root.frontMode = !root.frontMode;
-                        }
-                    }
-                }
                 function refreshState(workspaceId) {
                     Hyprland.dispatch(`hl.dsp.focus({workspace = "${workspaceId}"})`);
                 }
