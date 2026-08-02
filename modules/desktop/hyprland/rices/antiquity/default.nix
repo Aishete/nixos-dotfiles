@@ -87,6 +87,7 @@
           [ -z "$mon" ] && mon=eDP-1
           quickshell ipc call "mainMenu_''${mon}" toggleMainMenu || true
           quickshell ipc call "workspacesBar_''${mon}" toggleFront || true
+          quickshell ipc call "radialBar_''${mon}" toggleFront || true
         '';
       in
       {

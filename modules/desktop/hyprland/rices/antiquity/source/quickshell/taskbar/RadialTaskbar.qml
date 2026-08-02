@@ -19,14 +19,27 @@ Scope {
         Item {
             id: root
             required property var modelData
+            // Raised to Overlay by SUPER+Grave (shared with the bottom bar) so
+            // both bars sit on top of all apps. Toggled by radialBar_<mon> toggleFront.
+            property bool frontMode: false
             PanelWindow {
                 id: radialTaskbar
                 screen: root.modelData
-                WlrLayershell.layer: isOpen ? WlrLayer.Top : WlrLayer.Bottom
+                visible: root.frontMode || isOpen
+                WlrLayershell.layer: root.frontMode ? WlrLayer.Overlay : (isOpen ? WlrLayer.Top : WlrLayer.Bottom)
                 exclusionMode: ExclusionMode.Ignore //Ignore
                 WlrLayershell.namespace: "diinki_celestialantiquity:bars"
 
                 property bool isOpen: false
+
+                Scope {
+                    IpcHandler {
+                        target: "radialBar_" + radialTaskbar.screen.name
+                        function toggleFront() {
+                            root.frontMode = !root.frontMode;
+                        }
+                    }
+                }
                 function refreshState(workspaceId) {
                     Hyprland.dispatch(`hl.dsp.focus({workspace = "${workspaceId}"})`);
                 }
