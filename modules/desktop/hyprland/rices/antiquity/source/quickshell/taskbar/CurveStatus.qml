@@ -18,7 +18,7 @@ Item {
     // Push the status text DOWN off the curve line into the glass body, so the
     // items sit inside the curve instead of half-floating above its edge.
     // (Centering on the curve line leaves the top half over the wallpaper.)
-    readonly property real drop: 14
+    readonly property real drop: 20
 
     // Clock at the curve peak (t=0.5)
     Item {
