@@ -139,10 +139,12 @@
         home.file.".local/share/wallpapers/oc_the_blackboard.png".source = "${bundled}/oc_the_blackboard.png";
         home.file.".local/share/wallpapers/galaxy.webp".source = galaxy;
         # Canonical preloaded path. Every wallpaper apply (theme switch OR custom
-        # selection) routes through this symlink (see Config.qml applyWallpaper)
-        # so the applied path always matches a preloaded texture -> no black gap.
-        # Default points at galaxy; the selector/quickshell rewrites it on select.
+        # selection) routes through this symlink so hyprpaper reuses the buffered
+        # texture (no black gap). force = true because quickshell's applyWallpaper
+        # also symlinks this path at runtime (to the selected wallpaper); without
+        # force the switch aborts on "would be clobbered".
         home.file.".local/share/wallpapers/selected.webp".source = galaxy;
+        home.file.".local/share/wallpapers/selected.webp".force = true;
         # Per-theme pool wallpapers (distinct from the bundled collages).
         home.file.".local/share/wallpapers/ALCHEMY-dark.png".source = ../../../../themes/wallpapers/ALCHEMY-dark.png;
         home.file.".local/share/wallpapers/HIRAETH.png".source = ../../../../themes/wallpapers/HIRAETH.png;
