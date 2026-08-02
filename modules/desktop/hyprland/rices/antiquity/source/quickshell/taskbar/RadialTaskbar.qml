@@ -12,6 +12,7 @@ import Qt5Compat.GraphicalEffects
 import "../smallicons/" as Smallicons
 import "../utils/" as Utils
 import "../popups" as Popups
+import "../widgets" as Widgets
 import ".."
 
 Scope {
@@ -34,6 +35,50 @@ Scope {
                     target: "radialBar_" + radialBarIpc.screenName
                     function toggleFront() {
                         root.frontMode = !root.frontMode;
+                    }
+                }
+            }
+
+            // SystemPopup state (app launcher popup), moved here from Bar.qml so the
+            // bottom bar owns the whole popup lifecycle.
+            property int currentPopup: Config.SystemPopup.None
+            function closeAllPopups() {
+                root.currentPopup = Config.SystemPopup.None;
+            }
+            Scope {
+                id: appLauncherIpc
+                property string screenName: root.modelData.name
+                IpcHandler {
+                    target: "appLauncher_" + appLauncherIpc.screenName
+                    function toggleAppLauncher() {
+                        if (root.currentPopup == Config.SystemPopup.None) {
+                            root.currentPopup = Config.SystemPopup.AppLauncher;
+                        } else {
+                            root.currentPopup = Config.SystemPopup.None;
+                        }
+                    }
+                }
+            }
+            // Click-outside closes the app launcher popup (was Bar.qml's overlay panel).
+            PanelWindow {
+                id: popupOverlay
+                screen: root.modelData
+                color: "transparent"
+                implicitHeight: screen.height
+                anchors {
+                    bottom: true
+                    left: true
+                    right: true
+                }
+                visible: root.currentPopup != Config.SystemPopup.None ? true : false
+                exclusionMode: ExclusionMode.Ignore
+                MouseArea {
+                    id: popupArea
+                    width: Screen.width
+                    height: Screen.height
+                    visible: root.currentPopup != Config.SystemPopup.None ? true : false
+                    onClicked: {
+                        root.closeAllPopups();
                     }
                 }
             }
@@ -414,6 +459,39 @@ Scope {
                         }
                     }
                 }
+
+                /*=== App launcher (moved from Bar.qml) ===*/
+                // Popup surface for the app launcher; visible when currentPopup is AppLauncher.
+                Popups.AppLauncher {
+                    id: appLauncher
+                    closeCallback: root.closeAllPopups
+                    menuWidth: 0
+                    popupWidth: 500
+                    screenHeight: modelData.height
+                    currentPopup: root.currentPopup
+                }
+                // Launcher button — bottom-center of the curved bar.
+                TaskbarButton {
+                    id: appLauncherButton
+                    isToggled: root.currentPopup == Config.SystemPopup.AppLauncher ? true : false
+                    iconFontValue: "\ue8b6"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 12
+                    onClicked: {
+                        if (root.currentPopup == Config.SystemPopup.None) {
+                            root.currentPopup = Config.SystemPopup.AppLauncher;
+                        } else {
+                            root.currentPopup = Config.SystemPopup.None;
+                        }
+                        root.currentPopup = Config.SystemPopup.AppLauncher;
+                    }
+                }
+
+                /*=== Status widgets (RAM / GPU / Power) — moved from Bar.qml ===*/
+                Widgets.PowerWidget { id: powerW; anchors.verticalCenter: parent.verticalCenter; anchors.right: parent.right; anchors.rightMargin: 12 }
+                Widgets.GpuWidget   { id: gpuW;   anchors.verticalCenter: parent.verticalCenter; anchors.right: powerW.left; anchors.rightMargin: 8 }
+                Widgets.RamWidget   { id: ramW;   anchors.verticalCenter: parent.verticalCenter; anchors.right: gpuW.left;   anchors.rightMargin: 8 }
             }
         }
     }

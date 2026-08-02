@@ -56,7 +56,6 @@ Scope {
     Widgets.WidgetScreen {}
     Taskbar.RadialTaskbar {}
     Taskbar.Sidebar {}
-    Taskbar.Bar {}
 
     Popups.SettingsWindow {
         id: settingsWindow
