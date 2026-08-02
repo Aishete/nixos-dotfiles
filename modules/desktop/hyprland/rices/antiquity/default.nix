@@ -86,7 +86,6 @@
           mon=$(hyprctl monitors -j 2>/dev/null | jq -r '.[] | select(.focused) | .name' | head -1)
           [ -z "$mon" ] && mon=eDP-1
           quickshell ipc call "mainMenu_''${mon}" toggleMainMenu || true
-          quickshell ipc call "workspacesBar_''${mon}" toggleFront || true
           quickshell ipc call "radialBar_''${mon}" toggleFront || true
           quickshell ipc call "widgetScreen_''${mon}" toggleFront || true
         '';

@@ -40,7 +40,6 @@ Scope {
             PanelWindow {
                 id: radialTaskbar
                 screen: root.modelData
-                visible: root.frontMode || isOpen
                 WlrLayershell.layer: root.frontMode ? WlrLayer.Overlay : (isOpen ? WlrLayer.Top : WlrLayer.Bottom)
                 exclusionMode: ExclusionMode.Ignore //Ignore
                 WlrLayershell.namespace: "diinki_celestialantiquity:bars"
