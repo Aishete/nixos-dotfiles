@@ -105,15 +105,20 @@
         # Rice identity (read by binds.lua's `if (theme == "antiquity")`).
         # Also export the absolute path to the antiquity-raise script so the
         # bind works regardless of Hyprland's exec PATH.
-        xdg.configFile."hypr/lua/rices.lua".text = ''
+        # IMPORTANT: must live at the TOP LEVEL of ~/.config/hypr/ (next to
+        # variables.lua), NOT in a lua/ subdir -- Hyprland's lua package.path
+        # only covers the top level, so a subdir require("rices") silently
+        # fails and theme stays nil, skipping the antiquity bind entirely.
+        xdg.configFile."hypr/rices.lua".text = ''
           theme = "antiquity"
           antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise"
         '';
 
         # External-monitor hotplug hook (Nix-interpolated so it can see the
         # applyWallpaper store path, which plain hyprland.lua cannot). Registered
-        # via `require("monitor_hotplug")` in lua/hyprland.lua.
-        xdg.configFile."hypr/lua/monitor_hotplug.lua".text = ''
+        # via `require("monitor_hotplug")` in lua/hyprland.lua. Must be at the
+        # TOP LEVEL (like rices.lua) -- Hyprland's lua path doesn't cover lua/.
+        xdg.configFile."hypr/monitor_hotplug.lua".text = ''
           -- Re-apply wallpaper when a monitor is hot-plugged. hyprpaper preloads
           -- every theme wallpaper, so the swap is flash-free. We re-run the same
           -- apply script the service uses (override > selectedWallpaper > galaxy),
