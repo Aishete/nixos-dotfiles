@@ -7,6 +7,10 @@
 -- (workspaces strip) in one keypress via the antiquity-raise script, which resolves
 -- the focused monitor at keypress time and calls both quickshell IPC handlers.
 hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd(antiquityRaiseBin))
+-- SUPER+D opens the quickshell app launcher (upstream parity: quickshell ipc
+-- call appLauncher_<mon> toggleAppLauncher). Script resolves the focused
+-- monitor at keypress time.
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(antiquityLauncherBin))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("launcher wallpaper"))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("launcher emoji"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("launcher tmux"))

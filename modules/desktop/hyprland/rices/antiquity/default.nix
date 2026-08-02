@@ -89,6 +89,16 @@
           quickshell ipc call "radialBar_''${mon}" toggleFront || true
           quickshell ipc call "widgetScreen_''${mon}" toggleFront || true
         '';
+        # SUPER+D handler: open the quickshell app launcher for the focused monitor.
+        # Same robust pattern as antiquity-raise (self-derived HIS + monitor at
+        # keypress time). The quickshell AppLauncher popup is owned by RadialTaskbar.
+        antiquityLauncher = pkgs.writeShellScriptBin "antiquity-launcher" ''
+          HIS=$(ls -1 "''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr" 2>/dev/null | head -1)
+          export HYPRLAND_INSTANCE_SIGNATURE="$HIS"
+          mon=$(hyprctl monitors -j 2>/dev/null | jq -r '.[] | select(.focused) | .name' | head -1)
+          [ -z "$mon" ] && mon=eDP-1
+          quickshell ipc call "appLauncher_''${mon}" toggleAppLauncher || true
+        '';
       in
       {
         home.packages = with pkgs; [
@@ -96,6 +106,7 @@
           hyprpaper
           qt6.qt5compat  # provides Qt5Compat.GraphicalEffects used by RadialTaskbar
           antiquityRaise
+          antiquityLauncher
         ];
 
         # Vendored bar + configs (editable in-repo; see ./source).
@@ -113,6 +124,7 @@
         xdg.configFile."hypr/rices.lua".text = ''
           theme = "antiquity"
           antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise"
+          antiquityLauncherBin = "${antiquityLauncher}/bin/antiquity-launcher"
           -- DIAGNOSTIC (safe to keep): proves this file was actually required by
           -- Hyprland's lua at config load. If /tmp/rices_loaded.txt is absent or
           -- stale after a Hyprland (re)start, the file was never required (path
