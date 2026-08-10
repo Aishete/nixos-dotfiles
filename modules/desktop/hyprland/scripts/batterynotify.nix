@@ -142,11 +142,20 @@ pkgs.writeShellScriptBin "batterynotify" ''
       interval=''${interval:-5}
       execute=''${execute:-"systemctl suspend"}
 
+      # Init BEFORE the first fn_status_change so booting already-low notifies
+      # immediately (first call compares against this; without it the gate
+      # blocks until the % changes).
+      last_notified_percentage=100
       fn_status_change
-      last_notified_percentage=$battery_percentage
       prev_status=$battery_status
 
-      ${pkgs.dbus}/bin/dbus-monitor --system "type='signal',interface='org.freedesktop.DBus.Properties',path='$(${pkgs.upower}/bin/upower -e | ${pkgs.gnugrep}/bin/grep battery)'" 2> /dev/null | while read -r battery_status_change; do
+      # Poll sysfs directly instead of depending on the UPower D-Bus daemon.
+      # upower crashes/is absent on this machine, which silently killed the old
+      # dbus-monitor chain (empty path -> no signal ever matched -> no
+      # notifications). Polling BAT0 every 15s is daemon-free and still catches
+      # plug/unplug + threshold crossings within one interval.
+      while true; do
+        sleep 15
         fn_status_change
       done
     fi
