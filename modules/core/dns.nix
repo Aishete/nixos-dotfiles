@@ -5,6 +5,7 @@
       "camigf.local"
     ];
     "192.168.40.229" = ["data.odc.odm-eu.local"];
+    "192.168.1.164" = ["data.odc.odm-eu.staging.derilinx.com"];
   };
   networking.firewall = {
     allowedTCPPorts = [
