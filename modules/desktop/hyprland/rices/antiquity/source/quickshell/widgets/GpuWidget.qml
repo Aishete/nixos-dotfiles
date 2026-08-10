@@ -28,4 +28,16 @@ Rectangle {
     stdout: SplitParser { onRead: (out) => { gpuOut = out; } }
   }
   property string gpuOut: ""
+
+  // Process runs its command ONCE at startup; re-run every 5s so the
+  // GPU busy % stays live.
+  Timer {
+    interval: 5 * 1000
+    running: true
+    repeat: true
+    onTriggered: {
+      gpuProc.running = false;
+      gpuProc.running = true;
+    }
+  }
 }

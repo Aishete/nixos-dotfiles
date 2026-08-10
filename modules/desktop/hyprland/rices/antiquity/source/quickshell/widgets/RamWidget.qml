@@ -24,8 +24,20 @@ Rectangle {
   Process {
     id: ramProc
     running: true
-    command: ["sh", "-c", "free -m | awk '/^Mem:/ {printf \"%d/%dMB\", $3, $2}']"]
+    command: ["sh", "-c", "free -m | awk '/^Mem:/ {printf \"%d/%dMB\", $3, $2}'"]
     stdout: SplitParser { onRead: (out) => { ramOut = out; } }
   }
   property string ramOut: ""
+
+  // Process runs its command ONCE at startup; re-run every 5s so RAM
+  // usage stays live.
+  Timer {
+    interval: 5 * 1000
+    running: true
+    repeat: true
+    onTriggered: {
+      ramProc.running = false;
+      ramProc.running = true;
+    }
+  }
 }

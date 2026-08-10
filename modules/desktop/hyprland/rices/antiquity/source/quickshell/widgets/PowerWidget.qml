@@ -28,4 +28,16 @@ Rectangle {
     stdout: SplitParser { onRead: (out) => { powOut = out; } }
   }
   property string powOut: ""
+
+  // Process runs its command ONCE at startup; battery % changes slowly, so
+  // re-run it every 30s to keep the curve value live.
+  Timer {
+    interval: 30 * 1000
+    running: true
+    repeat: true
+    onTriggered: {
+      powProc.running = false;
+      powProc.running = true;
+    }
+  }
 }
