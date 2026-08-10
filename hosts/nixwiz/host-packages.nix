@@ -12,5 +12,8 @@
     # systemd 258 handles uaccess for the device automatically.
     android-tools # provides adb
     scrcpy # mirror + control phone screen over USB
+
+    # USB device listing (lsusb) — dock/USB debugging
+    usbutils
   ];
 }
