@@ -35,6 +35,33 @@
           render_mode = "auto";
         };
       };
+      mcp_servers = {
+        blender = {
+          args = [ "blender-mcp" ];
+          command = "uvx";
+          connect_timeout = 60;
+          timeout = 120;
+        };
+        obsidian = {
+          enabled = true;
+          headers = {
+            Authorization = "Bearer \${MCP_OBSIDIAN_API_KEY}";
+          };
+          url = "https://syncc.scriptwiz.fun/mcp";
+        };
+        gortex = {
+          command = "/home/archdev/.local/bin/gortex";
+          args = [ "mcp" ];
+          connect_timeout = 60;
+          timeout = 120;
+        };
+        open-interpreter = {
+          command = "/home/archdev/.local/bin/interpreter";
+          args = [ "mcp-server" ];
+          connect_timeout = 60;
+          timeout = 120;
+        };
+      };
       platform_toolsets = {
         cli = [
           "browser"
