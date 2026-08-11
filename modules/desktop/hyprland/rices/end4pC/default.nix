@@ -39,14 +39,16 @@ in {
   # with this env (loader: "Configuration Loaded").
   #
   # Fonts: the shell's own config asks for Google Sans Flex (main/title/numbers),
-  # JetBrains Mono NF (mono + nerd-glyph icons), Readex Pro (reading) and Space
-  # Grotesk (expressive). All four are installed (and alias-matched) rice-scoped
-  # so the look the author intended is what renders.
+  # a nerd font for mono + iconNerd, Readex Pro (reading) and Space Grotesk
+  # (expressive) — plus "Material Symbols Rounded", the FONT the shell's UI
+  # glyphs (bar buttons, status icons) are drawn with (MaterialSymbol.qml).
+  # All installed (and alias-matched) rice-scoped so the intended look renders.
   fonts.packages = with pkgs; [
     googleSansFlex
     nerd-fonts.jetbrains-mono
     readexpro
     spaceGrotesk
+    material-symbols # family "Material Symbols Rounded" — the shell's UI glyph font
   ];
   # The shell's config asks for "JetBrains Mono NF" (with a space) but the nerd
   # font registers "JetBrainsMono NF" — normalize the pattern.
@@ -58,6 +60,10 @@ in {
   '';
   fonts.fontconfig.enable = true;
 
+  # App icons (launcher/dock/taskbar) resolve via QIcon -> XDG icon theme:
+  # papirus provides the theme, qt6ct makes Qt actually use it (the flake
+  # already sets QT_QPA_PLATFORMTHEME=qt6ct globally; the platform theme just
+  # wasn't installed), and the qt6ct.conf pins the theme name.
   home-manager.sharedModules = [
     (
       { pkgs, lib, config, ... }:
@@ -105,9 +111,29 @@ in {
           python3 # scripts/hyprland/autostart.py + colors scripts
           jq # switchwall.sh / hyprctl piping
           matugen # M3 dynamic color generation on wallpaper switch
+          papirus-icon-theme # app icons for QIcon/Kirigami (launcher, dock, taskbar)
+          qt6Packages.qt6ct # platform theme: makes Qt honor the icon theme name
           end4pcLauncher
           end4pcSettings
         ];
+
+        # qt6ct: pin the icon theme so QIcon::fromTheme finds papirus.
+        xdg.configFile."qt6ct/qt6ct.conf".text = ''
+          [Appearance]
+          icon_theme=Papirus
+        '';
+
+        # Seed the shell's runtime font choices (config.json is owned by the
+        # shell — we mutate it in place, never home.file it). Keeps the user's
+        # requested Iosevka Nerd Font for the mono + nerd-glyph slots on every
+        # rebuild; everything else in the config stays shell-managed.
+        home.activation.seedEnd4pcFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          CFG="$HOME/.config/illogical-impulse/config.json"
+          if [ -f "$CFG" ]; then
+            ${pkgs.jq}/bin/jq '.appearance.fonts.monospace = "Iosevka Nerd Font" | .appearance.fonts.iconNerd = "Iosevka Nerd Font"' "$CFG" > "$CFG.tmp"
+            mv "$CFG.tmp" "$CFG"
+          fi
+        '';
 
         # Rice identity + service list. The parent's rice.lua emission is gated
         # to the default rice, so THIS is the active definition on end4pC.
