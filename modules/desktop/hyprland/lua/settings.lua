@@ -25,23 +25,24 @@ hl.env("NIXPKGS_ALLOW_UNFREE", "1")
 -- Startup
 hl.on("hyprland.start", function()
 	-- Rice-aware autostart. Antiquity runs Quickshell + hyprpaper as systemd
-	-- user services (WantedBy default.target) so they come up reliably; default
-	-- keeps its own bar/wallpaper chain. We must NOT also exec them here or they
-	-- would be launched twice.
+	-- user services (WantedBy graphical-session.target, started explicitly from
+	-- hyprland.lua for manual TTY launches); the default rice keeps its own
+	-- bar/wallpaper chain. We must NOT also exec them here or they would be
+	-- launched twice. SwayNC is the default rice's notification center too
+	-- (antiquity uses mako), so it starts only when NOT on antiquity.
 	local rice = "default"
 	pcall(function() rice = require("rice").rice or "default" end)
 	if rice ~= "antiquity" then
 		hl.exec_cmd(wallpaper)
 		hl.exec_cmd(bar)
+		hl.exec_cmd("swaync")
 	end
-	hl.exec_cmd("swaync")
 	hl.exec_cmd("nm-applet --indicator")
 	hl.exec_cmd("wl-clipboard-history -t")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store")
 	hl.exec_cmd("cliphist wipe")
 	hl.exec_cmd(batterynotify)
-	hl.exec_cmd("polkit-agent-helper-1")
 end)
 
 -- Main config
