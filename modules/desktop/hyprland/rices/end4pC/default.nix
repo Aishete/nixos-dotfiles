@@ -1,9 +1,25 @@
 {
+  inputs,
   pkgs,
   lib,
   config,
   ...
-}: {
+}: let
+  # Google Sans Flex variable font from the upstream-endorsed repo.
+  googleSansFlex = pkgs.runCommand "google-sans-flex" { } ''
+    mkdir -p $out/share/fonts/truetype
+    cp ${inputs.end4pc-fonts}/GoogleSansFlex-VariableFont_*.ttf $out/share/fonts/truetype/
+  '';
+  # Space Grotesk (OFL) — not packaged in nixpkgs; vendored from google/fonts.
+  spaceGrotesk = pkgs.runCommand "space-grotesk" { } ''
+    mkdir -p $out/share/fonts/truetype
+    cp ${pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/google/fonts/main/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf";
+      name = "SpaceGrotesk.ttf";
+      hash = "sha256-rK1t4fyTQ29cDx9BN3Ue8E8a6jBj5wNlNZcP/PvXn3I=";
+    }} $out/share/fonts/truetype/
+  '';
+in {
   # end4pC rice — Layer-2 shell template (Quickshell Material-3 shell).
   # Vendored from pctrade/end4-pC (a fork of end-4's illogical-impulse), GPL-3.0.
   #
@@ -16,10 +32,32 @@
   #
   # Runtime requirement: the shell imports Qt/KDE QML modules that nixpkgs'
   # quickshell doesn't carry on its import path — qtpositioning (weather),
-  # qt5compat (GraphicalEffects) and org.kde.syntaxhighlighting (AI chat code
-  # blocks). We wrap quickshell with QML_IMPORT_PATH pointing at those (all
-  # prebuilt; no source builds). Verified: the full 521-file shell loads on
-  # quickshell 0.3.0 with this env (loader: "Configuration Loaded").
+  # qt5compat (GraphicalEffects), org.kde.syntaxhighlighting (AI chat code
+  # blocks) and org.kde.kirigami (AppIcon — app icons in launcher/dock/taskbar).
+  # We wrap quickshell with QML_IMPORT_PATH pointing at those (all prebuilt; no
+  # source builds). Verified: the full 521-file shell loads on quickshell 0.3.0
+  # with this env (loader: "Configuration Loaded").
+  #
+  # Fonts: the shell's own config asks for Google Sans Flex (main/title/numbers),
+  # JetBrains Mono NF (mono + nerd-glyph icons), Readex Pro (reading) and Space
+  # Grotesk (expressive). All four are installed (and alias-matched) rice-scoped
+  # so the look the author intended is what renders.
+  fonts.packages = with pkgs; [
+    googleSansFlex
+    nerd-fonts.jetbrains-mono
+    readexpro
+    spaceGrotesk
+  ];
+  # The shell's config asks for "JetBrains Mono NF" (with a space) but the nerd
+  # font registers "JetBrainsMono NF" — normalize the pattern.
+  fonts.fontconfig.localConf = ''
+    <match target="pattern">
+      <test name="family"><string>JetBrains Mono NF</string></test>
+      <edit name="family" mode="prepend" binding="strong"><string>JetBrainsMono NF</string></edit>
+    </match>
+  '';
+  fonts.fontconfig.enable = true;
+
   home-manager.sharedModules = [
     (
       { pkgs, lib, config, ... }:
@@ -29,9 +67,8 @@
           qt6.qtpositioning # Weather.qml -> QtPositioning
           qt6.qt5compat # ReloadPopup/effects -> Qt5Compat.GraphicalEffects
           kdePackages.syntax-highlighting # AiChat code blocks -> org.kde.syntaxhighlighting
+          kdePackages.kirigami.unwrapped # AppIcon -> org.kde.kirigami (app icons)
         ];
-        # (kdePackages.kirigami would silence the AppIcon cosmetic warning —
-        # its qml dir didn't materialize in testing; revisit if icons look off.)
         importPath = lib.concatStringsSep ":" (map (p: "${p}/lib/qt-6/qml") qmlModules);
 
         # Wrapper: export the extra QML import path, then exec quickshell on the

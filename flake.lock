@@ -88,6 +88,22 @@
         "type": "github"
       }
     },
+    "end4pc-fonts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1763459024,
+        "narHash": "sha256-HMAS0L/Tsqyl1xI16cyIzg9LEb6Dyq91JY4wqFQV9Vs=",
+        "owner": "end-4",
+        "repo": "google-sans-flex",
+        "rev": "251aa5abd30496368f634e54ce2a508fe5a2fdfa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "end-4",
+        "repo": "google-sans-flex",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -629,6 +645,7 @@
         "antiquity": "antiquity",
         "betterfox": "betterfox",
         "doom-config": "doom-config",
+        "end4pc-fonts": "end4pc-fonts",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",

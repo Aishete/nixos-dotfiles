@@ -80,6 +80,13 @@
       url = "github:diinki/linux-antiquity";
       flake = false;
     };
+    # Google Sans Flex (the end4pC shell's main font family). Not in nixpkgs
+    # (proprietary, not freely redistributable) — upstream illogical-impulse
+    # installs it from this exact repo, so we follow upstream.
+    end4pc-fonts = {
+      url = "github:end-4/google-sans-flex";
+      flake = false;
+    };
   };
 
   outputs = {
