@@ -123,23 +123,27 @@
         xdg.configFile."mako/config".source = ./source/mako/config;
         xdg.configFile."kitty/antiquity".source = ./source/kitty;
 
-        # Rice identity (read by binds.lua's `if (theme == "antiquity")`).
-        # Also export the absolute path to the antiquity-raise script so the
-        # bind works regardless of Hyprland's exec PATH.
-        # IMPORTANT: must live at the TOP LEVEL of ~/.config/hypr/ (next to
-        # variables.lua), NOT in a lua/ subdir -- Hyprland's lua package.path
-        # only covers the top level, so a subdir require("rices") silently
-        # fails and theme stays nil, skipping the antiquity bind entirely.
-        xdg.configFile."hypr/rices.lua".text = ''
-          theme = "antiquity"
-          antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise"
-          antiquityLauncherBin = "${antiquityLauncher}/bin/antiquity-launcher"
-          antiquityCurveBin = "${antiquityCurve}/bin/antiquity-curve"
-          -- DIAGNOSTIC (safe to keep): proves this file was actually required by
-          -- Hyprland's lua at config load. If /tmp/rices_loaded.txt is absent or
-          -- stale after a Hyprland (re)start, the file was never required (path
-          -- bug) and the antiquity bind is skipped.
-          os.execute("date +%s > /tmp/rices_loaded.txt")
+        # Rice identity (read by binds.lua and settings.lua via require("rice")).
+        # Single source of truth: this file REPLACES the parent's default-rice
+        # rice.lua when antiquity is active (the parent gates its definition to
+        # rice == "default"). It also exports the absolute paths to the
+        # antiquity-* scripts so the binds work regardless of Hyprland's exec
+        # PATH. IMPORTANT: must live at the TOP LEVEL of ~/.config/hypr/ (next
+        # to variables.lua), NOT in a lua/ subdir -- Hyprland's lua package.path
+        # only covers the top level, so a subdir require("rice") silently fails
+        # and rice stays nil, skipping the antiquity binds entirely.
+        xdg.configFile."hypr/rice.lua".text = ''
+          -- DIAGNOSTIC (safe to keep): proves this file was actually required
+          -- by Hyprland's lua at config load. If /tmp/rice_loaded.txt is absent
+          -- or stale after a Hyprland (re)start, the file was never required
+          -- (path bug) and the antiquity binds are skipped.
+          os.execute("date +%s > /tmp/rice_loaded.txt")
+          return {
+            rice = "antiquity",
+            antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise",
+            antiquityLauncherBin = "${antiquityLauncher}/bin/antiquity-launcher",
+            antiquityCurveBin = "${antiquityCurve}/bin/antiquity-curve",
+          }
         '';
 
         # External-monitor hotplug hook (Nix-interpolated so it can see the

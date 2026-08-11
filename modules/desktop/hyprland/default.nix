@@ -106,8 +106,13 @@ in {
           # Generated per-host: tells binds.lua which rice is active so the same
           # chord can trigger a rice-specific action (2D matrix: chord is yours,
           # action is the rice's). Returns { rice = "default" | "antiquity" }.
-          "hypr/rice.lua".text = ''
-            return { rice = "${rice}" }
+          # Single source of truth for rice identity: when antiquity is active
+          # its module emits its OWN rice.lua (identity + script bin paths), so
+          # this definition is gated to the default rice to avoid a duplicate
+          # xdg.configFile definition. If a third rice forgets to emit rice.lua,
+          # binds.lua degrades gracefully to "default".
+          "hypr/rice.lua".text = lib.mkIf (rice == "default") ''
+            return { rice = "default" }
           '';
           "hypr/rules.lua".source = ./lua/rules.lua;
           "hypr/plugins.lua".text = ''

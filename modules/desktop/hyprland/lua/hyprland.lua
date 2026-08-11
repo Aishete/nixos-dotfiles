@@ -2,7 +2,8 @@ require("monitors")
 require("variables")
 require("settings")
 require("animations")
-pcall(require, "rices")  -- sets theme = "antiquity" for the antiquity rice
+-- Rice identity is read inside binds.lua / settings.lua via require("rice")
+-- (one file, emitted by the active rice module or the parent for "default").
 require("binds")
 require("rules")
 require("plugins")
