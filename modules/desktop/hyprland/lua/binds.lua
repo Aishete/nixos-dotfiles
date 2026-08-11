@@ -9,6 +9,8 @@ pcall(function() rice_state = require("rice").rice or "default" end)
 
 if rice_state == "antiquity" then
   require("binds-antiquity")
+elseif rice_state == "end4pC" then
+  require("binds-end4pC")
 else
   require("binds-default")
 end

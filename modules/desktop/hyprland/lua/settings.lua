@@ -24,15 +24,15 @@ hl.env("NIXPKGS_ALLOW_UNFREE", "1")
 
 -- Startup
 hl.on("hyprland.start", function()
-	-- Rice-aware autostart. Antiquity runs Quickshell + hyprpaper as systemd
-	-- user services (WantedBy graphical-session.target, started explicitly from
-	-- hyprland.lua for manual TTY launches); the default rice keeps its own
-	-- bar/wallpaper chain. We must NOT also exec them here or they would be
-	-- launched twice. SwayNC is the default rice's notification center too
-	-- (antiquity uses mako), so it starts only when NOT on antiquity.
+	-- Rice-aware autostart. The default rice starts its own wallpaper/bar and
+	-- SwayNC notification center; antiquity and end4pC bring their own shell
+	-- (Quickshell + mako / the M3 shell) as systemd user services (WantedBy
+	-- graphical-session.target, started explicitly from hyprland.lua for manual
+	-- TTY launches). We must NOT also exec them here or they would be launched
+	-- twice.
 	local rice = "default"
 	pcall(function() rice = require("rice").rice or "default" end)
-	if rice ~= "antiquity" then
+	if rice == "default" then
 		hl.exec_cmd(wallpaper)
 		hl.exec_cmd(bar)
 		hl.exec_cmd("swaync")

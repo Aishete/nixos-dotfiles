@@ -33,7 +33,8 @@ in {
       ./programs/swaync
       ./programs/waybar/${waybarTheme}.nix
     ]
-    ++ lib.optional (rice == "antiquity") ./rices/antiquity;
+    ++ lib.optional (rice == "antiquity") ./rices/antiquity
+    ++ lib.optional (rice == "end4pC") ./rices/end4pC;
 
   environment.systemPackages = with pkgs; [
     pavucontrol

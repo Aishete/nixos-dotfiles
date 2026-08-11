@@ -140,6 +140,7 @@
           os.execute("date +%s > /tmp/rice_loaded.txt")
           return {
             rice = "antiquity",
+            services = "quickshell.service hyprpaper.service",
             antiquityRaiseBin = "${antiquityRaise}/bin/antiquity-raise",
             antiquityLauncherBin = "${antiquityLauncher}/bin/antiquity-launcher",
             antiquityCurveBin = "${antiquityCurve}/bin/antiquity-curve",
