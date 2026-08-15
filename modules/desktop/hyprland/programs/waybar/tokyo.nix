@@ -31,7 +31,7 @@ in {
         enable = true;
         systemd = {
           enable = false;
-          target = "graphical-session.target";
+          targets = [ "graphical-session.target" ];
         };
         settings = {
           mainBar = {
@@ -52,6 +52,8 @@ in {
 
             modules-left = [
               "hyprland/workspaces"
+              "wlr/taskbar"
+              "custom/windows"
               "custom/sep"
               "hyprland/window"
               "custom/background-apps"
@@ -96,6 +98,31 @@ in {
                 "empty" = " ";
                 "urgent" = "";
               };
+            };
+
+            "wlr/taskbar" = {
+              # App icons for every open window (Spotify, etc.). Waybar 0.15's
+              # taskbar has NO per-app window menu (only fixed click actions),
+              # so: left-click = raise / minimize toggle (click a focused app
+              # again to minimize it), middle-click = minimize, right-click =
+              # close. The "custom/windows" button next to it opens the full
+              # window list (rofi) for everything the app has open.
+              on-click = "minimize-raise";
+              on-click-middle = "minimize";
+              on-click-right = "close";
+              icon-size = 16;
+              sort-by-app-id = true;
+              tooltip = true;
+              tooltip-format = "{title}";
+            };
+
+            "custom/windows" = {
+              # Window list: all open windows (icons + titles), click to switch.
+              # Same `launcher window` mode as SUPER+SHIFT+TAB.
+              format = "󰊠";
+              tooltip = true;
+              tooltip-format = "Window list";
+              on-click = "launcher window";
             };
 
             "hyprland/window" = {
@@ -187,8 +214,13 @@ in {
                   fi
                   CPU_USAGE=$utilization
                   SPEED=$(awk -v u="$CPU_USAGE" 'BEGIN { printf "%.2f", 0.22 - (u * 0.10) }')
-                  if (($(echo "$SPEED < 0.05" | bc -l))); then SPEED=0.05; fi
-                  if (($(echo "$CPU_USAGE < 0.02" | bc -l))); then
+                  # Floor the animation speed (was `bc -l`, but bc is not on
+                  # waybar's PATH — the comparison silently failed and the cat
+                  # ran too fast on idle CPUs). awk does the same job.
+                  SPEED=$(awk -v s="$SPEED" 'BEGIN { if (s < 0.05) print "0.05"; else print s }')
+                  # Idle detection (same bc removal): 1 when CPU is basically idle.
+                  IDLE=$(awk -v u="$CPU_USAGE" 'BEGIN { print (u < 0.02) ? "1" : "0" }')
+                  if [ "$IDLE" = "1" ]; then
                     COUNT=$((COUNT + 1))
                   else
                     COUNT=0
@@ -382,6 +414,33 @@ in {
 
           #workspaces button.urgent {
             background: ${palette.muted};
+          }
+
+          /* TASKBAR (open apps: click=switch, middle=minimize, right=close) */
+          #taskbar button {
+            padding: 0 4px;
+            margin: 2px 0;
+            border-radius: 0;
+            background: transparent;
+            color: ${palette.muted};
+          }
+
+          #taskbar button:hover {
+            background: ${palette.hoverBg};
+          }
+
+          #taskbar button.active {
+            color: ${palette.accent};
+            border-bottom: 2px solid ${palette.accent};
+          }
+
+          #custom-windows {
+            padding: 0 4px;
+            color: ${palette.fg0};
+          }
+
+          #custom-windows:hover {
+            background: ${palette.hoverBg};
           }
 
           #window {
