@@ -10,9 +10,7 @@ require("plugins")
 
 -- Bring up the rice's user services (bar/shell daemons) on Hyprland startup.
 -- Each rice declares its service list in its rice.lua (`services` field):
--- antiquity -> "quickshell.service hyprpaper.service", end4pC ->
--- "quickshell-end4pc.service" (no hyprpaper — the shell renders its own
--- wallpaper), default -> none (started via settings.lua exec instead).
+-- default -> "hyprpaper.service" (bar started via settings.lua exec instead).
 -- The services are WantedBy graphical-session.target, but on a MANUAL Hyprland
 -- launch (e.g. from a TTY) that target is never activated and even refuses
 -- manual start, so nothing pulls the daemons up and the bar/shell silently
@@ -30,7 +28,7 @@ end)
 
 -- External monitor hotplug: when a monitor is added, re-apply the current
 -- wallpaper so the new output isn't left blank/black. hyprpaper preloads every
--- theme wallpaper (see antiquity/default.nix), so the swap is flash-free.
+-- theme wallpaper (see rices/default), so the swap is flash-free.
 -- The actual apply path is injected by the rice module (it owns the script's
 -- store path); we just register the handler here.
 pcall(require, "monitor_hotplug")

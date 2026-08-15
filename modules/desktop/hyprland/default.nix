@@ -19,10 +19,10 @@ in {
       ./programs/hypridle
       ./programs/hyprlock
     ]
-    # Layer-2 rice module (shell template). Symmetric matrix: each rice owns its
-    # Layer-2 rice modules (shell templates). `default` = Waybar+SwayNC+hyprpaper,
-    # `antiquity` = Quickshell+hyprpaper+mako. Common config (lua binds, xdg
-    # portals, hyprland wm) stays in this parent module regardless of rice.
+    # Layer-2 rice module (shell template). Only the `default` rice (Waybar+
+    # SwayNC+hyprpaper) is currently used; the rice matrix is kept so hosts can
+    # select bar variants (waybar/hyprpanel/noctalia) via `bar`. Common config
+    # (lua binds, xdg portals, hyprland wm) stays in this parent module.
     ++ lib.optional (rice == "default") ./rices/default
     ++ lib.optionals (rice == "default" && bar == "hyprpanel") ./programs/hyprpanel
     ++ lib.optionals (rice == "default" && bar == "noctalia") [
@@ -32,9 +32,7 @@ in {
     ++ lib.optionals (rice == "default" && bar == "waybar") [
       ./programs/swaync
       ./programs/waybar/${waybarTheme}.nix
-    ]
-    ++ lib.optional (rice == "antiquity") ./rices/antiquity
-    ++ lib.optional (rice == "end4pC") ./rices/end4pC;
+    ];
 
   environment.systemPackages = with pkgs; [
     pavucontrol
@@ -103,17 +101,15 @@ in {
           "hypr/binds.lua".source = ./lua/binds.lua;
           "hypr/binds-common.lua".source = ./lua/binds-common.lua;
           "hypr/binds-default.lua".source = ./lua/binds-default.lua;
-          "hypr/binds-antiquity.lua".source = ./lua/binds-antiquity.lua;
           # Generated per-host: tells binds.lua which rice is active so the same
-          # chord can trigger a rice-specific action (2D matrix: chord is yours,
-          # action is the rice's). Returns { rice = "default" | "antiquity" }.
-          # Single source of truth for rice identity: when antiquity is active
-          # its module emits its OWN rice.lua (identity + script bin paths), so
-          # this definition is gated to the default rice to avoid a duplicate
-          # xdg.configFile definition. If a third rice forgets to emit rice.lua,
-          # binds.lua degrades gracefully to "default".
+          # chord can trigger a rice-specific action. Returns { rice = "default" }.
           "hypr/rice.lua".text = lib.mkIf (rice == "default") ''
-            return { rice = "default" }
+            -- Default rice services. hyprpaper is WantedBy
+            -- graphical-session.target, but on a MANUAL Hyprland launch that
+            -- target never activates (and refuses manual start); the
+            -- hyprland.start hook in lua/hyprland.lua starts this list
+            -- directly. Idempotent under a display manager.
+            return { rice = "default", services = "hyprpaper.service" }
           '';
           "hypr/rules.lua".source = ./lua/rules.lua;
           "hypr/plugins.lua".text = ''
