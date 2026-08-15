@@ -12,7 +12,7 @@ in
     gcc 
     nodejs
     nil
-    nixfmt-rfc-style # 'nixfmt-tree' is older; rfc-style is the new standard
+    nixfmt # the rfc-style formatter; 'nixfmt-tree' is the older one
     ripgrep
     sshfs            # Essential for remote-sshfs.nvim
   ];

@@ -82,7 +82,7 @@
               ]
               ++
                 # Linux only
-                pkgs.lib.optionals pkgs.stdenv.isLinux (
+                pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux (
                   with pkgs;
                   [
                     gigalixir
@@ -92,7 +92,7 @@
                 )
               ++
                 # macOS only
-                pkgs.lib.optionals pkgs.stdenv.isDarwin (
+                pkgs.lib.optionals pkgs.stdenv.hostPlatform.isDarwin (
                   with pkgs;
                   [
                     terminal-notifier

@@ -8,6 +8,12 @@ let
     ../../../themes/wallpapers;
 in
 pkgs.writeShellScriptBin "wallpaper" ''
+  # Derive the Hyprland instance signature: Hyprland does NOT propagate
+  # HYPRLAND_INSTANCE_SIGNATURE to exec children spawned at hyprland.start,
+  # so find it in the runtime socket dir (works for DM and manual launches).
+  HIS=$(ls -1 "''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr" 2>/dev/null | head -1)
+  export HYPRLAND_INSTANCE_SIGNATURE="$HIS"
+
   # Wait briefly for hyprpaper's IPC to be reachable.
   for i in $(seq 1 10); do
     hyprctl -q ping >/dev/null 2>&1 && break
@@ -20,7 +26,9 @@ pkgs.writeShellScriptBin "wallpaper" ''
     WP="$(cat "$HOME/.local/state/quickshell/selectedWallpaper")"
   fi
 
-  for m in eDP-1 DP-1 HDMI-A-2; do
-    hyprctl hyprpaper wallpaper "$m,$WP" || true
+  # Apply to ACTUALLY connected monitors (hardcoded names error on other
+  # hardware / hotplug).
+  for m in $(hyprctl monitors -j 2>/dev/null | jq -r '.[].name'); do
+    [ -n "$m" ] && hyprctl hyprpaper wallpaper "$m,$WP" || true
   done
 ''

@@ -1,5 +1,5 @@
--- Common binds shared by EVERY rice (default + antiquity).
--- Rice-specific binds live in binds-default.lua / binds-antiquity.lua and are
+-- Common binds shared by EVERY rice.
+-- Rice-specific binds live in binds-default.lua and are
 -- loaded by binds.lua (the dispatcher) based on rice.lua's `rice` value.
 -- `mainMod` is a global (set by variables.lua, required before this file).
 
@@ -53,7 +53,11 @@ hl.bind(mainMod .. " + SHIFT + G", hl.dsp.group.toggle())
 hl.bind("ALT + return", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + ALT + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + backspace", hl.dsp.exec_cmd("pkill -x wleave || wleave --css ~/.config/wleave/style.css"))
-hl.bind("CONTROL + ESCAPE", hl.dsp.exec_cmd('pkill "waybar|hyprpanel" || ' .. bar))
+-- Toggle the bar (waybar: per-monitor — the FOCUSED monitor's instance only;
+-- hyprpanel: kill if running, start if not). Implemented as a script
+-- (togglebar) — a quoted one-liner here broke at dispatch time and the old
+-- `pkill "waybar|hyprpanel"` regex could match lookalike processes.
+hl.bind("CONTROL + ESCAPE", hl.dsp.exec_cmd(togglebar))
 hl.bind(mainMod .. " + CTRL + mouse_down", hl.dsp.exec_cmd(zoom .. " in"))
 hl.bind(mainMod .. " + CTRL + mouse_up", hl.dsp.exec_cmd(zoom .. " out"))
 

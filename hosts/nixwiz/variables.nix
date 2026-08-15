@@ -5,9 +5,8 @@
   desktop = "hyprland"; # hyprland, i3, gnome, plasma6
 
   # Rice / Shell Template — Layer 2 of the 2D matrix (color x rice)
-  # default   = Waybar + SwayNC + awww wallpaper (baseline)
-  # antiquity = Quickshell + hyprpaper + mako (art-nouveau shell)
-  rice = "antiquity"; # default, antiquity, end4pC
+  # default = Waybar + SwayNC + hyprpaper wallpaper (baseline; only rice available)
+  rice = "default"; # default
 
   # Theme & Appearance
   monospaceFont = "Iosevka Nerd Font"; # JetBrainsMono Nerd Font, Maple Mono NF, 0xProto Nerd Font

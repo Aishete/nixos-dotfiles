@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "antiquity": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1784542423,
-        "narHash": "sha256-esTY4EN2wmjfhsynSNNWr2XlR9rw2Ahdes0u7OypMk8=",
-        "owner": "diinki",
-        "repo": "linux-antiquity",
-        "rev": "c0e3eac816e36124610fd557be4d2f87dd1f558a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "diinki",
-        "repo": "linux-antiquity",
-        "type": "github"
-      }
-    },
     "betterfox": {
       "flake": false,
       "locked": {
@@ -85,22 +69,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "type": "github"
-      }
-    },
-    "end4pc-fonts": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1763459024,
-        "narHash": "sha256-HMAS0L/Tsqyl1xI16cyIzg9LEb6Dyq91JY4wqFQV9Vs=",
-        "owner": "end-4",
-        "repo": "google-sans-flex",
-        "rev": "251aa5abd30496368f634e54ce2a508fe5a2fdfa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "end-4",
-        "repo": "google-sans-flex",
         "type": "github"
       }
     },
@@ -372,11 +340,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1783224372,
-        "narHash": "sha256-8i/87eeoqiGE4yOTjwSA3Eh/ziJRQEmd/unYU+K27sk=",
-        "owner": "NixOS",
+        "lastModified": 1786599213,
+        "narHash": "sha256-yNJd40f11EzXBjSByCB7IPpeFFAdeoSKKM67dGkfFoU=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d407951447dcd00442e97087bf374aad70c04cea",
+        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
         "type": "github"
       },
       "original": {
@@ -642,10 +610,8 @@
     },
     "root": {
       "inputs": {
-        "antiquity": "antiquity",
         "betterfox": "betterfox",
         "doom-config": "doom-config",
-        "end4pc-fonts": "end4pc-fonts",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",
