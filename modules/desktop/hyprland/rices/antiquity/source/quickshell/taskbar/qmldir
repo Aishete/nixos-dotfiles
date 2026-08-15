@@ -1,4 +1,0 @@
-module Taskbar
-RadialTaskbar 1.0 RadialTaskbar.qml
-TaskbarButton 1.0 TaskbarButton.qml
-CurveStatus 1.0 CurveStatus.qml
