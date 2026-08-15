@@ -1,0 +1,92 @@
+--- a/src/utility/argument_parsing/argument.cpp
++++ b/src/utility/argument_parsing/argument.cpp
+@@ -1,6 +1,7 @@
+ #include "utility/argument_parser.hpp"
+ 
+ #include <cstdlib>
++#include <cstring>
+ #include <cxxabi.h>
+ #include <iostream>
+ #include <memory>
+--- a/src/platform/linux/singleton_process.cpp
++++ b/src/platform/linux/singleton_process.cpp
+@@ -1,7 +1,9 @@
+ #include "utility/singleton_process.hpp"
+ 
+ #include <cerrno>
++#include <cstring>
+ #include <chrono>
++#include <cstdint>
+ #include <fcntl.h> /* For O_* constants */
+ #include <sys/ipc.h>
+ #include <sys/mman.h>
+--- a/src/platform/linux/backtrace.cpp
++++ b/src/platform/linux/backtrace.cpp
+@@ -1,6 +1,7 @@
+ #include "utility/backtrace.hpp"
+ 
+ #include <cstdlib>    // for free
++#include <cstdint>
+ #include <cxxabi.h>   // for abi::__cxa_demangle
+ #include <execinfo.h> // for backtrace, backtrace_symbols
+ 
+--- a/src/config.cpp
++++ b/src/config.cpp
+@@ -6,6 +6,7 @@
+ #include "core/priority.hpp"
+ 
+ #include <chrono> // for system_clock::now
++#include <cstdint>
+ #include <fstream>
+ 
+ #include <fmt/chrono.h>
+--- a/src/platform/linux/process_helpers.hpp
++++ b/src/platform/linux/process_helpers.hpp
+@@ -3,6 +3,7 @@
+ #include <fstream> // for ifstream
+ #include <string>  // for string
+ #include <vector>  // for vector
++#include <cstdint>
+ 
+ #include <fmt/format.h>
+ 
+--- a/src/platform/linux/x3d.cpp
++++ b/src/platform/linux/x3d.cpp
+@@ -3,6 +3,7 @@
+ #include "utility/sysfs.hpp"
+ 
+ #include <cstddef>
++#include <cstdint>
+ #include <filesystem>
+ #include <fstream>
+ #include <map>
+--- a/src/platform/linux/topology.cpp
++++ b/src/platform/linux/topology.cpp
+@@ -3,6 +3,7 @@
+ #include "utility/sysfs.hpp"
+ 
+ #include <algorithm>   // for max_element, sort
++#include <cstdint>
+ #include <filesystem>  // for directory_iterator
+ #include <limits>      // for numeric_limits
+ #include <map>         // for map
+--- a/src/utility/argument_parsing/argument_parser.cpp
++++ b/src/utility/argument_parsing/argument_parser.cpp
+@@ -1,6 +1,7 @@
+ #include "utility/argument_parser.hpp"
+ 
+ #include <algorithm>
++#include <cstdint>
+ #include <cxxabi.h>
+ #include <functional>
+ #include <iostream>
+--- a/src/platform/linux/sysfs.cpp
++++ b/src/platform/linux/sysfs.cpp
+@@ -1,6 +1,7 @@
+ #include "utility/sysfs.hpp"
+ 
+ #include <charconv>
++#include <cstdint>
+ #include <fstream>
+ 
+ #include <fmt/format.h>
