@@ -18,6 +18,9 @@
     ananicy = {
       enable = true;
       package = pkgs.ananicy-cpp;
+      # nixpkgs removed the old ananicy package; the module's rulesProvider
+      # default still points at it, so pin the cpp rules package explicitly.
+      rulesProvider = pkgs.ananicy-rules-cachyos;
     };
 
     openssh = {
