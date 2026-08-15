@@ -32,6 +32,7 @@
   zoom = pkgs.callPackage ./scripts/zoom.nix {};
   presentation-mirror = pkgs.callPackage ./scripts/presentation-mirror.nix {};
   notes = pkgs.callPackage ./scripts/notes.nix {};
+  togglebar = pkgs.callPackage ./scripts/togglebar.nix {inherit bar;};
 
   # Gap presets
   gaps = {
@@ -60,10 +61,14 @@ in {
           zoom = "${getExe zoom}"
           presentation_mirror = "${getExe presentation-mirror}"
           notes = "${getExe notes}"
+          togglebar = "${getExe togglebar}"
 
           -- Variables
           mainMod = "SUPER"
-          bar = "${if bar == "waybar" then "waybar" else bar}"
+          -- Waybar hosts: start one `waybar -m <mon>` instance per connected
+          -- monitor (toggle-bar --start-all) so CTRL+ESCAPE can toggle a
+          -- single monitor's bar. HyprPanel hosts keep the plain binary.
+          bar = "${if bar == "waybar" then "${getExe togglebar} --start-all" else bar}"
           term = "${getExe pkgs.${terminal}}"
           editor = "code --disable-gpu"
           browser = "${browser}"

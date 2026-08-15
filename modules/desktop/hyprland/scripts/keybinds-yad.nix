@@ -74,7 +74,7 @@ pkgs.writeShellScriptBin "keybinds-yad" ''
     "ALT Return" "Toggle fullscreen" "fullscreen" \
     "SUPER ALT L" "Lock screen" "hyprlock" \
     "SUPER Backspace" "Power menu" "wleave" \
-    "CTRL Escape" "Toggle Bar" "pkill waybar|hyprpanel || waybar|hyprpanel" \
+    "CTRL Escape" "Toggle Bar" "toggle-bar" \
     "SUPER CTRL mouse_down" "zoom in" "zoom in" \
     "SUPER CTRL mouse_up" "zoom out" "zoom out" \
     "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw" \

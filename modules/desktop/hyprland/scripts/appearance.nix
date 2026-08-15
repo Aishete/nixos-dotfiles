@@ -4,7 +4,7 @@ pkgs.writeShellScriptBin "appearance" ''
   get_val() {
     hyprctl getoption "$1" | ${pkgs.gnused}/bin/sed -n '1p' | ${pkgs.gawk}/bin/awk '{print $2}'
   }
-
+#TODO
   BLUR=$(get_val "decoration:blur:enabled")
   BLUR_SIZE=$(get_val "decoration:blur:size")
   BLUR_PASSES=$(get_val "decoration:blur:passes")
