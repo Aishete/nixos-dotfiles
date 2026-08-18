@@ -16,5 +16,6 @@
     qgis
     signal-desktop
     skopeo
+    spotatui
   ];
 }

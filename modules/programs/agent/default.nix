@@ -61,6 +61,13 @@
           connect_timeout = 60;
           timeout = 120;
         };
+        mempalace = {
+          enabled = true;
+          command = "docker";
+          args = [ "run" "-i" "--rm" "-v" "mempalace-data:/data" "ghcr.io/mempalace/mempalace" ];
+          connect_timeout = 60;
+          timeout = 120;
+        };
       };
       platform_toolsets = {
         cli = [
