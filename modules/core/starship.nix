@@ -36,14 +36,16 @@
           git_status = {
             # NOTE: $stashed was removed from the format — the "≡" stash
             # indicator confused the user. Stashes still exist, just silent.
+            # Individual status symbols set to empty string (not U+200B
+            # zero-width space, which renders as <200b> in nvim's terminal).
             format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind)]($style)";
             style = "cyan";
-            conflicted = "​";
-            untracked = "​";
-            modified = "​";
-            staged = "​";
-            renamed = "​";
-            deleted = "​";
+            conflicted = "";
+            untracked = "";
+            modified = "";
+            staged = "";
+            renamed = "";
+            deleted = "";
           };
           git_state = {
             format = ''\([$state( $progress_current/$progress_total)]($style)\) '';
