@@ -18,6 +18,13 @@ require("plugins")
 -- running via the target under a display manager) and works for both launch
 -- styles.
 hl.on("hyprland.start", function()
+  -- Bootstrap the systemd user session targets NOW (compositor is ready).
+  -- At config-parse time the Wayland socket doesn't exist yet: starting
+  -- hyprland-session.target / graphical-session.target early makes services
+  -- like hyprpaper fail wl_display_connect and exit 0 (never restarted).
+  hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+  hl.exec_cmd("systemctl --user start hyprland-session.target")
+
   local rice_conf = {}
   pcall(function() rice_conf = require("rice") or {} end)
   local svcs = rice_conf.services or ""

@@ -9,6 +9,20 @@
   inherit (hostVars) bar waybarTheme;
   # Layer-2 rice selector; defaults to "default" for hosts that don't define it
   rice = hostVars.rice or "default";
+in let
+  # hypr-dynamic-cursors: nixpkgs pins rev f5ba36c (2026-07-21), which crashes
+  # on Hyprland 0.56.2 ("plugin crashed/threw in main"). The v0.56.2 compat fix
+  # landed upstream 2026-08-06 (rev 5a22428, pinned for Hyprland efb5099).
+  # Override until nixpkgs bumps past it.
+  dynamic-cursors = pkgs.hyprlandPlugins.hypr-dynamic-cursors.overrideAttrs (old: {
+    version = "0-unstable-2026-08-06";
+    src = pkgs.fetchFromGitHub {
+      owner = "VirtCode";
+      repo = "hypr-dynamic-cursors";
+      rev = "5a224284872208b5324759d535d65061043725de";
+      hash = "sha256-BQjuQplkQFA30/7evDxmEAvr2ArIG09JffEBQhuzo80=";
+    };
+  });
 in {
   imports =
     [
@@ -40,7 +54,7 @@ in {
     cliphist
     wl-clipboard
     wl-mirror
-    hyprlandPlugins.hypr-dynamic-cursors
+    dynamic-cursors
   ];
 
   systemd.user.services.hyprpolkitagent = {
@@ -66,7 +80,20 @@ in {
 
   home-manager.sharedModules = [
     (
-      {config, lib, ...}: {
+      {config, lib, ...}: let
+        # Brushbuddy animated cursor theme, built from the .ani pack in
+        # ./cursors/brushbuddy (extract.py + build-theme.sh run at derivation time).
+        # Overrides the theme module's pointerCursor (Catppuccin/TokyoNight set macOS).
+        brushbuddy-cursor = pkgs.callPackage ./cursors/brushbuddy {};
+      in {
+        home.pointerCursor = lib.mkForce {
+          gtk.enable = true;
+          x11.enable = true;
+          name = "Brushbuddy";
+          package = brushbuddy-cursor;
+          size = 40;
+        };
+
         xdg.portal = {
           enable = true;
           extraPortals = with pkgs; [
@@ -115,7 +142,7 @@ in {
           "hypr/plugins.lua".text = ''
             -- Dynamic cursors plugin
             if hl.plugin.load then
-              hl.plugin.load("${pkgs.hyprlandPlugins.hypr-dynamic-cursors}/lib/libhypr-dynamic-cursors.so")
+              hl.plugin.load("${dynamic-cursors}/lib/libhypr-dynamic-cursors.so")
             end
 
             if hl.plugin.dynamic_cursors then

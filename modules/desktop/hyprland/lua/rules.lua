@@ -73,6 +73,10 @@ hl.window_rule({ match = { class = "^(Signal)$" }, opacity = "0.80 0.70", float 
 hl.window_rule({ match = { class = "^(io.gitlab.theevilskeleton.Upscaler)$" }, opacity = "0.80 0.70", float = true })
 hl.window_rule({ match = { class = "^(com.github.rafostar.Clapper)$" }, opacity = "0.90 0.80", float = true })
 
+-- Discord / WebCord
+hl.window_rule({ match = { class = "^(discord)$" }, opacity = "0.90 0.80" })
+hl.window_rule({ match = { class = "^(WebCord)$" }, opacity = "0.90 0.80" })
+
 hl.window_rule({ match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol)$" }, opacity = "0.80 0.70" })
 hl.window_rule({ match = { class = "^(pavucontrol)$" }, float = true })
 hl.window_rule({ match = { class = "^(blueman-manager|.blueman-manager-wrapped)$" }, opacity = "0.80 0.70" })

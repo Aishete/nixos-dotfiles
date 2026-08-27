@@ -1,6 +1,6 @@
 -- Environment variables
-hl.env("XCURSOR_THEME", "macOS")
-hl.env("XCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "Brushbuddy")
+hl.env("XCURSOR_SIZE", "48")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
@@ -41,7 +41,6 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("cliphist wipe")
 	hl.exec_cmd(batterynotify)
 end)
-
 -- Main config
 hl.config({
 	input = {
@@ -92,6 +91,7 @@ hl.config({
 			size = 3,
 			passes = 1,
 			ignore_opacity = true,
+			new_optimizations = true,
 			xray = true,
 		},
 	},
