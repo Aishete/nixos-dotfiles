@@ -24,10 +24,19 @@
         base_url = "https://opencode.ai/zen/go/v1";
       };
       providers = {
-        ollama = {
-          base_url = "https://ollama.com/api/v1";
+        ollama-cloud = {
+          base_url = "https://ollama.com/v1";
         };
       };
+      delegation = {
+         provider = "ollama-cloud";
+         model = "deepseek-v4-flash:0731";
+         base_url = "https://ollama.com/v1";
+         max_concurrent_children = 2;
+         api_key = "\${OLLAMA_API_KEY}";
+         reasoning_effort = "high"; #valid values: none/low/medium/high/max;
+       };
+
       display = {
         pet = {
           enabled = false;
@@ -35,6 +44,16 @@
           render_mode = "auto";
         };
       };
+      approvals = {
+         mode = "manual";
+         cron_mode = "deny";
+         deny = [
+           "rm -rf *"
+           "rm -fr "
+           "rm -r -f"
+           "rm -f -r*"
+         ];
+       };
       mcp_servers = {
         blender = {
           args = [ "blender-mcp" ];
@@ -115,4 +134,7 @@
     # Add hermes to system-wide PATH and export HERMES_HOME
     addToSystemPackages = true;
   };
+
+  # Load API keys from ~/.hermes/.env for the hermes-agent systemd service
+  systemd.services.hermes-agent.serviceConfig.EnvironmentFile = "%h/.hermes/.env";
 }

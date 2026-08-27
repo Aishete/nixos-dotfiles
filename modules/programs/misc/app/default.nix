@@ -17,5 +17,6 @@
     signal-desktop
     skopeo
     spotatui
+    t3code
   ];
 }

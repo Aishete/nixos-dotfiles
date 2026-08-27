@@ -27,16 +27,5 @@ in
       withOpenASAR = true;
       enableAutoscroll = true;
     };
-    # ananicy-cpp 1.2.0 fails with the new clang/libc++: std::memset /
-    # std::intN_t used without <cstring>/<cstdint> (transitive includes
-    # dropped). Patched until nixpkgs carries the upstream fix.
-    ananicy-cpp = prev.ananicy-cpp.overrideAttrs (old: {
-      patches = (old.patches or []) ++ [ ./patches/ananicy-cpp-cstring.patch ];
-    });
-    # wf-recorder 0.6.0 uses AVCodec.sample_fmts, removed in ffmpeg 7+;
-    # build against ffmpeg_6 until upstream ships a compatible release.
-    wf-recorder = prev.wf-recorder.override {
-      ffmpeg = prev.ffmpeg_6;
-    };
   };
 }
