@@ -19,9 +19,9 @@
     # Override per-profile via ~/.hermes/config.yaml or --profile flag
     settings = {
       model = {
-        provider = "opencode-go";
-        default = "hy3";
-        base_url = "https://opencode.ai/zen/go/v1";
+        provider = "ollama-cloud";
+        default = "glm-5.3-flash";
+        base_url = "https://ollama.com/v1";
       };
       providers = {
         ollama-cloud = {
