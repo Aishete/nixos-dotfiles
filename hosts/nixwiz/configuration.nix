@@ -34,6 +34,7 @@ in {
       ../../modules/hardware/video/${vars.videoDriver}.nix # Enable gpu drivers defined in variables.nix
       ../../modules/desktop/${vars.desktop} # Set window manager defined in variables.nix
       ../../modules/programs/browser/${vars.browser} # Set browser defined in variables.nix
+      ../../modules/programs/browser/qutebrowser # Second browser (additive, Firefox stays default)
       ../../modules/programs/terminal/${vars.terminal} # Set terminal defined in variables.nix
       ../../modules/programs/editor/${vars.editor} # Set primary editor defined in variables.nix
     ]
