@@ -1,0 +1,83 @@
+/* caelus-flavored Firefox chrome
+ * Source look: https://git.symlinx.net/daccfiles/ (theme "caelus" by dacctal)
+ * Palette: bg #0f0f0f / panel #1e1f1e / text #f4decd / muted #9a9c8b
+ * Accent: caelus red #f16e65 (user pick; upstream accent was burnt orange
+ * #ef934d — disliked). Success/warn hues kept from the same 16-color set.
+ * Doctrine: flat + squared (dacctal forces border-radius: 0 everywhere).
+ * NOTE: unlike upstream, the horizontal tab bar is KEPT (no Sidebery here);
+ * it is themed caelus-style instead.
+ */
+
+:root {
+  --caelus-bg: #0f0f0f;        /* base black */
+  --caelus-panel: #1e1f1e;     /* gray-1 panels */
+  --caelus-fg: #f4decd;        /* cream text */
+  --caelus-muted: #9a9c8b;     /* gray-7 inactive text */
+  --caelus-accent: #f16e65;    /* caelus red */
+  --caelus-on-accent: #0f0f0f; /* text on accent bg */
+}
+
+/* squared doctrine */
+* {
+  border-radius: 0px !important;
+}
+
+/* ---------- toolbox ---------- */
+#navigator-toolbox {
+  background: var(--caelus-bg) !important;
+}
+#nav-bar,
+#PersonalToolbar,
+#toolbar-menubar,
+#TabsToolbar {
+  background: var(--caelus-bg) !important;
+  border-color: var(--caelus-bg) !important;
+  box-shadow: none !important;
+}
+
+/* ---------- tabs ---------- */
+.tab-background {
+  background: var(--caelus-panel) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.tab-background[selected="true"] {
+  background: var(--caelus-accent) !important;
+}
+.tab-label {
+  color: var(--caelus-muted) !important;
+}
+.tabbrowser-tab[selected="true"] .tab-label {
+  color: var(--caelus-on-accent) !important;
+  font-weight: 600 !important;
+}
+.tabbrowser-tab[selected="true"] .tab-close-button {
+  color: var(--caelus-on-accent) !important;
+}
+.tabbrowser-tab[selected="true"] .tab-icon-image {
+  color: var(--caelus-on-accent) !important;
+}
+
+/* ---------- url bar ---------- */
+#urlbar-background {
+  background: var(--caelus-panel) !important;
+  border-color: var(--caelus-bg) !important;
+}
+#urlbar[focused="true"] > #urlbar-background {
+  border-color: var(--caelus-accent) !important;
+}
+#urlbar-input,
+#urlbar-input::placeholder {
+  color: var(--caelus-fg) !important;
+}
+
+/* ---------- toolbar buttons + bookmarks ---------- */
+.toolbarbutton-icon {
+  fill: var(--caelus-fg) !important;
+}
+.toolbarbutton-1 {
+  color: var(--caelus-fg) !important;
+}
+#PersonalToolbar .toolbarbutton-text {
+  color: var(--caelus-fg) !important;
+}
