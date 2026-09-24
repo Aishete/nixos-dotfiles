@@ -85,6 +85,7 @@ pkgs.writeShellScriptBin "keybinds-yad" ''
     "SUPER ALT K" "Change keyboard layout" "keyboardswitch" \
     "SUPER U" "Rebuild system" "$_terminal -e rebuild" \
     "SUPER ALT G" "Appearance settings" "appearance" \
+    "SUPER SHIFT ALT G" "Toggle switch animations" "anim-toggle" \
     "SUPER V" "Clipboard manager" "clipmanager" \
     "SUPER SHIFT M" "Online music" "rofimusic" \
     "SUPER SHIFT R" "Screen record (select area)" "screen-record a" \

@@ -22,12 +22,39 @@ pkgs.writeShellScriptBin "appearance" ''
   OPACITY_INT=$(echo "$OPACITY" | ${pkgs.coreutils}/bin/cut -d. -f1)
   OPACITY_LABEL="Opacity: $OPACITY_INT%"
 
-  CHOICE=$(echo -e "$BLUR_LABEL\nBlur Size: $BLUR_SIZE\nBlur Passes: $BLUR_PASSES\n$OPACITY_LABEL\nReset All" | \
+  # Switch-animation state — same detection as the `anim-toggle` bind (the
+  # border leaf). The menu entry flips the same leaf set (focus-change fades +
+  # workspace switch); re-enabling goes through `hyprctl reload config-only`
+  # so the authored values come back exactly.
+  ANIM=$(
+    hyprctl -j animations | ${pkgs.jq}/bin/jq -r '.[0][] | select(.name == "border") | .enabled'
+  )
+  if [ "$ANIM" = true ]; then
+    ANIM_LABEL="Switch animations: ON"
+  else
+    ANIM_LABEL="Switch animations: OFF"
+  fi
+
+  CHOICE=$(echo -e "$BLUR_LABEL\nBlur Size: $BLUR_SIZE\nBlur Passes: $BLUR_PASSES\n$OPACITY_LABEL\n$ANIM_LABEL\nReset All" | \
     ${pkgs.rofi}/bin/rofi -dmenu \
       -theme "$HOME/.config/rofi/launchers/type-1/style-6.rasi" \
       -i -p "Gamemode:")
 
   case "$CHOICE" in
+    *"Switch animations: ON"*)
+      hyprctl -q eval '
+        hl.animation({ leaf = "border", enabled = false })
+        hl.animation({ leaf = "borderangle", enabled = false })
+        hl.animation({ leaf = "fadeSwitch", enabled = false })
+        hl.animation({ leaf = "fadeShadow", enabled = false })
+        hl.animation({ leaf = "fadeGlow", enabled = false })
+        hl.animation({ leaf = "workspaces", enabled = false })
+        hl.animation({ leaf = "specialWorkspace", enabled = false })
+      '
+      ;;
+    *"Switch animations: OFF"*)
+      hyprctl reload config-only -q
+      ;;
     *"Blur: ON"*)
       hyprctl -q eval "hl.config({ decoration = { blur = { enabled = false } } })"
       ;;

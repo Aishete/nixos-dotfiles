@@ -25,7 +25,7 @@
   tuiFileManager = "yazi"; # yazi, lf
   shell = "zsh"; # zsh, bash
   appimageSupport = true; # Enable/Disable AppImage support
-  games = false; # Enable/Disable gaming module
+  games = true; # Enable/Disable gaming module
 
   # Hardware
   hostname = "nixwiz";

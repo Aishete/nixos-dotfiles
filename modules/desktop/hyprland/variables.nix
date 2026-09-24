@@ -22,6 +22,7 @@
   batterynotify = pkgs.callPackage ./scripts/batterynotify.nix {};
   clipmanager = pkgs.callPackage ./scripts/clipmanager.nix {};
   appearance = pkgs.callPackage ./scripts/appearance.nix {};
+  animtoggle = pkgs.callPackage ./scripts/anim-toggle.nix {};
   gapstoggle = pkgs.callPackage ./scripts/gaps-toggle.nix {};
   keyboardswitch = pkgs.callPackage ./scripts/keyboardswitch.nix {};
   keybinds-yad = pkgs.callPackage ./scripts/keybinds-yad.nix {};
@@ -51,6 +52,7 @@ in {
           batterynotify = "${getExe batterynotify}"
           clipmanager = "${getExe clipmanager}"
           appearance = "${getExe appearance}"
+          animtoggle = "${getExe animtoggle}"
           gapstoggle = "${getExe gapstoggle}"
           keyboardswitch = "${getExe keyboardswitch}"
           keybinds_yad = "${getExe keybinds-yad}"

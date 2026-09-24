@@ -76,6 +76,10 @@ hl.bind(mainMod .. " + CTRL + C", hl.dsp.exec_cmd("hyprpicker --autocopy --forma
 -- Misc
 hl.bind(mainMod .. " + ALT + K", hl.dsp.exec_cmd(keyboardswitch))
 hl.bind(mainMod .. " + ALT + G", hl.dsp.exec_cmd(appearance))
+-- Switch-animation toggle: OFF = eval-disable the focus-change border/fade
+-- leaves + the workspace switch slide, ON = `hyprctl reload config-only`
+-- (restores the authored animation values). See scripts/anim-toggle.nix.
+hl.bind(mainMod .. " + SHIFT + ALT + G", hl.dsp.exec_cmd(animtoggle))
 -- Instant blur toggle (no menu): read current state, flip it
 hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("b=$(hyprctl getoption decoration:blur:enabled | awk 'NR==1{print $2}'); if [ \"$b\" = true ]; then hyprctl -q keyword decoration:blur:enabled false; else hyprctl -q keyword decoration:blur:enabled true; fi"))
 hl.bind(mainMod .. " + CTRL + G", hl.dsp.exec_cmd(gapstoggle))
