@@ -30,7 +30,7 @@
       };
       delegation = {
          provider = "ollama-cloud";
-         model = "deepseek-v4-flash:0731";
+         model = "deepseek-v4.1-flash";
          base_url = "https://ollama.com/v1";
          max_concurrent_children = 2;
          api_key = "\${OLLAMA_API_KEY}";
@@ -72,6 +72,11 @@
           command = "/home/archdev/.local/bin/gortex";
           args = [ "mcp" ];
           connect_timeout = 60;
+          # Spawn cwd = default repo for the MCP session. gortex binds the repo
+          # by the child's cwd at spawn; the untracked terminal.cwd default
+          # (~/workspace) made every MCP call fail "repository not tracked".
+          # Keep this pointing at a TRACKED repo.
+          # cwd = "/home/archdev/projects/shieldfont-km-pua";
           timeout = 120;
         };
         open-interpreter = {

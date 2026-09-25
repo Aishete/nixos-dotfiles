@@ -22,7 +22,6 @@
             settings = import ./settings.nix;
             bookmarks = import ./bookmarks.nix;
             search = import ./search.nix {inherit pkgs;};
-            userChrome = builtins.readFile ./userChrome.css;
             # userContent = builtins.readFile ./userContent.css;
             extraConfig = ''
               ${builtins.readFile "${inputs.betterfox}/Fastfox.js"}
@@ -57,6 +56,24 @@
           };
         };
       };
+
+      # SPLIT-BRAIN FIX (2026-09-24): the LIVE Firefox is the plain nixpkgs
+      # wrapper (env MOZ_LEGACY_PROFILES=1), so it reads ~/.mozilla/firefox
+      # and NEVER looks at HM's ~/.config/mozilla/firefox (that HM-managed
+      # profile "default" has never been launched). Real profile:
+      # mnzh1sm0.default per ~/.mozilla/firefox/profiles.ini. Land the
+      # caelus chrome + required prefs directly into that profile.
+      home.file.".mozilla/firefox/mnzh1sm0.default/chrome/userChrome.css".source = ./userChrome.css;
+      # Sidebery bridge: chrome CSS can't style moz-extension:// pages
+      home.file.".mozilla/firefox/mnzh1sm0.default/chrome/userContent.css".source = ./userContent.css;
+      home.file.".mozilla/firefox/mnzh1sm0.default/user.js".text = ''
+        user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+        user_pref("svg.context-properties.content.enabled", true);
+        user_pref("layout.css.color-mix.enabled", true);
+        user_pref("layout.css.backdrop-filter.enabled", true);
+        user_pref("browser.theme.toolbar-theme", 0);
+        user_pref("ui.key.menuAccessKeyFocuses", false);
+      '';
     })
   ];
 }

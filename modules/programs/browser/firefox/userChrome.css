@@ -36,6 +36,11 @@
 }
 
 /* ---------- tabs ---------- */
+/* dacctal's full look: horizontal bar hidden, tabs live in the Sidebery
+ * sidebar (styled via userContent.css -> moz-extension://<Sidebery-guid>). */
+#TabsToolbar {
+  display: none !important;
+}
 .tab-background {
   background: var(--caelus-panel) !important;
   border: none !important;

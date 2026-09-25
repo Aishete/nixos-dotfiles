@@ -1,0 +1,35 @@
+/* userContent.css — bridges sidebery-sidebar.css into the Sidebery
+ * extension page (chrome @-moz-document rules don't reach moz-extension://
+ * documents). GUID: {3c078156-979c-498b-8990-85f7987dd929} (AMO Sidebery).
+ * CSS vendored from daccfiles .config/browser_stuff/sidebery-sidebar.css,
+ * accent #ef944d -> #f16e65 (user pick), font -> Caelusevka.
+ * Vars carry !important so they win over Sidebery's own Style Editor.
+ */
+@-moz-document url-prefix("moz-extension://3c078156-979c-498b-8990-85f7987dd929/") {
+  #root.root {
+    --tabs-height: 36px !important;
+    --tabs-inner-gap: 8px !important;
+    --tabs-margin: 4px !important;
+    --tabs-font: 16px "caelusevka", sans-serif !important;
+    --tabs-count-font: 16px "caelusevka", sans-serif !important;
+    --general-margin: 4px !important;
+    --general-border-radius: 0px !important;
+  }
+
+  .Tab[data-active="true"] .body {
+    border: 2px solid #f16e65ff !important;
+    border-radius: 0px !important;
+  }
+
+  .NavigationBar .main-items .nav-item[data-class="panel"] .name-box {
+    border-width: 2px !important;
+  }
+
+  #root[data-act-el-color-scheme="dark"] {
+    --active-el-shadow: none !important;
+  }
+
+  .NavigationBar .nav-item[data-active="true"] {
+    border: 1px solid #f16e65ff !important;
+  }
+}
