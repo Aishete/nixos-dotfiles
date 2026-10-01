@@ -36,6 +36,13 @@
          api_key = "\${OLLAMA_API_KEY}";
          reasoning_effort = "high"; #valid values: none/low/medium/high/max;
        };
+      auxiliary = {
+        vision = {
+          provider = "ollama-cloud";
+          model = "gemma4:31b";
+          api_key = "\${OLLAMA_API_KEY}";
+        };
+      };
 
       display = {
         pet = {
