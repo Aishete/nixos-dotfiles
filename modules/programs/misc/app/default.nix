@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     godot
-    opencode
     teams-for-linux
     telegram-desktop
     chromium
@@ -14,7 +13,6 @@
     signal-desktop
     skopeo
     spotatui
-    t3code
     marimo
   ];
 }
