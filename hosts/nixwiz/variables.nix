@@ -16,7 +16,7 @@
   gapsStyle = "normal"; # compact (1/4), normal (4/5), spacious (8/12)
   sddmTheme = "jake_the_dog"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
   defaultWallpaper = "galaxy.webp"; # Change with SUPER + SHIFT + W (Hyprland)
-  hyprlockWallpaper = "galaxy.webp";
+  hyprlockWallpaper = "wallhaven-e89l8k_1920x1080.png";
 
   # Default Applications
   terminal = "kitty"; # kitty, alacritty
@@ -25,7 +25,7 @@
   tuiFileManager = "yazi"; # yazi, lf
   shell = "zsh"; # zsh, bash
   appimageSupport = true; # Enable/Disable AppImage support
-  games = true; # Enable/Disable gaming module
+  games = false; # Enable/Disable gaming module
 
   # Hardware
   hostname = "nixwiz";

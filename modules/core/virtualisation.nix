@@ -6,6 +6,16 @@
 
     docker = {
       enable = true;
+      daemon = {
+        settings = {
+          default-addresses-pools = [
+            {
+               base = "10.100.0.0/16";
+               size = 24;
+            }
+          ];
+        };
+      };
     };
 
     podman.enable = false;
