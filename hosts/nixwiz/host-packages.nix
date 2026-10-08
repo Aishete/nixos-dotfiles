@@ -39,5 +39,9 @@
     gopls
     clang-tools # clangd (C/C++)
     lazydocker
+
+    # Pi coding agent (earendil-works) — CLI agent harness; provider config
+    # in ~/.pi/agent via modules/programs/agent/pi.nix
+    pi-coding-agent
   ];
 }
