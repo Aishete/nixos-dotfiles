@@ -20,4 +20,11 @@
     };
   in
     py.toPythonApplication (py.callPackage ./marimo.nix { });
+
+  # Vendored typescript-language-server 6.0.2 with the CORRECT pnpmDepsHash
+  # (nixpkgs-unstable 7fd4004 shipped a stale hash; master fixed it in
+  # ac7b1aa hours after the branch cut). Shadows nixpkgs automatically via
+  # the additions overlay. DELETE this entry + pkgs/typescript-language-server/
+  # on the next routine `nix flake update nixpkgs`.
+  typescript-language-server = pkgs.callPackage ./typescript-language-server/package.nix { };
 }
