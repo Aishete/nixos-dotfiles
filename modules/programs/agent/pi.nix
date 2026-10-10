@@ -8,6 +8,32 @@
 # layer is https://ollama.com/v1 (NOT /api — that prefix is Ollama's native
 # API and 404s on chat paths; verified against docs.ollama.com/integrations/pi).
 #
+# Per-model metadata (contextWindow / reasoning / thinkingLevelMap / input /
+# cost) verified 2026-10-08, three sources:
+#   - contextWindow: POST https://ollama.com/api/show (model_info.context_length)
+#   - thinkingLevelMap: live sweep of 90 reasoning_effort calls on
+#     ollama.com/v1/chat/completions. Findings: ollama accepts "none" to
+#     DISABLE thinking; "off" is broken (clamps low or HTTP 400); gpt-oss
+#     cannot disable at all ("none" THINKS MORE than minimal; only
+#     minimax-m2.7's floor is "none" since it always thinks). Refresh by
+#     re-running the sweep, not by /api/show's thinking values (unreliable).
+#   - cost: https://ollama.com/pricing, $ per 1M tokens (pi uses the same
+#     unit; cacheWrite is NOT published there — set equal to input rate as
+# granularity kept at OpenAI-spec levels) and minimax-m2.7 (ALWAYS thinks —
+# "none" is merely its cheapest floor) and mistral-large-3:675b (never thinks —
+# no reasoning entries).
+#
+# Cached-input price missing on ollama.com/pricing for mistral-large-3:675b and
+# nemotron models -> their cacheRead equals the input rate (pessimistic, no fake
+# discount). gpt-oss:20b cacheRead 0.035 is as published (not a typo).
+#
+# thinkingLevelMap encodes pi's 7 levels -> the ollama values each model
+# actually accepts. Standard map below ("none" disables, low/high/max hold)
+# is used by every thinking model EXCEPT gpt-oss ("none" there THINKS MORE
+# than minimal, so off->minimal and native xhigh/medium granularity is kept)
+# and minimax-m2.7 (always thinks — "none" is merely its cheapest observed
+# floor) and mistral-large-3:675b (never thinks — no reasoning entries).
+#
 # API key: no plaintext credential in these files. models.json apiKey
 # supports a leading "!command" that pi executes at request time (never
 # cached), so the existing OLLAMA_API_KEY is pulled from ~/.hermes/.env
@@ -24,7 +50,7 @@
 { ... }: {
   home-manager.sharedModules = [
     (
-      { pkgs, lib, ... }:
+      { pkgs, lib, config, ... }:
       let
         piSettingsSeed = pkgs.writeText "pi-settings-seed.json" ''
           {
@@ -45,29 +71,89 @@
                 "api": "openai-completions",
                 "apiKey": "!sed -n 's/^OLLAMA_API_KEY=//p' /home/archdev/.hermes/.env | head -1 | tr -d '\"'",
                 "models": [
-                  { "id": "deepseek-v4-pro:0813" },
-                  { "id": "deepseek-v4.1-flash" },
-                  { "id": "gemma4:31b" },
-                  { "id": "glm-5.2" },
-                  { "id": "glm-5.3" },
-                  { "id": "glm-5.3-flash" },
-                  { "id": "gpt-oss:120b" },
-                  { "id": "gpt-oss:20b" },
-                  { "id": "kimi-k2.6" },
-                  { "id": "kimi-k2.7-code" },
-                  { "id": "kimi-k3" },
-                  { "id": "minimax-m2.7" },
-                  { "id": "minimax-m3" },
-                  { "id": "mistral-large-3:675b" },
-                  { "id": "mistral-large-4" },
-                  { "id": "nemotron-3-nano:30b" },
-                  { "id": "nemotron-3-super" },
-                  { "id": "nemotron-3-ultra" }
+                  { "id": "deepseek-v4-pro:0813", "name": "DeepSeek V4 Pro",
+                    "contextWindow": 1048576, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 1.32, "output": 3.96, "cacheRead": 0.044, "cacheWrite": 1.32 } },
+                  { "id": "deepseek-v4.1-flash", "name": "DeepSeek V4.1 Flash",
+                    "contextWindow": 1048576, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.30, "output": 1.20, "cacheRead": 0.006, "cacheWrite": 0.30 } },
+                  { "id": "gemma4:31b", "name": "Gemma 4 31B",
+                    "contextWindow": 262144, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.14, "output": 0.40, "cacheRead": 0.05, "cacheWrite": 0.14 } },
+                  { "id": "glm-5.2", "name": "GLM 5.2",
+                    "contextWindow": 1048576, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 1.40, "output": 4.40, "cacheRead": 0.26, "cacheWrite": 1.40 } },
+                  { "id": "glm-5.3", "name": "GLM 5.3",
+                    "contextWindow": 1048576, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 1.40, "output": 4.40, "cacheRead": 0.26, "cacheWrite": 1.40 } },
+                  { "id": "glm-5.3-flash", "name": "GLM 5.3 Flash",
+                    "contextWindow": 1048576, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.15, "output": 0.50, "cacheRead": 0.03, "cacheWrite": 0.15 } },
+                  { "id": "gpt-oss:120b", "name": "GPT-OSS 120B",
+                    "contextWindow": 131072, "reasoning": true,
+                    "thinkingLevelMap": { "off": "minimal", "minimal": "minimal", "low": "low", "medium": "medium", "high": "high", "xhigh": "xhigh", "max": "max" },
+                    "cost": { "input": 0.15, "output": 0.60, "cacheRead": 0.014, "cacheWrite": 0.15 } },
+                  { "id": "gpt-oss:20b", "name": "GPT-OSS 20B",
+                    "contextWindow": 131072, "reasoning": true,
+                    "thinkingLevelMap": { "off": "minimal", "minimal": "minimal", "low": "low", "medium": "medium", "high": "high", "xhigh": "xhigh", "max": "max" },
+                    "cost": { "input": 0.07, "output": 0.30, "cacheRead": 0.035, "cacheWrite": 0.07 } },
+                  { "id": "kimi-k2.6", "name": "Kimi K2.6",
+                    "contextWindow": 262144, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.95, "output": 4.00, "cacheRead": 0.16, "cacheWrite": 0.95 } },
+                  { "id": "kimi-k2.7-code", "name": "Kimi K2.7 Code",
+                    "contextWindow": 262144, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.95, "output": 4.00, "cacheRead": 0.19, "cacheWrite": 0.95 } },
+                  { "id": "kimi-k3", "name": "Kimi K3",
+                    "contextWindow": 1048576, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 3.00, "output": 15.00, "cacheRead": 0.30, "cacheWrite": 3.00 } },
+                  { "id": "minimax-m2.7", "name": "MiniMax M2.7",
+                    "contextWindow": 196608, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.30, "output": 1.20, "cacheRead": 0.06, "cacheWrite": 0.30 } },
+                  { "id": "minimax-m3", "name": "MiniMax M3",
+                    "contextWindow": 512000, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.60, "output": 2.40, "cacheRead": 0.12, "cacheWrite": 0.60 } },
+                  { "id": "mistral-large-3:675b", "name": "Mistral Large 3 675B",
+                    "contextWindow": 262144, "input": ["text", "image"],
+                    "cost": { "input": 0.50, "output": 1.50, "cacheRead": 0.50, "cacheWrite": 0.50 } },
+                  { "id": "mistral-large-4", "name": "Mistral Large 4",
+                    "contextWindow": 1048576, "reasoning": true, "input": ["text", "image"],
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.68, "output": 2.09, "cacheRead": 0.07, "cacheWrite": 0.68 } },
+                  { "id": "nemotron-3-nano:30b", "name": "Nemotron 3 Nano",
+                    "contextWindow": 262144, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.06, "output": 0.24, "cacheRead": 0.06, "cacheWrite": 0.06 } },
+                  { "id": "nemotron-3-super", "name": "Nemotron 3 Super",
+                    "contextWindow": 262144, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.015, "output": 0.60, "cacheRead": 0.015, "cacheWrite": 0.015 } },
+                  { "id": "nemotron-3-ultra", "name": "Nemotron 3 Ultra",
+                    "contextWindow": 262144, "reasoning": true,
+                    "thinkingLevelMap": { "off": "none", "minimal": "low", "low": "low", "medium": "high", "high": "high", "xhigh": "max", "max": "max" },
+                    "cost": { "input": 0.10, "output": 3.00, "cacheRead": 0.10, "cacheWrite": 0.10 } }
                 ]
               }
             }
           }
         '';
+
+        # s1gate-pi extension (source of truth: ~/projects/s1gate repo,
+        # committed: da245e5/adfd6ad). Out-of-store symlink: edits to the
+        # repo take effect on next pi start WITHOUT a rebuild.
+        home.file.".pi/agent/extensions/s1gate-pi.ts".source =
+          config.lib.file.mkOutOfStoreSymlink
+            "/home/archdev/projects/s1gate/pi-extension/s1gate-pi.ts";
 
         # Standing instructions for pi — distilled from Hermes's SOUL.md +
         # WORK.md + verification-before-completion discipline. Nix-managed:
@@ -155,15 +241,20 @@
         # ~/.hermes/skills into ~/.pi/agent/skills. .archive is excluded ON
         # PURPOSE — archived skills reuse live skill names, and pi keeps the
         # FIRST discovered skill on a name collision (the archive would
-        # shadow the live version). Creation-only: stale links (a category
-        # later deleted from Hermes) are left as harmless dangling symlinks
-        # rather than auto-deleted (the user's no-delete rule).
+        # shadow the live version). CREATION-ONLY (v2 fork-on-edit, 2026-10-
+        # 08): categories already materialized as real dirs by tools/
+        # pi-skill-fork.sh (s1gate repo) are NEVER re-linked to whole-
+        # category symlinks — ln -sfn would corrupt a forked farm. A category
+        # left as a dangling link (target deleted upstream) is still
+        # refreshed here (no-delete rule kept: links, not content).
         home.activation.seedPiSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           mkdir -p "$HOME/.pi/agent/skills"
           for cat in "$HOME"/.hermes/skills/*; do
             name="''${cat##*/}"
             if [ "$name" != ".archive" ] && [ -d "$cat" ]; then
-              ln -sfn "$cat" "$HOME/.pi/agent/skills/$name"
+              if [ ! -e "$HOME/.pi/agent/skills/$name" ] && [ ! -L "$HOME/.pi/agent/skills/$name" ]; then
+                ln -s "$cat" "$HOME/.pi/agent/skills/$name"
+              fi
             fi
           done
         '';
