@@ -1,8 +1,6 @@
 { host, pkgs, ... }:
 {
   # these will be overlayed in nixpkgs automatically.
-  # for example: environment.systemPackages = with pkgs; [pokego];
-  pokego = pkgs.callPackage ./pokego.nix { };
 
   # marimo 0.24.0 + recommended extras (SQL engine, AI assistant, sandbox) —
   # shadows the nixpkgs package (0.23.16, base deps only). See marimo.nix.

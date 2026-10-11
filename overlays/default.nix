@@ -1,7 +1,4 @@
 { host, inputs, ... }:
-let
-  inherit (import ../hosts/${host}/variables.nix) sddmTheme;
-in
 {
   # Overlay custom derivations into nixpkgs so you can use pkgs.<name>
   additions =
