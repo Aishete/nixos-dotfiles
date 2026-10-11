@@ -12,7 +12,7 @@ NVF is a Neovim configuration framework built with Nix. This module adds NVF as 
    };
    ```
 
-2. **Enable NVF**: In your host's `variables.nix` file (e.g., `./hosts/Default/variables.nix`), set:
+2. **Enable NVF**: In your host's `variables.nix` file (e.g., `./hosts/nixwiz/variables.nix`), set:
    ```nix
    editor = "nvf";
    ```
