@@ -207,9 +207,10 @@ in
           };
           wallpaper = {
             enabled = false;
-            directory = builtins.filterSource
-              (path: _: !(builtins.match ".*\\.rrdata" (baseNameOf path) == null))
-              ../../../../themes/wallpapers;
+            # Wallpaper library moved out of the store to the runtime dir
+            # ~/Pictures/wallpapers. Module is currently disabled; a plain
+            # runtime path string keeps this eval-safe and store-free.
+            directory = "$HOME/Pictures/wallpapers";
             setWallpaperOnAllMonitors = true;
           };
           appLauncher = {

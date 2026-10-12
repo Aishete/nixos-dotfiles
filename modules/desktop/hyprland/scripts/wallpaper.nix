@@ -2,9 +2,12 @@
 let
   # Unified on hyprpaper (replaces awww). Applies the default wallpaper at startup
   # via IPC, preferring a user-selected override file if present.
-  # Filter out .rrdata sidecar files so Nix's git-path check accepts the dir.
-  wallpaperDir = builtins.filterSource
-    (path: _: !(builtins.match ".*\\.rrdata" (baseNameOf path) == null))
+  # The wallpaper LIBRARY moved to ~/Pictures/wallpapers (runtime); only the two
+  # referenced wallpapers remain in-repo. This small filtered source keeps the
+  # default (galaxy.webp) available in the store — the .rrdata sidecars are still
+  # excluded so Nix's git-path check accepts the directory.
+  fallbackWallpapersDir = builtins.filterSource
+    (path: _: let b = baseNameOf path; in !(lib.hasSuffix ".rrdata" b))
     ../../../themes/wallpapers;
 in
 pkgs.writeShellScriptBin "wallpaper" ''
@@ -20,7 +23,7 @@ pkgs.writeShellScriptBin "wallpaper" ''
     sleep 1
   done
 
-  WP=${wallpaperDir}/${defaultWallpaper}
+  WP=${fallbackWallpapersDir}/${defaultWallpaper}
   # If a user-selected override exists, prefer it.
   if [ -s "$HOME/.local/state/quickshell/selectedWallpaper" ]; then
     WP="$(cat "$HOME/.local/state/quickshell/selectedWallpaper")"

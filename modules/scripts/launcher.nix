@@ -5,30 +5,14 @@
   ...
 }:
 let
-  # Filter out .rrdata sidecar files (download artifacts) so Nix's git-path check
-  # doesn't reject the whole themes/wallpapers directory.
-  wallpapersDir = builtins.filterSource
+  # The wallpaper LIBRARY lives in ~/Pictures/wallpapers (runtime). Only the
+  # referenced wallpapers stay in-repo; this small filtered source is kept
+  # purely as the picker's fallback when the runtime dir is missing/empty.
+  # Filter out .rrdata sidecar files (download artifacts) so Nix's git-path
+  # check doesn't reject the themes/wallpapers directory.
+  fallbackWallpapersDir = builtins.filterSource
     (path: _: let b = baseNameOf path; in !(lib.hasSuffix ".rrdata" b))
     ../themes/wallpapers;
-  wallpaperDir = "${wallpapersDir}";
-  wallpaperThumbs =
-    pkgs.runCommand "wallpaper-thumbnails"
-      {
-        buildInputs = [ pkgs.imagemagick ];
-      }
-      ''
-        mkdir -p $out
-        for wallpaper in "${wallpaperDir}"/*.{webp,jxl,jpg,jpeg,png,gif}; do
-          if [ -f "$wallpaper" ]; then
-            wallpaper_name=$(basename "$wallpaper")
-            wallpaper_name="''${wallpaper_name%.*}"
-            thumbnail_size="320x180"
-            if [ ! -f "$out/''${wallpaper_name}.jpg" ]; then
-              magick "$wallpaper[0]" -strip -gravity center -thumbnail "''${thumbnail_size}^" -extent "$thumbnail_size" "$out/''${wallpaper_name}.jpg"
-            fi
-          fi
-        done
-      '';
 in
 pkgs.writeShellScriptBin "launcher" ''
   # check if rofi is already running
@@ -75,8 +59,26 @@ pkgs.writeShellScriptBin "launcher" ''
     # rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/type-4/style-4.rasi"
     # r_override="entry{placeholder:'Search Wallpapers...';}listview{lines:15;}"
 
-    CACHE_DIR=${wallpaperThumbs}
-    WALLPAPER_DIR="${wallpaperDir}"
+    WALLPAPER_DIR="$HOME/Pictures/wallpapers"
+    if [ ! -d "$WALLPAPER_DIR" ] || [ -z "$(ls -A "$WALLPAPER_DIR" 2>/dev/null)" ]; then
+      WALLPAPER_DIR="${fallbackWallpapersDir}"
+    fi
+
+    # Thumbnails are generated at RUNTIME into ~/.cache (in parallel), so the
+    # wallpaper library never enters the Nix store.
+    CACHE_DIR="$HOME/.cache/wallpaper-thumbs"
+    mkdir -p "$CACHE_DIR"
+    shopt -s nullglob nocaseglob
+    for wallpaper in "$WALLPAPER_DIR"/*.{webp,jxl,jpg,jpeg,png,gif}; do
+      [ -f "$wallpaper" ] || continue
+      wallpaper_name=$(basename "$wallpaper")
+      if [ ! -f "$CACHE_DIR/''${wallpaper_name%.*}.jpg" ]; then
+        ${pkgs.imagemagick}/bin/magick "$wallpaper[0]" -strip -gravity center \
+          -thumbnail "320x180^" -extent "320x180" \
+          "$CACHE_DIR/''${wallpaper_name%.*}.jpg" || true &
+      fi
+    done
+    wait
 
     rofi_cmd() {
       rofi -dmenu \
@@ -85,7 +87,8 @@ pkgs.writeShellScriptBin "launcher" ''
         -theme "$rofi_theme"
     }
 
-    CHOICE=$(${lib.getExe pkgs.fd} --type f . "''${WALLPAPER_DIR}" \
+    CHOICE=$(${lib.getExe pkgs.fd} --type f \
+      -e jpg -e jpeg -e png -e webp -e gif -e jxl . "''${WALLPAPER_DIR}" \
       | sed 's/.*\///' \
       | while read -r A ; do echo -en "$A\x00icon\x1f""''${CACHE_DIR}"/"''${A%.*}.jpg\n" ; done \
       | rofi_cmd)
