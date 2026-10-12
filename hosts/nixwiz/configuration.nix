@@ -51,6 +51,7 @@ in {
       ../../modules/programs/media/discord
       ../../modules/programs/media/spicetify
       ../../modules/programs/agent/default.nix
+      ../../modules/programs/security # Pentest suite (migrated from nix profile)
       # ../../modules/programs/media/youtube-music
       # ../../modules/programs/media/thunderbird
       # ../../modules/programs/media/obs-studio
