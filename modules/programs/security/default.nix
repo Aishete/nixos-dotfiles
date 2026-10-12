@@ -11,7 +11,7 @@
     dnsenum
     dnstwist
     theharvester
-    maigret
+    # maigret: skip-listed 2026-10-15 — python3.14-python-socks check phase (all 429 proxy tests fail: local test http server never listens in sandbox) breaks aiohttp-socks->maigret on current pin
     sherlock
     recon-ng
     subfinder
@@ -39,7 +39,7 @@
     pwntools
     radare2
     mitmproxy
-    netexec
+    # netexec: skip-listed 2026-10-15 — python3.12 dep chain (anyio tests, aardwolf) broken on current pin; stays in nix profile until pin advances
     medusa
     bettercap
 
