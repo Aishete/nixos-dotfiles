@@ -84,6 +84,10 @@
       installation_mode = "force_installed";
       install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
     };
+    "{3c078156-979c-498b-8990-85f7987dd929}" = {
+      installation_mode = "force_installed";
+      install_url = "https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpi";
+    };
     "firemonkey@eros.man" = {
       private_browsing = true;
       default_area = "navbar";
@@ -97,7 +101,7 @@
     "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
       installation_mode = "force_installed";
       install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
-    }; 
+    };
     "extension@one-tab.com" = {
       private_browsing = false;
       default_area = "navbar";

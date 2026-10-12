@@ -6,7 +6,7 @@
     chromium
     libreoffice
     qbittorrent
-    ghostty
+    # ghostty
     zed-editor
     # pgadmin 9.14 (unstable) fails to build with psycopg 3.3.5 (_py_codecs
     # tuple) — nixpkgs#569095, still open. Pin to stable-channel pgadmin 9.11
