@@ -62,6 +62,9 @@
             # test raises TimeoutError in sandbox. Runtime unaffected.
             # jupyter-server 2.21.0: pytest-timeout kills a hung kernels
             # test_connection.py (test-only). Runtime unaffected.
+            # jupytext 1.19.5: 3/4115 tests fail — sandbox sqlite tmpdir races
+            # ("database is locked" / "readonly database"). Runtime unaffected.
+            jupytext = noPytest pyprev.jupytext;
             jupyter-server = noPytest pyprev.jupyter-server;
             python-lsp-server = noPytest pyprev.python-lsp-server;
             mcp = noPytest pyprev.mcp;
