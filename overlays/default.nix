@@ -55,6 +55,10 @@
             # openai 2.53.0: 4/865 tests fail — test_mtls_http_client.py runs
             # repo example scripts with a hardcoded 15s subprocess timeout that
             # expires in the sandbox (slow/loaded machine). Runtime unaffected.
+            # mcp (FastMCP) 1.29.0: 1 failed + 5 errors — test servers bind a
+            # localhost port and must start within 20s; they time out in the
+            # sandbox/under parallel build load. Runtime unaffected.
+            mcp = noPytest pyprev.mcp;
             openai = noPytest pyprev.openai;
             httpx2 = noPytest pyprev.httpx2;
           })
