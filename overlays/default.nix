@@ -60,6 +60,9 @@
             # sandbox/under parallel build load. Runtime unaffected.
             # python-lsp-server 1.14.0: 1/204 failed — rope autoimport notebook
             # test raises TimeoutError in sandbox. Runtime unaffected.
+            # jupyter-server 2.21.0: pytest-timeout kills a hung kernels
+            # test_connection.py (test-only). Runtime unaffected.
+            jupyter-server = noPytest pyprev.jupyter-server;
             python-lsp-server = noPytest pyprev.python-lsp-server;
             mcp = noPytest pyprev.mcp;
             openai = noPytest pyprev.openai;
