@@ -37,11 +37,6 @@
   tomlkit,
   uvicorn,
   websockets,
-  # extra: SQL engine
-  duckdb,
-  polars,
-  pyarrow,
-  sqlglot,
   # extra: AI assistant / recommended
   pydantic-ai-slim,
   openai,
@@ -51,14 +46,10 @@
   ruff,
   # extra: sandbox
   uv,
-  # extra: fast server-side charts + MCP + tests + LSP
-  vegafusion,
-  vl-convert-python,
+  # MCP server connections
   mcp,
-  pytest,
-  python-lsp-server,
   # tests
-  versionCheckHook,
+  versionCheckHook, # (kept) — sqlframe/pytest-postgresql/narwhals-env failures were all in the removed-extras chain
   # for wrapProgram (PYTHONPATH injection into the CLI wrapper)
   makeWrapper,
   python,
@@ -105,13 +96,13 @@ buildPythonPackage rec {
     tomlkit
     uvicorn
     websockets
-    # --- optional features (marimo[recommended]) ---
-    # SQL cells
-    duckdb
-    polars
-    pyarrow # polars[pyarrow] — nixpkgs polars has no pyarrow
-    sqlglot
-    # AI assistant
+    # --- marimo[recommended] extras (trimmed 2026-10-16, user-approved):
+    # dropped SQL cells (duckdb/polars/pyarrow/sqlglot), vegafusion/vl-convert
+    # charts, and python-lsp-server — each drags monster builds (arrow-cpp,
+    # duckdb/polars/vegafusion Rust compiles, pylsp closure) and broken test
+    # chains on the locked pin. Re-add individually via marimo[<extra>] if
+    # ever needed. AI assistant + sandbox (uv) + MCP kept.
+    # --- AI assistant
     pydantic-ai-slim
     openai # pydantic-ai-slim[openai]
     altair
@@ -120,29 +111,20 @@ buildPythonPackage rec {
     ruff
     # sandbox execution
     uv
-    # fast server-side charts (vegafusion, vl-convert-python)
-    vegafusion
-    vl-convert-python
     # MCP server connections
     mcp
-    # autorun unit tests
-    pytest
-    # Language Server Protocol (pylsp)
-    python-lsp-server
   ];
 
   pythonImportsCheck = [ "marimo" ];
 
   # The marimo KERNEL subprocess only gets marimo/zmq/msgspec on PYTHONPATH
-  # (marimo/_session/_venv.py get_kernel_pythonpath) — NOT the SQL/AI/chart
-  # extras. So in the kernel, DependencyManager.duckdb.has() = False and
-  # marimo tries `pip install duckdb sqlglot polars[pyarrow]` against the
-  # immutable Nix store python -> PEP 668 "externally-managed-environment".
+  # (marimo/_session/_venv.py get_kernel_pythonpath) — so marimo tries to
+  # `pip install` missing deps against the immutable Nix store python ->
+  # PEP 668 "externally-managed-environment".
   # Fix: inject the FULL closure site-packages into PYTHONPATH on the CLI
   # wrapper. The kernel subprocess inherits os.environ (construct_kernel_env
   # prepends its own entries to the existing PYTHONPATH), so the kernel sees
-  # every dependency. Verified: kernel-style PYTHONPATH (marimo only) fails
-  # `import duckdb`; full-closure PYTHONPATH imports duckdb/polars/sqlglot.
+  # every dependency.
   # (.pth files in PYTHONPATH dirs do NOT work — CPython 3.14 doesn't
   # process them there; tested before choosing this approach.)
   postInstall = ''
