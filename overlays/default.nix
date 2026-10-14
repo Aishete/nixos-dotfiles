@@ -55,6 +55,9 @@
             httpx-aiohttp = noPytest pyprev.httpx-aiohttp;
             google-auth = noPytest pyprev.google-auth;
             httplib2 = noPytest pyprev.httplib2;
+            # urwid 3.0.5 (mitmproxy TUI dep): 2/309 event-loop tests fail —
+            # asyncio/tornado "clean exit" assertions fail in the sandbox,
+            # 307 pass. Runtime unaffected.
             # (stale-on-next-bump: revisit every block here after the next
             # nixpkgs bump — these disables only exist for the current pin.)
             # httpx2 2.9.1 (pydantic's httpx fork; pulled by openai[httpx2] in the
