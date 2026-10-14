@@ -4,7 +4,7 @@
     teams-for-linux
     telegram-desktop
     chromium
-    libreoffice
+    pkgs.stable.libreoffice # 25.2.6.2 prebuilt from stable hydra cache; unstable 26.8 drv is not substituted (source build would need >10G scratch on a disk-starved box)
     qbittorrent
     # ghostty
     zed-editor
@@ -16,6 +16,6 @@
     signal-desktop
     skopeo
     spotatui
-    marimo
+    # marimo
   ];
 }
