@@ -47,6 +47,16 @@
           in {
             anyio = noPytest pyprev.anyio;
             django = noChecks pyprev.django;
+            # 2026-10-16 build loop (security-suite + marimo AI chain): their
+            # builders sat wedged ~30-50 min with zero log output and no fresh
+            # lock activity, then got killed — the daemon now fails-fast on
+            # them. All three run network-touching pytest suites that can
+            # stall in the sandbox. Runtime unaffected; tests only.
+            httpx-aiohttp = noPytest pyprev.httpx-aiohttp;
+            google-auth = noPytest pyprev.google-auth;
+            httplib2 = noPytest pyprev.httplib2;
+            # (stale-on-next-bump: revisit every block here after the next
+            # nixpkgs bump — these disables only exist for the current pin.)
             # httpx2 2.9.1 (pydantic's httpx fork; pulled by openai[httpx2] in the
             # marimo/pydantic-ai chain): 3/1638 tests fail intermittently via
             # pytest 9 PytestUnhandledThreadExceptionWarning (background-thread
