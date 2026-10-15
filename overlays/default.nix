@@ -24,67 +24,14 @@
       withOpenASAR = true;
       enableAutoscroll = true;
     };
-    # Python test phases fail here (sandbox flakiness: TLS "server_hostname can
-    # only be specified in client mode" against the anyio test's remote server,
-    # thread-count races, tmpdir races) and the locked nixpkgs rev has no
-    # binary-cache coverage for these python package sets, so they must build
-    # locally. Runtime is unaffected; disabling check phases only.
-    # TODO: remove at next nixpkgs bump — anyio tests only fail on this pin (stale-on-next-bump rule).
-    pythonPackagesExtensions =
-      prev.pythonPackagesExtensions
-      ++ [
-        (pyfinal: pyprev:
-          let
-            # pytest via preDistPhases (pytest-hook honors dontUsePytestCheck,
-            # NOT doCheck, in current nixpkgs)
-            noPytest = p: p.overrideAttrs (_: {dontUsePytestCheck = true;});
-            # tests gated by doInstallCheck (e.g. django's own runner)
-            noChecks = p:
-              p.overrideAttrs (_: {
-                doCheck = false;
-                doInstallCheck = false;
-              });
-          in {
-            anyio = noPytest pyprev.anyio;
-            django = noChecks pyprev.django;
-            # 2026-10-16 build loop (security-suite + marimo AI chain): their
-            # builders sat wedged ~30-50 min with zero log output and no fresh
-            # lock activity, then got killed — the daemon now fails-fast on
-            # them. All three run network-touching pytest suites that can
-            # stall in the sandbox. Runtime unaffected; tests only.
-            httpx-aiohttp = noPytest pyprev.httpx-aiohttp;
-            google-auth = noPytest pyprev.google-auth;
-            httplib2 = noPytest pyprev.httplib2;
-            # urwid 3.0.5 (mitmproxy TUI dep): 2/309 event-loop tests fail —
-            # asyncio/tornado "clean exit" assertions fail in the sandbox,
-            # 307 pass. Runtime unaffected.
-            urwid = noPytest pyprev.urwid;
-            # (stale-on-next-bump: revisit every block here after the next
-            # nixpkgs bump — these disables only exist for the current pin.)
-            # httpx2 2.9.1 (pydantic's httpx fork; pulled by openai[httpx2] in the
-            # marimo/pydantic-ai chain): 3/1638 tests fail intermittently via
-            # pytest 9 PytestUnhandledThreadExceptionWarning (background-thread
-            # races in sandbox). Passed 1638/1638 on the previous build run, so
-            # runtime is fine — disable the flaky pytest check phase only.
-            # openai 2.53.0: 4/865 tests fail — test_mtls_http_client.py runs
-            # repo example scripts with a hardcoded 15s subprocess timeout that
-            # expires in the sandbox (slow/loaded machine). Runtime unaffected.
-            # mcp (FastMCP) 1.29.0: 1 failed + 5 errors — test servers bind a
-            # localhost port and must start within 20s; they time out in the
-            # sandbox/under parallel build load. Runtime unaffected.
-            # python-lsp-server 1.14.0: 1/204 failed — rope autoimport notebook
-            # test raises TimeoutError in sandbox. Runtime unaffected.
-            # jupyter-server 2.21.0: pytest-timeout kills a hung kernels
-            # test_connection.py (test-only). Runtime unaffected.
-            # jupytext 1.19.5: 3/4115 tests fail — sandbox sqlite tmpdir races
-            # ("database is locked" / "readonly database"). Runtime unaffected.
-            jupytext = noPytest pyprev.jupytext;
-            jupyter-server = noPytest pyprev.jupyter-server;
-            python-lsp-server = noPytest pyprev.python-lsp-server;
-            mcp = noPytest pyprev.mcp;
-            openai = noPytest pyprev.openai;
-            httpx2 = noPytest pyprev.httpx2;
-          })
-      ];
+    # 2026-10-16: REMOVED the global pythonPackagesExtensions block (9
+    # noPytest/noCheck overrides added across 2026-10-15/16). Rationale: a
+    # global extension changes EVERY python package's drv hash in EVERY set,
+    # so hydra-published prebuilt outputs stop substituting — every python
+    # package in the system built from source (the multi-day "build swamp").
+    # If a later pin introduces real test failures, scope the override
+    # instead: pkgs/default.nix's marimo set override, or a narrow
+    # python3Packages.override { overrides = [...]; } limited to the exact
+    # packages — never a global extension.
   };
 }
