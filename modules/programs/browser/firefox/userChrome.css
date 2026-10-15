@@ -4,8 +4,11 @@
  * Accent: caelus red #f16e65 (user pick; upstream accent was burnt orange
  * #ef934d — disliked). Success/warn hues kept from the same 16-color set.
  * Doctrine: flat + squared (dacctal forces border-radius: 0 everywhere).
- * NOTE: unlike upstream, the horizontal tab bar is KEPT (no Sidebery here);
- * it is themed caelus-style instead.
+ * NOTE 2026-10-16: Sidebery IS now integrated (user flip) — tab strip
+ * removed via uiCustomization TabsToolbar (settings.nix); the sidebar
+ * styling is bridged through userContent.css @-moz-document into the
+ * extension page (chrome css cannot style moz-extension://). Panel choice
+ * persists once the sidebar is opened once via the toggle.
  */
 
 :root {

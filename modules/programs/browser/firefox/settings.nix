@@ -223,6 +223,7 @@ in {
         "developer-button"
         "downloads-button"
         "unified-extensions-button"
+        "sidebar-button"
 
         # Extensions
         "extension_one-tab_com-browser-action"
@@ -235,10 +236,10 @@ in {
       ];
       toolbar-menubar = ["menubar-items"];
       TabsToolbar = [
-        "firefox-view-button"
-        "tabbrowser-tabs"
+        # Sidebery 2026-10-16: native tab strip REMOVED — tabs live in the
+        # Sidebery sidebar; window controls stay in the now-empty strip
+        "window-controls"
         "new-tab-button"
-        "alltabs-button"
       ];
       PersonalToolbar = [
         "personal-bookmarks"
