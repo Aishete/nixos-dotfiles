@@ -11,6 +11,13 @@
  * persists once the sidebar is opened once via the toggle.
  */
 
+/* 2026-10-16: sidebery-sidebar.css import — NOTE: INERT for Sidebery's own
+ * page (chrome css cannot style moz-extension://; the live styling lives in
+ * chrome/userContent.css's @-moz-document block, which carries an improved
+ * copy of this file with !important + caelusevka tabs font). This import is
+ * kept as requested for source-of-truth referencing only. */
+@import url("sidebery-sidebar.css");
+
 :root {
   --caelus-bg: #0f0f0f;        /* base black */
   --caelus-panel: #1e1f1e;     /* gray-1 panels */

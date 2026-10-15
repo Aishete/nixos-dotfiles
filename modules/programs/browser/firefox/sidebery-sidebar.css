@@ -1,26 +1,34 @@
-/* Vendored byte-identical from daccfiles EXCEPT the accent: upstream
- * #ef944d (orange) -> #f16e65 (caelus red, user pick 2026-09-24). */
-#root.root {--tabs-height: 36px;}
-#root.root {--tabs-inner-gap: 8px;}
-#root.root {--tabs-margin: 4px;}
-#root.root {--tabs-font: 16px sans-serif;}
-#root.root {--tabs-count-font: 16px sans-serif;}
-#root.root {--general-margin: 4px;}
-#root.root {--general-border-radius: 0px;}
+/* Sidebery sidebar styling — caelus rice.
+ * Vendored from daccfiles upstream; accent #ef944d (orange) -> #f16e65
+ * (caelus red, user pick 2026-09-24).
+ * SYNCED 2026-10-16 to the LIVE copy in userContent.css (@-moz-document
+ * bridge into the Sidebery extension page) — that bridge is authoritative:
+ * it adds !important and wires the caelusevka tab font. Edit THERE, then
+ * sync here if you want this file kept current.
+ */
+#root.root {
+  --tabs-height: 36px !important;
+  --tabs-inner-gap: 8px !important;
+  --tabs-margin: 4px !important;
+  --tabs-font: 16px "caelusevka", sans-serif !important;
+  --tabs-count-font: 16px "caelusevka", sans-serif !important;
+  --general-margin: 4px !important;
+  --general-border-radius: 0px !important;
+}
 
 .Tab[data-active="true"] .body {
-	border: 2px solid #f16e65ff !important;
-	border-radius: 0px;
+  border: 2px solid #f16e65ff !important;
+  border-radius: 0px !important;
 }
 
 .NavigationBar .main-items .nav-item[data-class="panel"] .name-box {
-	border-width: 2px !important;
+  border-width: 2px !important;
 }
 
 #root[data-act-el-color-scheme="dark"] {
-	--active-el-shadow: none;
+  --active-el-shadow: none !important;
 }
 
 .NavigationBar .nav-item[data-active="true"] {
-	border: 1px solid #f16e65ff !important;
+  border: 1px solid #f16e65ff !important;
 }
