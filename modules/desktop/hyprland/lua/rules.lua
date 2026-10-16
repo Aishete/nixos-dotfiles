@@ -130,3 +130,11 @@ hl.window_rule({
 
 -- Floating windows
 hl.window_rule({ match = { class = "^(eog)$" }, float = true })
+
+-- Scriptwis themes: keep Zed translucent but compositor-blur off
+-- (themes declare background.appearance transparent; global decoration blur
+-- with xray + ignore_opacity otherwise blurs any translucent window)
+hl.window_rule({
+	match = { class = "^(dev.zed.Zed)$" },
+	no_blur = true,
+})
