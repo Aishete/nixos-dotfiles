@@ -73,8 +73,8 @@ in
       antialias = true;
       defaultFonts = {
         monospace = [
+          monospaceFont # the knob — caelus first (2026-10-16: flipped from hardcoded Iosevka)
           "Iosevka Nerd Font"
-          monospaceFont
           "Maple Mono NF"
           "Noto Mono"
           "DejaVu Sans Mono" # Default
@@ -99,8 +99,8 @@ in
         enable = true;
         defaultFonts = {
           monospace = [
+            monospaceFont # the knob — caelus first (2026-10-16: flipped from hardcoded Iosevka)
             "Iosevka Nerd Font"
-            monospaceFont
             "Maple Mono NF"
             "Noto Mono"
             "DejaVu Sans Mono"
