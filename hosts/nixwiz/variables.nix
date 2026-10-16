@@ -9,7 +9,7 @@
   rice = "default"; # default
 
   # Theme & Appearance
-  monospaceFont = "Iosevka Nerd Font"; # JetBrainsMono Nerd Font, Maple Mono NF, 0xProto Nerd Font
+  monospaceFont = "Caelusevka Nerd Font"; # our caelus Iosevka, nerd-glyph patched + vendored TTFs; alternatives: JetBrainsMono NF, Maple Mono NF, 0xProto NF
   bar = "waybar"; # waybar, hyprpanel, noctalia
   waybarTheme = "tokyo"; # stylish, minimal, tokyo
   rofiColorTheme = "zeibytes"; # catppuccin, zeibytes (or any .rasi in rofi/colors/)
