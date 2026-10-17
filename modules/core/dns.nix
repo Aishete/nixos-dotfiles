@@ -1,11 +1,15 @@
-{...}: {
+{lib, ...}: {
   networking.hosts = {
     "127.0.0.1" = [
       "localhost"
       "camigf.local"
+      "data.odc.odm-eu.local"
     ];
-    "192.168.40.229" = ["data.odc.odm-eu.local"];
-    "192.168.1.164" = ["data.odc.odm-eu.staging.derilinx.com"];
+    "192.168.20.71" = [
+    "data.odc.odm-eu.local"
+    "data.odc.odm-eu.staging.derilinx.com"
+    "data.odm.odm-eu.staging.derilinx.com"
+    ];
   };
   networking.firewall = {
     allowedTCPPorts = [
@@ -90,7 +94,10 @@
       openFirewall = true;
       settings = {
         http = {
-          address = "127.0.0.1:3005";
+          # mkForce: nixpkgs (2026-10) now derives settings.http.address from
+          # host+port ("0.0.0.0:3005"); plain set collides at eval. Keep the
+          # UI on localhost as originally configured.
+          address = lib.mkForce "127.0.0.1:3005";
         };
         dns = {
           bind_host = "0.0.0.0";
