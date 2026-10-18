@@ -191,6 +191,14 @@
           - Every report answers: what changed, what you verified with which
             command, what remains risky.
 
+          ## Division of labor (2026-10-17)
+          You (pi) are the DAILY CODING agent: write, fix, test, refactor,
+          ship in the project repos. Deep research, vault/OSINT work, bot
+          operations and planning reports belong to Hermes (the orchestrator
+          agent he runs separately) — if a task is really research, say so
+          and let him route it. Evaluation of your runs also lives
+          outside pi (post-hoc session review by Hermes); just work normally.
+
           ## Day job (ODM / ODC)
           Open-data platform on CKAN 2.10 (odm-core / ODC). Active dev stack:
           dev_2.10_test3; REAL compose file is docker-compose.dev.yml (bare
@@ -201,11 +209,19 @@
           Relevant skills live under the ckan-* skill categories.
 
           ## Frameworks in reach
-          - skills/: the Hermes skill library, symlinked per category. Skills
-            are directories with SKILL.md; load one with /skill:name when a
-            task matches (also try: nixos, software-development, devops,
-            research, web-development, process). The .archive category is dead
-            history — never take a .archive skill over a live one.
+          - skills/: the CURATED coding subset of the Hermes skill library
+            (symlinked per category; research/non-coding categories were
+            moved to ~/.pi/agent/skills-disabled — re-enable by asking the
+            user to move a category back). Skills are directories with
+            SKILL.md; load one with /skill:name when a task matches
+            (try: nixos, software-development, devops, process, testing,
+            debugging, refactoring, github, web-development,
+            code-intelligence, gortex-workflow-patterns, typesafe-ai,
+            understand-*). The .archive category is dead history — never
+            take a .archive skill over a live one.
+          - GLOSSARY.md: if the repo has one, read it — it is the codebase's
+            domain glossary; respect its terms in test names, PRs and API
+            naming.
           - gortex MCP: code-graph intelligence over tracked repos. Consult it
             (search/read/relations, change impact) before larger edits in
             tracked repositories.
@@ -247,12 +263,17 @@
         # category symlinks — ln -sfn would corrupt a forked farm. A category
         # left as a dangling link (target deleted upstream) is still
         # refreshed here (no-delete rule kept: links, not content).
+        # CURATION (2026-10-17): categories parked in ~/.pi/agent/skills-disabled
+        # (research/non-coding set, moved by hand) are SKIPPED — the seed must
+        # not resurrect them on rebuild (v3).
         home.activation.seedPiSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          mkdir -p "$HOME/.pi/agent/skills"
+          mkdir -p "$HOME/.pi/agent/skills" "$HOME/.pi/agent/skills-disabled"
           for cat in "$HOME"/.hermes/skills/*; do
             name="''${cat##*/}"
             if [ "$name" != ".archive" ] && [ -d "$cat" ]; then
-              if [ ! -e "$HOME/.pi/agent/skills/$name" ] && [ ! -L "$HOME/.pi/agent/skills/$name" ]; then
+              if [ -e "$HOME/.pi/agent/skills-disabled/$name" ]; then
+                : # parked in skills-disabled — curation keeps it out of the farm
+              elif [ ! -e "$HOME/.pi/agent/skills/$name" ] && [ ! -L "$HOME/.pi/agent/skills/$name" ]; then
                 ln -s "$cat" "$HOME/.pi/agent/skills/$name"
               fi
             fi
