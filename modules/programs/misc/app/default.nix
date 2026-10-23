@@ -17,7 +17,6 @@
     skopeo
     spotatui
     # ollama
-    pkgs.pritunl-client
     # marimo
   ];
 }
