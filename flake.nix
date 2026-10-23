@@ -13,10 +13,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-doom-emacs-unstraightened = {
-      url = "github:marienz/nix-doom-emacs-unstraightened";
-      inputs.nixpkgs.follows = ""; # Doesn't use nixpkgs
-    };
+    # nix-doom-emacs-unstraightened = {
+    #   url = "github:marienz/nix-doom-emacs-unstraightened";
+    #   inputs.nixpkgs.follows = ""; # Doesn't use nixpkgs
+    # };
     #neovim = {
     #  url = "github:scriptwiz/nvim"; # Change to your nvim repo
     #  flake = false;
@@ -52,10 +52,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    delta = {
-      url = "github:zed-industries/delta-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # delta = {
+    #   url = "github:zed-industries/delta-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs = {

@@ -3,7 +3,8 @@
 # Provides hermes CLI system-wide, systemd service, and web dashboard.
 # User config lives in ~/.hermes/ (untouched by NixOS).
 {config, ...}: {
-  imports = [ ./pi.nix ./delta.nix ];
+  imports = [ ./pi.nix ];
+  # imports = [ ./pi.nix ./delta.nix ];
 
   services.hermes-agent = {
     enable = true;

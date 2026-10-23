@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    godot
+    # godot
     teams-for-linux
     telegram-desktop
     chromium
@@ -16,6 +16,8 @@
     signal-desktop
     skopeo
     spotatui
+    # ollama
+    pkgs.pritunl-client
     # marimo
   ];
 }
