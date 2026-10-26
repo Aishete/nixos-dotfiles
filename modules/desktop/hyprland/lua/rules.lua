@@ -138,3 +138,7 @@ hl.window_rule({
 	match = { class = "^(dev.zed.Zed)$" },
 	no_blur = true,
 })
+
+hl.window_rule({
+    no_anim = true;
+})
