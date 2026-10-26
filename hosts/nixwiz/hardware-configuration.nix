@@ -24,9 +24,10 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/888ad3e3-40f4-476c-8991-aaec95b1e08d"; }
-    ];
+  fileSystems."/home/archdev/storage" =
+    { device = "/dev/disk/by-uuid/b7e25fd6-dda2-4504-9ef7-4303b5233ec0";
+      fsType = "ext4";
+    };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

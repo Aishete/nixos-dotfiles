@@ -17,6 +17,11 @@
     skopeo
     spotatui
     # ollama
+    pkgs.pritunl-client
     # marimo
   ];
+    systemd.packages = [ pkgs.pritunl-client ];
+
+    systemd.targets.multi-user.wants = [ "pritunl-client.service" ];
+
 }
