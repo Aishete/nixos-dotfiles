@@ -244,6 +244,25 @@
           }
         '';
 
+        # hermes-dashboard — auto-start at login + restart on crash (user ask
+        # 2026-10-18: "run even after restart"). A systemd USER service, not
+        # docker: the shim reads host ~/.hermes files directly (docker would
+        # need binds for zero gain). Runs as archdev with full $HOME.
+        # home-manager shape: raw Unit/Service/Install sections (NixOS-style
+        # serviceConfig 422s the module type system).
+        systemd.user.services.hermes-dashboard = {
+          Unit.Description = "Hermes system dashboard (127.0.0.1:7462)";
+          Service = {
+            Type = "simple";
+            ExecStart =
+              "${pkgs.python3}/bin/python3 /home/archdev/projects/hermes-dashboard/server.py";
+            WorkingDirectory = "/home/archdev/projects/hermes-dashboard";
+            Restart = "on-failure";
+            RestartSec = "3";
+          };
+          Install.WantedBy = [ "default.target" ];
+        };
+
         # Seed default provider/model once; pi owns the file afterwards.
         home.activation.seedPiSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if [ ! -e "$HOME/.pi/agent/settings.json" ]; then
