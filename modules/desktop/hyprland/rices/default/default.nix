@@ -71,9 +71,7 @@
           # selection via `launcher wallpaper`). Preload it so runtime swaps
           # reuse the buffered texture — no reparse, no black gap.
           preload = ${homeDir}/.local/share/wallpapers/selected.webp
-          wallpaper = eDP-1, ${wallpaperFile}, cover
-          wallpaper = DP-1, ${wallpaperFile}, cover
-          wallpaper = HDMI-A-2, ${wallpaperFile}, cover
+          wallpaper = , ${homeDir}/.local/share/wallpapers/selected.webp, cover
           splash = false
         '';
 
