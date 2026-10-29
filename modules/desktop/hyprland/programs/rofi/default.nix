@@ -19,12 +19,13 @@ in
     (_: {
       programs.rofi = {
         enable = true;
-        terminal = "${getExe pkgs.${terminal}}";
         plugins = with pkgs; [
           rofi-emoji
           rofi-games
         ];
-        extraConfig = import ./config.nix;
+        settings = (import ./config.nix) // {
+          terminal = "${getExe pkgs.${terminal}}";
+        };
       };
       xdg.configFile."rofi/launchers" = {
         source = launchersWithTheme;

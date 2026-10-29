@@ -7,6 +7,7 @@
 }: let
   hostVars = import ../../../hosts/${host}/variables.nix;
   inherit (hostVars) bar waybarTheme;
+  systemTheme = hostVars.systemTheme or "Scriptwiz";
   # Layer-2 rice selector; defaults to "default" for hosts that don't define it
   rice = hostVars.rice or "default";
 in let
@@ -26,7 +27,7 @@ in let
 in {
   imports =
     [
-      ../../themes/Catppuccin
+      ../../themes/${systemTheme}
       ./variables.nix
       ./programs/wlogout
       ./programs/rofi
@@ -87,6 +88,7 @@ in {
         brushbuddy-cursor = pkgs.callPackage ./cursors/brushbuddy {};
       in {
         home.pointerCursor = lib.mkForce {
+          enable = true;
           gtk.enable = true;
           x11.enable = true;
           name = "Brushbuddy";
