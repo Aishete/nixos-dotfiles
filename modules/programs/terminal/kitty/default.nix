@@ -11,7 +11,6 @@ in
           size = 12.0;
           name = monospaceFont;
         };
-        themeFile = "Catppuccin-Mocha";
         settings = {
           # shell = "${getExe pkgs.tmux}";
           cursor_trail = 3; # Fancy cursor movements (especially in nixvim)
@@ -27,16 +26,40 @@ in
           mouse_hide_wait = 60;
           update_check_interval = 0;
 
+          # Scriptwiz Pure Black Theme colors
+          background = "#0f0f0f";
+          foreground = "#F9EEE5";
+          cursor = "#9dc34f";
+          selection_background = "#272A28";
+          selection_foreground = "#F9EEE5";
+          
+          color0 = "#0f0f0f";
+          color8 = "#6B746E";
+          color1 = "#cb3d96";
+          color9 = "#cb3d96";
+          color2 = "#9dc34f";
+          color10 = "#9dc34f";
+          color3 = "#ef944d";
+          color11 = "#ef944d";
+          color4 = "#878E7A";
+          color12 = "#878E7A";
+          color5 = "#cb3d96";
+          color13 = "#cb3d96";
+          color6 = "#878E7A";
+          color14 = "#878E7A";
+          color7 = "#F9EEE5";
+          color15 = "#E3DAC9";
+
           ## Tabs
           tab_title_template = "{index}";
           active_tab_font_style = "normal";
           inactive_tab_font_style = "normal";
           tab_bar_style = "powerline";
           tab_powerline_style = "round";
-          active_tab_foreground = "#1e1e2e";
-          active_tab_background = "#cba6f7";
-          inactive_tab_foreground = "#bac2de";
-          inactive_tab_background = "#313244";
+          active_tab_foreground = "#0f0f0f";
+          active_tab_background = "#9dc34f";
+          inactive_tab_foreground = "#878E7A";
+          inactive_tab_background = "#131414";
         };
         # shellIntegration.mode = "no-sudo";
         keybindings = {
