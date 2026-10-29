@@ -39,7 +39,6 @@ in {
             ];
             # modules-center = ["clock" "custom/notification"];
             modules-center = [
-              "hyprland/window"
               "idle_inhibitor"
               "clock"
               "custom/notification"
