@@ -12,6 +12,7 @@
   monospaceFont = "Caelusevka Nerd Font"; # our caelus Iosevka, nerd-glyph patched + vendored TTFs; alternatives: JetBrainsMono NF, Maple Mono NF, 0xProto NF
   bar = "waybar"; # waybar, hyprpanel, noctalia
   waybarTheme = "more_minimal"; # more_minimal, stylish, minimal, tokyo
+  systemTheme = "Scriptwiz"; # Scriptwiz, Catppuccin, Dracula, TokyoNight, rose-pine
   rofiColorTheme = "zeibytes"; # catppuccin, zeibytes (or any .rasi in rofi/colors/)
   gapsStyle = "normal"; # compact (1/4), normal (4/5), spacious (8/12)
   sddmTheme = "jake_the_dog"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath

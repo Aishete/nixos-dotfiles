@@ -14,10 +14,11 @@
   --tabs-count-font: 16px "caelusevka", sans-serif !important;
   --general-margin: 4px !important;
   --general-border-radius: 0px !important;
+  background-color: #0f0f0f !important;
 }
 
 .Tab[data-active="true"] .body {
-  border: 2px solid #f16e65ff !important;
+  border: 2px solid #9dc34fff !important;
   border-radius: 0px !important;
 }
 
@@ -30,5 +31,5 @@
 }
 
 .NavigationBar .nav-item[data-active="true"] {
-  border: 1px solid #f16e65ff !important;
+  border: 1px solid #9dc34fff !important;
 }

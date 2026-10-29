@@ -1,38 +1,43 @@
 /* Scriptwiz-flavored Firefox chrome
- * Palette derived from scriptwiz-light.json
+ * Pure black background (#0f0f0f) + enforced font & scriptwiz palette
  */
 @import url("sidebery-sidebar.css");
 
 :root {
-    --caelus-bg: #101024; /* base indigo dark */
-    --caelus-panel: #0d0d1f; /* elevated surface / panel background */
-    --caelus-fg: #c1c1c5; /* primary text */
-    --caelus-muted: #59596d; /* muted text */
-    --caelus-accent: #9dc34f; /* accent green */
-    --caelus-selected: #446f84; /* accent blue */
-    --caelus-pink: #cb3d96; /* accent magenta/pink */
-    --caelus-on-accent: #101024; /* text on accent bg */
+    --caelus-bg: #0f0f0f;        /* pure black background */
+    --caelus-panel: #131414;     /* panel background */
+    --caelus-fg: #c1c1c5;        /* primary text */
+    --caelus-muted: #59596d;     /* muted text */
+    --caelus-accent: #9dc34f;    /* accent green */
+    --caelus-selected: #446f84;  /* accent blue */
+    --caelus-pink: #cb3d96;      /* accent magenta/pink */
+    --caelus-on-accent: #0f0f0f; /* text on accent bg */
 }
 
-/* squared doctrine */
+/* squared doctrine & font enforcement */
 * {
     border-radius: 0px !important;
+    font-family: "caelusevka", monospace, sans-serif !important;
+}
+#sidebar-panel-header {
+    display: none !important;
+}
+:root[lwtheme] & {
+    border-color: transparent !important;
 }
 
 #sidebar-box {
-    :root[lwtheme] & {
-        border-color: transparent !important;
-    }
+    border-color: transparent !important;
 }
 
 /* ---------- toolbox ---------- */
-#navigator-toolbox {
-    background: var(--caelus-bg) !important;
-}
+#navigator-toolbox,
+#navigator-toolbox *,
 #nav-bar,
 #PersonalToolbar,
 #toolbar-menubar,
-#TabsToolbar {
+#TabsToolbar{
+    background-color: var(--caelus-bg) !important;
     background: var(--caelus-bg) !important;
     border-color: var(--caelus-bg) !important;
     box-shadow: none !important;
@@ -86,4 +91,33 @@
 }
 #PersonalToolbar .toolbarbutton-text {
     color: var(--caelus-fg) !important;
+}
+
+/* ---------- Sidebery overrides ---------- */
+#root.root {
+  --tabs-height: 36px !important;
+  --tabs-inner-gap: 8px !important;
+  --tabs-margin: 4px !important;
+  --tabs-font: 16px "caelusevka", sans-serif !important;
+  --tabs-count-font: 16px "caelusevka", sans-serif !important;
+  --general-margin: 4px !important;
+  --general-border-radius: 0px !important;
+  background-color: var(--caelus-bg) !important;
+}
+
+.Tab[data-active="true"] .body {
+  border: 2px solid #9dc34fff !important;
+  border-radius: 0px !important;
+}
+
+.NavigationBar .main-items .nav-item[data-class="panel"] .name-box {
+  border-width: 2px !important;
+}
+
+#root[data-act-el-color-scheme="dark"] {
+  --active-el-shadow: none !important;
+}
+
+.NavigationBar .nav-item[data-active="true"] {
+  border: 1px solid #9dc34fff !important;
 }

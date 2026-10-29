@@ -225,7 +225,7 @@ in
           }
 
           window#waybar {
-            background-color: @black;
+            background-color: rgba(15, 15, 15, 0.75);
             border: 2px solid @black;
             border-radius: 0px;
           }
