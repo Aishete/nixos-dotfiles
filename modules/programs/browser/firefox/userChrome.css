@@ -1,98 +1,89 @@
-/* caelus-flavored Firefox chrome
- * Source look: https://git.symlinx.net/daccfiles/ (theme "caelus" by dacctal)
- * Palette: bg #0f0f0f / panel #1e1f1e / text #f4decd / muted #9a9c8b
- * Accent: caelus red #f16e65 (user pick; upstream accent was burnt orange
- * #ef934d — disliked). Success/warn hues kept from the same 16-color set.
- * Doctrine: flat + squared (dacctal forces border-radius: 0 everywhere).
- * NOTE 2026-10-16: Sidebery IS now integrated (user flip) — tab strip
- * removed via uiCustomization TabsToolbar (settings.nix); the sidebar
- * styling is bridged through userContent.css @-moz-document into the
- * extension page (chrome css cannot style moz-extension://). Panel choice
- * persists once the sidebar is opened once via the toggle.
+/* Scriptwiz-flavored Firefox chrome
+ * Palette derived from scriptwiz-light.json
  */
-
-/* 2026-10-16: sidebery-sidebar.css import — NOTE: INERT for Sidebery's own
- * page (chrome css cannot style moz-extension://; the live styling lives in
- * chrome/userContent.css's @-moz-document block, which carries an improved
- * copy of this file with !important + caelusevka tabs font). This import is
- * kept as requested for source-of-truth referencing only. */
 @import url("sidebery-sidebar.css");
 
 :root {
-  --caelus-bg: #0f0f0f;        /* base black */
-  --caelus-panel: #1e1f1e;     /* gray-1 panels */
-  --caelus-fg: #f4decd;        /* cream text */
-  --caelus-muted: #9a9c8b;     /* gray-7 inactive text */
-  --caelus-accent: #f16e65;    /* caelus red */
-  --caelus-on-accent: #0f0f0f; /* text on accent bg */
+    --caelus-bg: #101024; /* base indigo dark */
+    --caelus-panel: #0d0d1f; /* elevated surface / panel background */
+    --caelus-fg: #c1c1c5; /* primary text */
+    --caelus-muted: #59596d; /* muted text */
+    --caelus-accent: #9dc34f; /* accent green */
+    --caelus-selected: #446f84; /* accent blue */
+    --caelus-pink: #cb3d96; /* accent magenta/pink */
+    --caelus-on-accent: #101024; /* text on accent bg */
 }
 
 /* squared doctrine */
 * {
-  border-radius: 0px !important;
+    border-radius: 0px !important;
+}
+
+#sidebar-box {
+    :root[lwtheme] & {
+        border-color: transparent !important;
+    }
 }
 
 /* ---------- toolbox ---------- */
 #navigator-toolbox {
-  background: var(--caelus-bg) !important;
+    background: var(--caelus-bg) !important;
 }
 #nav-bar,
 #PersonalToolbar,
 #toolbar-menubar,
 #TabsToolbar {
-  background: var(--caelus-bg) !important;
-  border-color: var(--caelus-bg) !important;
-  box-shadow: none !important;
+    background: var(--caelus-bg) !important;
+    border-color: var(--caelus-bg) !important;
+    box-shadow: none !important;
 }
 
 /* ---------- tabs ---------- */
-/* dacctal's full look: horizontal bar hidden, tabs live in the Sidebery
- * sidebar (styled via userContent.css -> moz-extension://<Sidebery-guid>). */
 #TabsToolbar {
-  display: none !important;
+    display: none !important;
 }
 .tab-background {
-  background: var(--caelus-panel) !important;
-  border: none !important;
-  box-shadow: none !important;
+    background: var(--caelus-panel) !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 .tab-background[selected="true"] {
-  background: var(--caelus-accent) !important;
+    background: var(--caelus-accent) !important;
 }
 .tab-label {
-  color: var(--caelus-muted) !important;
+    color: var(--caelus-muted) !important;
 }
 .tabbrowser-tab[selected="true"] .tab-label {
-  color: var(--caelus-on-accent) !important;
-  font-weight: 600 !important;
+    color: var(--caelus-on-accent) !important;
+    font-weight: 600 !important;
 }
 .tabbrowser-tab[selected="true"] .tab-close-button {
-  color: var(--caelus-on-accent) !important;
+    color: var(--caelus-on-accent) !important;
 }
 .tabbrowser-tab[selected="true"] .tab-icon-image {
-  color: var(--caelus-on-accent) !important;
+    color: var(--caelus-on-accent) !important;
 }
 
 /* ---------- url bar ---------- */
 #urlbar-background {
-  background: var(--caelus-panel) !important;
-  border-color: var(--caelus-bg) !important;
+    background: var(--caelus-panel) !important;
+    border-color: var(--caelus-bg) !important;
 }
 #urlbar[focused="true"] > #urlbar-background {
-  border-color: var(--caelus-accent) !important;
+    border-color: var(--caelus-accent) !important;
 }
 #urlbar-input,
 #urlbar-input::placeholder {
-  color: var(--caelus-fg) !important;
+    color: var(--caelus-fg) !important;
 }
 
 /* ---------- toolbar buttons + bookmarks ---------- */
 .toolbarbutton-icon {
-  fill: var(--caelus-fg) !important;
+    fill: var(--caelus-fg) !important;
 }
 .toolbarbutton-1 {
-  color: var(--caelus-fg) !important;
+    color: var(--caelus-fg) !important;
 }
 #PersonalToolbar .toolbarbutton-text {
-  color: var(--caelus-fg) !important;
+    color: var(--caelus-fg) !important;
 }
