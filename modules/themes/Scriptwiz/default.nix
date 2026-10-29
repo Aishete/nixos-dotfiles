@@ -8,10 +8,10 @@ in
     (_:
     {
       home.packages = with pkgs; [
-        pkgs.catppuccin-kvantum.override {
+        (pkgs.catppuccin-kvantum.override {
           variant = "mocha";
           accent = "green";
-        }
+        })
       ];
 
       qt = {
