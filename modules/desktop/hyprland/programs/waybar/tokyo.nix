@@ -64,15 +64,17 @@ in {
             ];
             modules-center = [
               "custom/cpucat"
-              "clock"
             ];
             modules-right = [
+              "tray"
+              "temperature"
               "wireplumber"
               "backlight"
               "bluetooth"
               "network"
               "battery"
               "mpris"
+              "clock"
               "clock#date"
               "hyprland/language"
               "custom/notification"
@@ -269,6 +271,16 @@ in {
               tooltip-format-ethernet = "Interface: {ifname}";
               tooltip-format-disconnected = "Wi-Fi Disconnected";
               tooltip-format-disabled = "Wi-Fi Disabled";
+            };
+
+            "tray" = {
+              icon-size = 16;
+              spacing = 10;
+            };
+
+            "temperature" = {
+              critical-threshold = 80;
+              format = "{temperatureC}°C ";
             };
 
             "backlight" = {
