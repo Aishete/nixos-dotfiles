@@ -388,7 +388,7 @@ in {
           }
 
           window#waybar {
-            background: rgba(20, 18, 33, 0.75);
+            background: rgba(15, 15, 15, 0.75);
             border-radius: 0;
             margin: 0;
             padding: 0;

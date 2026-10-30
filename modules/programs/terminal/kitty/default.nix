@@ -41,12 +41,12 @@ in
           color10 = "#9dc34f";
           color3 = "#ef944d";
           color11 = "#ef944d";
-          color4 = "#878E7A";
-          color12 = "#878E7A";
+          color4 = "#9dc34f";
+          color12 = "#9dc34f";
           color5 = "#cb3d96";
           color13 = "#cb3d96";
-          color6 = "#878E7A";
-          color14 = "#878E7A";
+          color6 = "#9dc34f";
+          color14 = "#9dc34f";
           color7 = "#F9EEE5";
           color15 = "#E3DAC9";
 
